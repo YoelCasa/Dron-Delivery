@@ -1,0 +1,73 @@
+/* --- Reseteo Básico y Configuración General --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    display: flex; justify-content: center; align-items: flex-start;
+    min-height: 100vh; background-color: #e9e9e9;
+    font-family: 'Roboto', sans-serif; padding: 40px 0;
+}
+
+/* --- Marco del Móvil --- */
+.mobile-frame {
+    width: 390px; height: 844px; background-color: #ffffff;
+    border-radius: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    position: relative; overflow: hidden; display: flex; flex-direction: column;
+}
+
+/* --- Barra de Estado (Superior) --- */
+.status-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px 10px; font-size: 15px; font-weight: 500; }
+.status-icons i { font-size: 18px; margin-left: 5px; }
+
+/* --- Cabecera de la Pantalla de Pago --- */
+.checkout-header {
+    display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid #f0f0f0;
+}
+.checkout-header .back-arrow { font-size: 30px; color: #333; text-decoration: none; }
+.checkout-header h1 { font-size: 18px; font-weight: 500; text-align: center; flex-grow: 1; margin-right: 30px; }
+
+/* --- Contenido Principal --- */
+.app-content { flex-grow: 1; overflow-y: auto; padding: 20px; }
+
+.options-list { border-bottom: 1px solid #f0f0f0; margin-bottom: 20px; }
+.option-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid #f0f0f0; }
+.option-item:first-child { border-top: none; }
+.option-item span { font-size: 14px; color: #888; font-weight: 500; }
+.option-item a { font-size: 14px; color: #333; text-decoration: none; display: flex; align-items: center; }
+.option-item a i { font-size: 20px; color: #ccc; }
+
+.items-summary { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+.summary-header { display: flex; justify-content: space-between; color: #aaa; font-size: 12px; font-weight: 500; margin-bottom: 15px; padding: 0 5px; }
+.summary-header span:nth-child(2) { flex-grow: 1; margin-left: 85px; }
+.item-card { display: flex; align-items: center; margin-bottom: 20px; }
+.item-card img { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; margin-right: 15px; }
+.item-details { flex-grow: 1; }
+.item-details p { margin: 2px 0; }
+.item-details .brand { color: #888; font-size: 13px; }
+.item-details .name { color: #333; font-weight: 500; }
+.item-details .quantity { color: #888; font-size: 13px; }
+.item-price { font-weight: 500; font-size: 16px; }
+
+.totals-section { padding-top: 20px; }
+.total-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 16px; }
+.total-row span:first-child { color: #666; }
+.total-row span:last-child { color: #333; font-weight: 500; }
+.total-row.total span { font-weight: 700; font-size: 18px; color: #000; }
+
+/* --- Footer con botón de pago --- */
+.footer-checkout { padding: 10px 20px; }
+.btn-checkout {
+    display: block; width: 100%; padding: 16px; background-color: #000;
+    color: #fff; text-decoration: none; text-align: center;
+    border-radius: 12px; font-size: 17px; font-weight: 600;
+}
+
+/* --- Barra de Navegación Inferior --- */
+.bottom-nav { display: flex; justify-content: space-around; align-items: center; padding: 10px 20px; border-top: 1px solid #f0f0f0; background-color: #fff; }
+.bottom-nav a { color: #a0a0a0; text-decoration: none; font-size: 30px; padding: 5px 15px; border-radius: 12px; transition: all 0.3s ease; }
+.bottom-nav a.active { color: #000000; background-color: #f0f0f0; transform: scale(1.1); }
+
+.home-indicator {
+    width: 135px; height: 5px; background-color: #000;
+    border-radius: 100px; position: absolute; bottom: 8px;
+    left: 50%; transform: translateX(-50%);
+}

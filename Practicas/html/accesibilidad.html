@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dron Delivery - Accesibilidad</title>
+    
+    <link rel="stylesheet" href="../css/accesibilidad.css"> 
+    
+    <link rel="stylesheet" href="../css/dark-theme.css"> 
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/protanopia.css">
+    <link rel="stylesheet" href="../css/deuteranopia.css">
+    <link rel="stylesheet" href="../css/acromatopsia.css">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
+        </div>
+
+        <header class="checkout-header">
+             <a href="perfil.html" class="back-arrow"><i class='bx bx-chevron-left'></i></a>
+            <h1>Accesibilidad</h1>
+        </header>
+
+        <main class="app-content">
+            <h2>Modo de color</h2>
+            <p class="subtitle">Elige un modo de visualización adaptado a tus necesidades.</p>
+
+            <form id="accessibility-form">
+                <div class="option-group">
+                    
+                    <input type="radio" id="vision-normal" name="vision-mode" value="normal" checked>
+                    <label for="vision-normal" class="option-card">
+                        <span class="option-title">Visión normal</span>
+                        <span class="option-desc">Modo de color estándar.</span>
+                    </label>
+
+                    <input type="radio" id="vision-protanopia" name="vision-mode" value="protanopia">
+                    <label for="vision-protanopia" class="option-card">
+                        <span class="option-title">Protanopia</span>
+                        <span class="option-desc">Dificultad para ver el color rojo.</span>
+                    </label>
+
+                    <input type="radio" id="vision-deuteranopia" name="vision-mode" value="deuteranopia">
+                    <label for="vision-deuteranopia" class="option-card">
+                        <span class="option-title">Deuteranopia</span>
+                        <span class="option-desc">Dificultad para ver el color verde.</span>
+                    </label>
+                    
+                    <input type="radio" id="vision-acromatopsia" name="vision-mode" value="acromatopsia">
+                    <label for="vision-acromatopsia" class="option-card">
+                        <span class="option-title">Acromatopsia</span>
+                        <span class="option-desc">Visión en escala de grises.</span>
+                    </label>
+
+                </div>
+            </form>
+        </main>
+        <div class="footer-save">
+            <a href="home.html" id="save-accessibility-btn" class="btn-save">Guardar y continuar</a>
+        </div>
+        
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html" class="active"><i class='bx bx-user'></i></a>
+        </nav>
+        <div class="home-indicator"></div>
+    </div>
+    
+    <script src="../JavaScript/app.js"></script>
+</body>
+</html>

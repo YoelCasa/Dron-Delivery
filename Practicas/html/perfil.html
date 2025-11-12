@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dron Delivery - Mi Cuenta</title>
+    <link rel="stylesheet" href="../css/perfil.css">
+    
+    <link rel="stylesheet" href="../css/dark-theme.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/protanopia.css">
+    <link rel="stylesheet" href="../css/deuteranopia.css">
+    <link rel="stylesheet" href="../css/acromatopsia.css">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
+        </div>
+
+        <header class="app-header">
+            <div class="logo-text-container">
+                <span class="logo-d">D</span>
+                <span class="logo-text">RONE<br>DELIVERY</span>
+            </div>
+            <img src="../imagenes/logo.png" alt="Sartén Logo" class="logo-icon">
+        </header>
+
+        <main class="app-content">
+            <div class="profile-header">
+                <h2>Buenas tardes Daniel</h2>
+                <img src="../imagenes/perfil.jpg" alt="Foto de perfil de Daniel" class="profile-pic">
+            </div>
+
+            <ul class="menu-options">
+                <li><a href="#">Tu cuenta <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="#">Privacidad <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="#">Seguridad <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="#">Métodos de Pago <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="actividad.html">Tu actividad <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="historial.html">Historial <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="#">Reseñas <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="#">Seguridad <i class='bx bx-chevron-right'></i></a></li>
+                
+                <li class="dark-mode-toggle-container">
+                    <label class="dark-mode-label">
+                        Modo Oscuro
+                    </label>
+                    <label class="toggle-switch" for="dark-mode-toggle">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </li>
+                <li><a href="accesibilidad.html">Accesibilidad <i class='bx bx-chevron-right'></i></a></li>
+                <li><a href="#">Métodos de Pago <i class='bx bx-chevron-right'></i></a></li>
+            </ul>
+
+            <a href="inicio_sesion.html" class="btn-logout">Cerrar sesión</a>
+
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html" class="active"><i class='bx bx-user'></i></a>
+        </nav>
+        <div class="home-indicator"></div>
+        <script src="../JavaScript/app.js"></script>
+    </div>
+</body>
+</html>

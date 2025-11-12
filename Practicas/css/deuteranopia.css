@@ -1,0 +1,12 @@
+/* css/deuteranopia.css */
+html.deuteranopia .notification-dot,
+html.deuteranopia .notification-badge {
+    background-color: #007BFF; /* Azul brillante en lugar de rojo/verde */
+}
+
+/* Ejemplo: cambiar un estado de "éxito" verde */
+html.deuteranopia .success-message {
+    background-color: #007BFF; /* Azul */
+    color: #fff;
+    border: 2px solid #fff;
+}

@@ -1,0 +1,5 @@
+/* css/acromatopsia.css */
+html.acromatopsia .mobile-frame {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}

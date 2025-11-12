@@ -1,0 +1,177 @@
+/* --- Reseteo Básico y Configuración General --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #e9e9e9;
+    font-family: 'Roboto', sans-serif;
+    padding: 40px 0;
+}
+
+/* --- Marco del Móvil --- */
+.mobile-frame {
+    width: 390px;
+    height: 844px;
+    background-color: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Barra de Estado (Superior) --- */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.status-icons i {
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+/* --- Cabecera de la App --- */
+.app-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 40px;
+    padding-left: 30px;
+}
+
+.logo-text-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-d {
+    font-size: 60px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #333;
+}
+
+.logo-icon {
+    width: 100px;
+    height: auto;
+    margin-left: -10px;
+    transform: rotate(-10deg);
+}
+
+
+/* --- Contenido Principal --- */
+.app-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 30px;
+    text-align: center;
+}
+
+.app-content h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.app-content .subtitle {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.input-group {
+    /* ESTE ES EL CAMBIO CLAVE QUE HICISTE */
+    margin-bottom: 0; 
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    text-align: center;
+    color: #333;
+}
+
+/* --- BOTONES (AHORA ENLACES) - CSS MODIFICADO --- */
+.btn-primary {
+    display: block; /* Para que ocupe todo el ancho */
+    width: 100%;
+    padding: 16px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    /* El margen superior (margin-top) será controlado por dark-theme.css */
+    /* El margen inferior (margin-bottom) original era 25px */
+    margin-bottom: 25px; 
+    text-decoration: none; /* Quita el subrayado del enlace */
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+    color: #888;
+}
+
+.divider::before,
+.divider::after {
+    content: ''; flex: 1; border-bottom: 1px solid #eee;
+}
+.divider:not(:empty)::before { margin-right: .5em; }
+.divider:not(:empty)::after { margin-left: .5em; }
+
+.btn-social {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 15px;
+    color: #333;
+    text-decoration: none; /* Quita el subrayado del enlace */
+}
+
+.btn-social img { width: 24px; height: 24px; margin-right: 10px; }
+
+/* --- SECCIÓN DE TÉRMINOS --- */
+.terms { font-size: 13px; color: #888; margin-top: 30px; line-height: 1.4; }
+.terms a { color: #000; text-decoration: none; font-weight: 500; }
+
+.home-indicator {
+    width: 135px; height: 5px; background-color: #000;
+    border-radius: 100px; position: absolute; bottom: 8px;
+    left: 50%; transform: translateX(-50%);
+}

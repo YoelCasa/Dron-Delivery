@@ -1,0 +1,221 @@
+/* dark-theme.css */
+/* Esto se aplicará cuando el <html> tenga la clase .dark-mode */
+html.dark-mode {
+    --color-fondo: #121212;
+    --color-superficie: #1E1E1E;
+    --color-texto-principal: #E0E0E0;
+    --color-texto-secundario: #c8c8c8;
+    --color-borde: #2C2C2C;
+    --color-activo: #333333;
+}
+
+/* --- Fondo General --- */
+html.dark-mode .mobile-frame {
+    background-color: var(--color-fondo);
+    color: var(--color-texto-principal);
+}
+
+/* --- Cabeceras, Títulos y Texto --- */
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode p,
+html.dark-mode span,
+html.dark-mode strong,
+html.dark-mode label,
+html.dark-mode a {
+    color: var(--color-texto-principal) !important;
+}
+
+html.dark-mode .subtitle,
+html.dark-mode .description,
+html.dark-mode .terms {
+    color: var(--color-texto-secundario) !important;
+}
+
+/* --- Fondos de secciones y tarjetas --- */
+html.dark-mode .app-header,
+html.dark-mode .bottom-nav,
+html.dark-mode .bottom-nav-v2,
+html.dark-mode .app-content,
+html.dark-mode .card,
+html.dark-mode .in-process-card,
+html.dark-mode .item-card,
+html.dark-mode .btn-logout,
+html.dark-mode .checkout-header,
+html.dark-mode .options-list,
+html.dark-mode .items-summary,
+html.dark-mode .totals-section,
+html.dark-mode .footer-checkout,
+html.dark-mode .footer-save
+{
+    background-color: var(--color-superficie);
+    border-color: var(--color-borde);
+}
+
+/* --- (CORREGIDO) Home: Botones de Filtro --- */
+html.dark-mode .filter-buttons button,
+html.dark-mode .filter-pills button {
+    background-color: var(--color-superficie);
+    border-color: var(--color-borde);
+    color: var(--color-texto-principal) !important;
+}
+
+/* --- Cajas de búsqueda e Inputs --- */
+html.dark-mode .search-container,
+html.dark-mode .input-group input {
+    background-color: var(--color-activo);
+    border-color: var(--color-borde);
+}
+html.dark-mode .input-group input {
+    color: var(--color-texto-principal);
+}
+html.dark-mode .search-container input::placeholder {
+    color: var(--color-texto-secundario);
+}
+html.dark-mode .search-container i,
+html.dark-mode .status-icons i,
+html.dark-mode .checkout-header .back-arrow i {
+     color: var(--color-texto-secundario);
+}
+
+/* --- Navegación y Botones Activos --- */
+html.dark-mode .bottom-nav a.active,
+html.dark-mode .filter-pills button.active {
+    background-color: var(--color-activo);
+    color: var(--color-texto-principal);
+}
+
+/* --- Bordes y Separadores --- */
+html.dark-mode .bottom-nav,
+html.dark-mode .bottom-nav-v2,
+html.dark-mode .checkout-header,
+html.dark-mode .menu-options li,
+html.dark-mode .option-item,
+html.dark-mode .items-summary,
+html.dark-mode .divider::before,
+html.dark-mode .divider::after,
+html.dark-mode .item-card
+{
+    border-color: var(--color-borde) !important;
+}
+
+/* --- Perfil --- */
+html.dark-mode .menu-options li a {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .dark-mode-label {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .menu-options li a i {
+    color: var(--color-texto-secundario) !important;
+}
+html.dark-mode .btn-logout {
+    color: #f44336;
+    background-color: var(--color-activo);
+}
+html.dark-mode .menu-options li a:hover {
+    background-color: var(--color-activo); 
+}
+
+/* --- Inicio Sesión --- */
+html.dark-mode .btn-social {
+    background-color: var(--color-superficie);
+    color: var(--color-texto-principal);
+    border-color: var(--color-borde);
+}
+html.dark-mode .terms a {
+    color: var(--color-texto-principal) !important;
+}
+
+/* --- Botones principales --- */
+html.dark-mode .btn-primary,
+html.dark-mode .btn-checkout,
+html.dark-mode .btn-save {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* --- (CORREGIDO) Pago: Lista de Opciones --- */
+html.dark-mode .option-item a {
+    color: var(--color-texto-secundario) !important;
+}
+html.dark-mode .option-item span {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .summary-header span {
+    color: var(--color-texto-secundario) !important;
+}
+
+/* --- (CORREGIDO) Pago: Sección de Totales --- */
+html.dark-mode .total-row span:first-child {
+    color: var(--color-texto-secundario) !important;
+}
+html.dark-mode .total-row span:last-child {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .total-row.total span {
+    color: var(--color-texto-principal) !important;
+    font-weight: 700;
+}
+
+/* --- Actividad --- */
+html.dark-mode .activity-feed .activity-item {
+    border-bottom: 1px solid var(--color-borde);
+}
+html.dark-mode .activity-feed .activity-item:last-child {
+    border-bottom: none;
+}
+html.dark-mode .activity-feed .activity-text p,
+html.dark-mode .activity-feed .activity-text span {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .activity-feed .activity-text .description {
+    color: var(--color-texto-secundario) !important;
+}
+
+/* --- Ocultar logo del Dron en Modo Oscuro --- */
+html.dark-mode .logo-icon {
+    display: none;
+}
+
+/* --- Ocultar la barra de scroll vertical --- */
+/* Para Firefox */
+.app-content {
+    scrollbar-width: none;
+}
+/* Para Chrome, Safari y Edge */
+.app-content::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* --- (NUEVO) Estilos de Error de Formulario (VERSIÓN LIMPIA) --- */
+
+/* 1. El texto de error en sí */
+.error-message {
+    color: #d32f2f;
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 5px;
+    display: none;
+    min-height: 1.2em;
+    margin-top: 2px;    /* Espacio entre input y error */
+    margin-bottom: 0;   /* Sin espacio extra abajo */
+}
+
+/* 2. El borde rojo del input */
+.input-group input.input-error {
+    border: 1px solid #d32f2f !important; 
+}
+
+/* 3. El espacio del botón "Continuar" por defecto (cuando NO hay error) */
+/* Usamos el ID para máxima especificidad */
+.app-content #continue-btn {
+    margin-top: 20px;
+}
+
+/* 4. El espacio del botón "Continuar" CUANDO SÍ hay error */
+.app-content.form-has-error #continue-btn {
+    margin-top: 4px !important;
+}

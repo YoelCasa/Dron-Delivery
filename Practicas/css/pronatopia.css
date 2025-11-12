@@ -1,0 +1,16 @@
+/* css/protanopia.css */
+html.protanopia .notification-dot,
+html.protanopia .notification-badge {
+    background-color: #FFA500; /* Naranja en lugar de rojo */
+}
+
+html.protanopia .btn-logout {
+    color: #FF6347; /* Un rojo más anaranjado y brillante */
+}
+
+/* Ejemplo: cambiar un estado de "error" o "alerta" rojo */
+html.protanopia .error-message {
+    background-color: #FFA500;
+    color: #000;
+    border: 2px solid #000;
+}

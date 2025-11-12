@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dron Delivery - Seguimiento</title>
+    <link rel="stylesheet" href="../css/ubicacion.css">
+
+    <link rel="stylesheet" href="../css/dark-theme.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/protanopia.css">
+    <link rel="stylesheet" href="../css/deuteranopia.css">
+    <link rel="stylesheet" href="../css/acromatopsia.css">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
+        </div>
+
+        <header class="app-header">
+            <div class="logo-text-container">
+                <span class="logo-d">D</span>
+                <span class="logo-text">RONE<br>DELIVERY</span>
+            </div>
+            <img src="../imagenes/logo.png" alt="Sartén Logo" class="logo-icon">
+        </header>
+
+        <main class="app-content">
+            <h2 class="tracking-title">¿Por donde va su dron?</h2>
+            
+            <div class="search-container">
+                <i class='bx bx-search'></i>
+                <input type="text" value="Calle Marques de Villlores">
+            </div>
+
+            <div class="filters-container">
+                <div class="filter-buttons">
+                    <button>Filtrar <i class='bx bx-chevron-down'></i></button>
+                    <button>Ordenar <i class='bx bx-chevron-down'></i></button>
+                </div>
+                <span class="results-count">99 resultados</span>
+            </div>
+
+            <div class="map-container">
+                <img src="../imagenes/mapa.png" alt="Mapa de seguimiento">
+            </div>
+        </main>
+        
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html" class="active"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html"><i class='bx bx-user'></i></a>
+        </nav>
+        <div class="home-indicator"></div>
+        <script src="../JavaScript/app.js"></script>
+    </div>
+</body>
+</html>
