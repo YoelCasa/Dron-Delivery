@@ -23,7 +23,7 @@ body {
 }
 .status-icons i { font-size: 18px; margin-left: 5px; }
 
-/* --- Cabecera de la App (¡MODIFICADO!) --- */
+/* --- Cabecera de la App --- */
 .app-header {
     display: flex;
     align-items: center;
@@ -59,7 +59,10 @@ body {
 
 /* --- Contenido Principal --- */
 .app-content {
-    flex-grow: 1; overflow-y: auto; padding: 0 20px;
+    flex-grow: 1; overflow-y: auto;
+    
+    /* ▼▼▼ CAMBIO 1: ALINEAR CONTENIDO CON CABECERA ▼▼▼ */
+    padding: 0 30px;
 }
 
 /* --- Barra de Búsqueda --- */
@@ -89,8 +92,11 @@ body {
 /* --- Secciones de Categorías --- */
 .category-section { margin-bottom: 25px; }
 .category-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 15px;
+    display: flex; justify-content: space-between;
+    margin-bottom: 8px;
+    
+    /* ▼▼▼ CAMBIO 2: ALINEAR TEXTO Y FLECHA ▼▼▼ */
+    align-items: baseline;
 }
 .category-header h2 { font-size: 20px; font-weight: 700; }
 .category-header i { font-size: 24px; color: #888; }
@@ -99,10 +105,34 @@ body {
 .horizontal-scroll {
     display: flex; gap: 15px; overflow-x: auto;
     scrollbar-width: none; -ms-overflow-style: none;
+    padding-right: 10px; /* (Compensa el padding del .app-content) */
 }
 .horizontal-scroll::-webkit-scrollbar { display: none; }
 
-.card { flex: 0 0 140px; text-align: left; }
+
+/* --- !!!!!!! --- INICIO DE LA CORRECCIÓN --- !!!!!!! --- */
+
+/* * 1. Aplicamos el tamaño de la tarjeta (140px) y los estilos
+ * del enlace (quitar subrayado) directamente al <a>.
+ * El <a> es ahora el "item" flexible.
+ */
+.horizontal-scroll a {
+    flex: 0 0 140px;      /* Tu ancho de tarjeta original */
+    text-decoration: none; /* Quita el subrayado del enlace */
+    color: inherit;        /* Hereda el color del texto (evita el azul) */
+}
+
+/* * 2. Hacemos que la .card de DENTRO del <a>
+ * ocupe el 100% de su padre (el <a>) y mantenga el alineado.
+ */
+.card {
+    width: 100%;       /* Ocupa todo el ancho del <a> */
+    text-align: left;  /* Tu alineado original */
+}
+
+/* * 3. Tus estilos originales para img y p se mantienen EXACTAMENTE IGUAL.
+ * No hay que cambiarlos.
+ */
 .card img {
     width: 100%; height: 140px; object-fit: cover;
     border-radius: 15px; margin-bottom: 8px;
@@ -110,19 +140,10 @@ body {
 }
 .card p { font-size: 16px; font-weight: 500; color: #333; }
 
-/* --- Barra de Navegación Inferior --- */
-.bottom-nav {
-    display: flex; justify-content: space-around; align-items: center;
-    padding: 10px 20px; border-top: 1px solid #f0f0f0; background-color: #fff;
-}
-.bottom-nav a { color: #a0a0a0; text-decoration: none; font-size: 28px; }
-.bottom-nav a.active { color: #000000; }
-.home-indicator {
-    width: 135px; height: 5px; background-color: #000;
-    border-radius: 100px; position: absolute; bottom: 8px;
-    left: 50%; transform: translateX(-50%);
-}
+/* --- !!!!!!! --- FIN DE LA CORRECCIÓN --- !!!!!!! --- */
 
+
+/* --- Barra de Navegación Inferior --- */
 .bottom-nav {
     display: flex;
     justify-content: space-around;
@@ -133,19 +154,18 @@ body {
 }
 
 .bottom-nav a {
-    color: #a0a0a0; /* Color por defecto (gris) */
+    color: #a0a0a0;
     text-decoration: none;
     font-size: 30px;
     padding: 5px 15px;
     border-radius: 12px;
-    transition: all 0.3s ease; /* Transición suave para todos los efectos */
+    transition: all 0.3s ease;
 }
 
-/* Estilo para el botón ACTIVO */
 .bottom-nav a.active {
-    color: #000000; /* Color del icono activo (negro) */
-    background-color: #f0f0f0; /* Fondo gris claro para resaltar */
-    transform: scale(1.1); /* Ligeramente más grande */
+    color: #000000;
+    background-color: #f0f0f0;
+    transform: scale(1.1);
 }
 
 .home-indicator {
@@ -157,4 +177,24 @@ body {
     bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+/* --- (NUEVO) Quita el subrayado de los enlaces de categoría --- */
+.category-header-link {
+    text-decoration: none;
+    display: block; /* Arregla la alineación */
+}
+/* Asegura que el H2 mantenga el color */
+.category-header-link h2 {
+    color: #333;
+}
+
+/* --- Estilos para las flechas de scroll --- */
+.category-header .scroll-right-arrow {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.category-header .scroll-right-arrow:hover {
+    transform: translateX(3px);
 }

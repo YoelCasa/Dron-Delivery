@@ -71,3 +71,32 @@ body {
     border-radius: 100px; position: absolute; bottom: 8px;
     left: 50%; transform: translateX(-50%);
 }
+
+/* --- ¡NUEVO! Estilos para el botón de eliminar --- */
+.cart-delete-btn {
+    background-color: #f0f0f0; /* Fondo gris claro */
+    border: 1px solid #e0e0e0; /* Borde sutil */
+    color: #888; /* Color del icono */
+    cursor: pointer;
+    border-radius: 50%; /* Círculo perfecto */
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px; /* Espacio entre precio y papelera */
+    transition: all 0.2s ease;
+}
+
+.cart-delete-btn:hover {
+    background-color: #ffebee; /* Fondo rojo claro */
+    border-color: #ffcdd2;
+    color: #d32f2f; /* Icono rojo */
+}
+
+/* Estilo para el SVG (icono) dentro del botón */
+.cart-delete-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor; /* El SVG hereda el color del botón */
+}

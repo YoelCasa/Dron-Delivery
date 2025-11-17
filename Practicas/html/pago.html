@@ -19,12 +19,7 @@
 <body>
     <div class="mobile-frame">
         <div class="status-bar">
-            <span class="time">9:41</span>
-            <div class="status-icons">
-                <i class='bx bx-signal-4'></i>
-                <i class='bx bx-wifi'></i>
-                <i class='bx bxs-battery'></i>
-            </div>
+             <!-- ... (barra de estado igual) ... -->
         </div>
 
         <header class="checkout-header">
@@ -34,66 +29,45 @@
 
         <main class="app-content">
             <div class="options-list">
-                <div class="option-item">
-                    <span>ENVÍO</span>
-                    <a href="#">Agregar dirección de envío <i class='bx bx-chevron-right'></i></a>
-                </div>
-                <div class="option-item">
-                    <span>ENTREGA</span>
-                    <a href="#">$2,99 <i class='bx bx-chevron-right'></i></a>
-                </div>
-                <div class="option-item">
-                    <span>PAGO</span>
-                    <a href="#">Visa *1234 <i class='bx bx-chevron-right'></i></a>
-                </div>
-                <div class="option-item">
-                    <span>PROMOCIONES</span>
-                    <a href="#">Aplicar código de promoción <i class='bx bx-chevron-right'></i></a>
-                </div>
+                 <!-- ... (opciones iguales) ... -->
             </div>
 
+            <!-- 
+              CAMBIO: He quitado los items estáticos.
+              Ahora el div 'cart-items-container' está vacío 
+              y se rellenará con JavaScript.
+            -->
             <div class="items-summary">
                 <div class="summary-header">
                     <span>ARTÍCULOS</span>
                     <span>DESCRIPCIÓN</span>
                     <span>PRECIO</span>
                 </div>
-                <div class="item-card">
-                    <img src="../imagenes/pita.jpg" alt="Menu Pita">
-                    <div class="item-details">
-                        <p class="brand">Marca</p>
-                        <p class="name">Menu Pita</p>
-                        <p class="quantity">Cantidad: 2</p>
-                    </div>
-                    <span class="item-price">$14,50</span>
-                </div>
-                <div class="item-card">
-                    <img src="../imagenes/coca-cola.jpg" alt="Coca-Cola 2L">
-                    <div class="item-details">
-                        <p class="brand">Marca</p>
-                        <p class="name">Coca-Cola 2L</p>
-                        <p class="quantity">Cantidad: 1</p>
-                    </div>
-                    <span class="item-price">$3,00</span>
+                <div id="cart-items-container">
+                    <!-- Los artículos del carrito se insertarán aquí -->
                 </div>
             </div>
 
+            <!-- 
+              CAMBIO: He añadido IDs a los totales
+              para poder actualizarlos con JavaScript.
+            -->
             <div class="totals-section">
                 <div class="total-row">
-                    <span>Subtotal (2)</span>
-                    <span>$17,50</span>
+                    <span>Subtotal (<span id="cart-item-count">0</span>)</span>
+                    <span id="cart-subtotal">$0,00</span>
                 </div>
                 <div class="total-row">
                     <span>Total de envío</span>
-                    <span>$2,99</span>
+                    <span id="cart-shipping">$2,99</span>
                 </div>
                 <div class="total-row">
                     <span>Servicio</span>
-                    <span>$3,00</span>
+                    <span id="cart-service">$3,00</span>
                 </div>
                 <div class="total-row total">
                     <span>Total</span>
-                    <span>$23,49</span>
+                    <span id="cart-total">$5,99</span>
                 </div>
             </div>
         </main>
@@ -103,11 +77,11 @@
         </div>
         
         <nav class="bottom-nav">
-            <a href="pago.html" class="active"><i class='bx bx-cart'></i></a>
-            <a href="home.html"><i class='bx bxs-home'></i></a>
-            <a href="perfil.html"><i class='bx bx-user'></i></a>
+             <!-- ... (navegación igual) ... -->
         </nav>
         <div class="home-indicator"></div>
+        
+        <!-- Carga de app.js al final -->
         <script src="../JavaScript/app.js"></script>
     </div>
 </body>

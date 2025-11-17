@@ -1,11 +1,12 @@
-/* dark-theme.css */
-/* Esto se aplicará cuando el <html> tenga la clase .dark-mode */
+/* --- ESTE ARCHIVO ES CONTROLADO POR app.js --- */
+/* Se activa cuando el <html> tiene la clase .dark-mode */
 html.dark-mode {
     --color-fondo: #121212;
     --color-superficie: #1E1E1E;
     --color-texto-principal: #E0E0E0;
     --color-texto-secundario: #c8c8c8;
-    --color-borde: #2C2C2C;
+    /* CAMBIO: Borde más oscuro/sutil */
+    --color-borde: rgba(255, 255, 255, 0.08); /* Era #2C2C2C */
     --color-activo: #333333;
 }
 
@@ -15,7 +16,7 @@ html.dark-mode .mobile-frame {
     color: var(--color-texto-principal);
 }
 
-/* --- Cabeceras, Títulos y Texto --- */
+/* --- Cabeceras, Títulos y Texto (Regla General) --- */
 html.dark-mode h1,
 html.dark-mode h2,
 html.dark-mode h3,
@@ -26,7 +27,6 @@ html.dark-mode label,
 html.dark-mode a {
     color: var(--color-texto-principal) !important;
 }
-
 html.dark-mode .subtitle,
 html.dark-mode .description,
 html.dark-mode .terms {
@@ -53,7 +53,7 @@ html.dark-mode .footer-save
     border-color: var(--color-borde);
 }
 
-/* --- (CORREGIDO) Home: Botones de Filtro --- */
+/* --- Home: Botones de Filtro --- */
 html.dark-mode .filter-buttons button,
 html.dark-mode .filter-pills button {
     background-color: var(--color-superficie);
@@ -100,7 +100,29 @@ html.dark-mode .item-card
     border-color: var(--color-borde) !important;
 }
 
-/* --- Perfil --- */
+/* --- Perfil: Cabecera de la App --- */
+html.dark-mode .app-header {
+    background-color: var(--color-fondo);
+}
+html.dark-mode .app-header .logo-text {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .app-header .logo-d {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .logo-icon {
+    filter: invert(1);
+}
+
+/* --- Perfil: Cabecera de Perfil --- */
+html.dark-mode .profile-header h2 {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .profile-pic {
+    border-color: var(--color-borde);
+}
+
+/* --- Perfil: Lista de Opciones --- */
 html.dark-mode .menu-options li a {
     color: var(--color-texto-principal) !important;
 }
@@ -136,7 +158,7 @@ html.dark-mode .btn-save {
     color: #ffffff;
 }
 
-/* --- (CORREGIDO) Pago: Lista de Opciones --- */
+/* --- Pago: Lista de Opciones --- */
 html.dark-mode .option-item a {
     color: var(--color-texto-secundario) !important;
 }
@@ -147,7 +169,7 @@ html.dark-mode .summary-header span {
     color: var(--color-texto-secundario) !important;
 }
 
-/* --- (CORREGIDO) Pago: Sección de Totales --- */
+/* --- Pago: Sección de Totales --- */
 html.dark-mode .total-row span:first-child {
     color: var(--color-texto-secundario) !important;
 }
@@ -157,6 +179,25 @@ html.dark-mode .total-row span:last-child {
 html.dark-mode .total-row.total span {
     color: var(--color-texto-principal) !important;
     font-weight: 700;
+}
+html.dark-mode .item-price {
+    color: var(--color-texto-principal) !important;
+}
+html.dark-mode .cart-delete-btn {
+    background-color: #333;
+    border-color: #444;
+    color: #888;
+}
+html.dark-mitm .cart-delete-btn:hover {
+    background-color: #570000;
+    border-color: #a00;
+    color: #ff453a;
+}
+html.dark-mode .cart-delete-btn svg {
+    fill: #888;
+}
+html.dark-mode .cart-delete-btn:hover svg {
+    fill: #ff453a;
 }
 
 /* --- Actividad --- */
@@ -174,48 +215,44 @@ html.dark-mode .activity-feed .activity-text .description {
     color: var(--color-texto-secundario) !important;
 }
 
-/* --- Ocultar logo del Dron en Modo Oscuro --- */
-html.dark-mode .logo-icon {
-    display: none;
-}
-
 /* --- Ocultar la barra de scroll vertical --- */
-/* Para Firefox */
-.app-content {
-    scrollbar-width: none;
+.app-content { scrollbar-width: none; }
+.app-content::-webkit-scrollbar { display: none; }
+
+/* --- Estilos de Error de Formulario --- */
+/* ... (tu código de error) ... */
+
+
+/* * --- ¡CAMBIOS AQUÍ! ---
+ * Añadidas las reglas que faltaban para las líneas
+ * y para el selector de cantidad en modo oscuro.
+ */
+html.dark-mode .list-header {
+    border-bottom-color: var(--color-borde) !important;
 }
-/* Para Chrome, Safari y Edge */
-.app-content::-webkit-scrollbar {
-    display: none;
-}
-
-
-/* --- (NUEVO) Estilos de Error de Formulario (VERSIÓN LIMPIA) --- */
-
-/* 1. El texto de error en sí */
-.error-message {
-    color: #d32f2f;
-    font-size: 14px;
-    font-weight: 500;
-    padding-left: 5px;
-    display: none;
-    min-height: 1.2em;
-    margin-top: 2px;    /* Espacio entre input y error */
-    margin-bottom: 0;   /* Sin espacio extra abajo */
+html.dark-mode .product-item {
+    border-bottom-color: var(--color-borde) !important;
 }
 
-/* 2. El borde rojo del input */
-.input-group input.input-error {
-    border: 1px solid #d32f2f !important; 
+html.dark-mode .add-btn {
+    color: #f1f1f1;
+    background-color: #333;
+    border-color: #555;
+}
+html.dark-mode .add-btn:hover {
+    background-color: #444;
 }
 
-/* 3. El espacio del botón "Continuar" por defecto (cuando NO hay error) */
-/* Usamos el ID para máxima especificidad */
-.app-content #continue-btn {
-    margin-top: 20px;
+html.dark-mode .quantity-selector {
+    background-color: #333;
+    border-color: #555;
 }
-
-/* 4. El espacio del botón "Continuar" CUANDO SÍ hay error */
-.app-content.form-has-error #continue-btn {
-    margin-top: 4px !important;
+html.dark-mode .quantity-btn {
+    color: #f1f1f1;
+}
+html.dark-mode .quantity-btn:hover {
+    background-color: #444;
+}
+html.dark-mode .quantity-count {
+    color: #f1f1f1;
 }

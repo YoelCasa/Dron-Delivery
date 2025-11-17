@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dron Delivery - Casa Pepe</title>
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/casaPepe.css">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    
+    <link rel="stylesheet" href="../css/protanopia.css">
+    <link rel="stylesheet" href="../css/deuteranopia.css">
+    <link rel="stylesheet" href="../css/acromatopsia.css">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="status-bar">
+            <!-- ... barra de estado ... -->
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
+        </div>
+
+        <main class="app-content-detalle">
+            
+            <div class="hero-image">
+                <div class="hero-text">
+                    <h1>Casa Pepe</h1>
+                    <span class="rating">4,5</span>
+                </div>
+            </div>
+
+            <section class="restaurant-info">
+                <p>Casa Pepe es un restaurante que lleva desde 1945, proporcionamos platos típicos y tambien vanguardistas</p>
+            </section>
+
+            <div class="list-header">
+                <span class="header-articulos">ARTÍCULOS</span>
+                <span class="header-descripcion">DESCRIPCIÓN</span>
+                <span class="header-precio">PRECIO</span>
+            </div>
+
+            <section class="product-list">
+                
+                <!-- Raciones -->
+                <div class="product-item" data-id="jamon-01" data-name="Jamón Ibérico de Bellota" data-price="22.50" data-img="https://placehold.co/80x80/E8C3A0/333?text=Jamón">
+                    <img src="https://placehold.co/80x80/E8C3A0/333?text=Jamón" alt="Jamón Ibérico">
+                    <div class="product-details">
+                        <span>Ración</span>
+                        <strong>Jamón Ibérico de Bellota</strong>
+                        <span>Plato 100g</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$22,50</span>
+                        <!-- Botón de añadir (se oculta si está en el carrito) -->
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <!-- Selector de cantidad (se muestra si está en el carrito) -->
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-item" data-id="tortilla-01" data-name="Tortilla de Patatas" data-price="12.00" data-img="https://placehold.co/80x80/F0E68C/333?text=Tortilla">
+                    <img src="https://placehold.co/80x80/F0E68C/333?text=Tortilla" alt="Tortilla">
+                    <div class="product-details">
+                        <span>Ración</span>
+                        <strong>Tortilla de Patatas</strong>
+                        <span>(Poco hecha / Muy hecha)</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$12,00</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="gambas-01" data-name="Gambas al Ajillo" data-price="14.50" data-img="https://placehold.co/80x80/FFC0CB/333?text=Gambas">
+                    <img src="https://placehold.co/80x80/FFC0CB/333?text=Gambas" alt="Gambas al Ajillo">
+                    <div class="product-details">
+                        <span>Ración</span>
+                        <strong>Gambas al Ajillo</strong>
+                        <span>Ligeramente picantes</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$14,50</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="bravas-01" data-name="Patatas Bravas 'Casa Pepe'" data-price="7.50" data-img="https://placehold.co/80x80/B22222/FFF?text=Bravas">
+                    <img src="https://placehold.co/80x80/B22222/FFF?text=Bravas" alt="Patatas Bravas">
+                    <div class="product-details">
+                        <span>Tapa</span>
+                        <strong>Patatas Bravas "Casa Pepe"</strong>
+                        <span>Salsa especial de la casa</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$7,50</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-item" data-id="croquetas-01" data-name="Croquetas de Jamón" data-price="9.00" data-img="https://placehold.co/80x80/D2B48C/333?text=Croquetas">
+                    <img src="https://placehold.co/80x80/D2B48C/333?text=Croquetas" alt="Croquetas">
+                    <div class="product-details">
+                        <span>Ración</span>
+                        <strong>Croquetas de Jamón</strong>
+                        <span>6 unidades</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$9,00</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bebidas -->
+                <div class="product-item" data-id="agua-01" data-name="Agua Mineral" data-price="2.50" data-img="https://placehold.co/80x80/E0F8FF/333?text=Agua">
+                    <img src="https://placehold.co/80x80/E0F8FF/333?text=Agua" alt="Agua Mineral">
+                    <div class="product-details">
+                        <span>Bebida</span>
+                        <strong>Agua Mineral</strong>
+                        <span>Botella 500ml</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$2,50</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="cola-01" data-name="Refresco de Cola" data-price="3.00" data-img="https://placehold.co/80x80/FF0000/FFF?text=Cola">
+                    <img src="https://placehold.co/80x80/FF0000/FFF?text=Cola" alt="Refresco de Cola">
+                    <div class="product-details">
+                        <span>Bebida</span>
+                        <strong>Refresco de Cola</strong>
+                        <span>Lata 330ml</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$3,00</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-item" data-id="cerveza-01" data-name="Cerveza Local" data-price="3.50" data-img="https://placehold.co/80x80/F4A460/333?text=Cerveza">
+                    <img src="https://placehold.co/80x80/F4A460/333?text=Cerveza" alt="Cerveza">
+                    <div class="product-details">
+                        <span>Bebida</span>
+                        <strong>Cerveza Local</strong>
+                        <span>Tercio 33cl</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$3,50</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html"><i class='bx bx-user'></i></a>
+        </nav>
+        
+        <div class="home-indicator"></div>
+
+        <script src="../JavaScript/app.js"></script>
+    </div>
+</body>
+</html>
