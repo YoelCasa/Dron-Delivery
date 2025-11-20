@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dron Delivery - McDonald's</title>
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/casaPepe.css">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    
+    <link rel="stylesheet" href="../css/protanopia.css">
+    <link rel="stylesheet" href="../css/deuteranopia.css">
+    <link rel="stylesheet" href="../css/acromatopsia.css">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
+        </div>
+
+        <main class="app-content-detalle">
+            
+            <div class="hero-image">
+                <div class="hero-text">
+                    <h1>McDonald's</h1>
+                    <span class="rating">4,3</span>
+                </div>
+            </div>
+
+            <section class="restaurant-info">
+                <p>¡Bienvenido a McDonald's! Disfruta de nuestras hamburguesas, papas fritas y bebidas refrescantes. Estamos comprometidos con tu satisfacción.</p>
+            </section>
+
+            <div class="list-header">
+                <span class="header-articulos">ARTÍCULOS</span>
+                <span class="header-descripcion">DESCRIPCIÓN</span>
+                <span class="header-precio">PRECIO</span>
+            </div>
+
+            <section class="product-list">
+                
+                <!-- Hamburguesas -->
+                <div class="product-item" data-id="bigmac-01" data-name="Big Mac" data-price="8.99" data-img="https://placehold.co/80x80/DC143C/FFF?text=BigMac">
+                    <img src="https://placehold.co/80x80/DC143C/FFF?text=BigMac" alt="Big Mac">
+                    <div class="product-details">
+                        <span>Hamburguesa</span>
+                        <strong>Big Mac</strong>
+                        <span>Dos carnes, lechuga, queso</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$8,99</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="quarter-01" data-name="Quarter Pounder" data-price="7.49" data-img="https://placehold.co/80x80/FF6347/FFF?text=Quarter">
+                    <img src="https://placehold.co/80x80/FF6347/FFF?text=Quarter" alt="Quarter Pounder">
+                    <div class="product-details">
+                        <span>Hamburguesa</span>
+                        <strong>Quarter Pounder</strong>
+                        <span>Un cuarto de libra de carne</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$7,49</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="mcchicken-01" data-name="McChicken" data-price="5.99" data-img="https://placehold.co/80x80/FFD700/333?text=McChicken">
+                    <img src="https://placehold.co/80x80/FFD700/333?text=McChicken" alt="McChicken">
+                    <div class="product-details">
+                        <span>Hamburguesa</span>
+                        <strong>McChicken</strong>
+                        <span>Pechuga de pollo crujiente</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$5,99</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acompañamientos -->
+                <div class="product-item" data-id="papas-grande-01" data-name="Papas Grandes" data-price="3.49" data-img="https://placehold.co/80x80/FFD700/333?text=Papas">
+                    <img src="https://placehold.co/80x80/FFD700/333?text=Papas" alt="Papas Grandes">
+                    <div class="product-details">
+                        <span>Acompañamiento</span>
+                        <strong>Papas Grandes</strong>
+                        <span>Crujientes y calientes</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$3,49</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="nuggets-01" data-name="Nuggets (9 pzas)" data-price="4.99" data-img="https://placehold.co/80x80/DAA520/333?text=Nuggets">
+                    <img src="https://placehold.co/80x80/DAA520/333?text=Nuggets" alt="Nuggets">
+                    <div class="product-details">
+                        <span>Acompañamiento</span>
+                        <strong>Nuggets (9 pzas)</strong>
+                        <span>Pollo empanizado dorado</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$4,99</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bebidas -->
+                <div class="product-item" data-id="coca-grande-01" data-name="Coca Cola Grande" data-price="2.99" data-img="https://placehold.co/80x80/DC143C/FFF?text=CocaCola">
+                    <img src="https://placehold.co/80x80/DC143C/FFF?text=CocaCola" alt="Coca Cola">
+                    <div class="product-details">
+                        <span>Bebida</span>
+                        <strong>Coca Cola Grande</strong>
+                        <span>32 oz refrescante</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$2,99</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="mccafe-01" data-name="McCafé Latte" data-price="3.99" data-img="https://placehold.co/80x80/8B4513/FFF?text=McCafe">
+                    <img src="https://placehold.co/80x80/8B4513/FFF?text=McCafe" alt="McCafé Latte">
+                    <div class="product-details">
+                        <span>Bebida</span>
+                        <strong>McCafé Latte</strong>
+                        <span>Espresso con leche cremosa</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$3,99</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Postres -->
+                <div class="product-item" data-id="sundae-01" data-name="Sundae de Chocolate" data-price="2.49" data-img="https://placehold.co/80x80/8B4513/FFE4B5?text=Sundae">
+                    <img src="https://placehold.co/80x80/8B4513/FFE4B5?text=Sundae" alt="Sundae">
+                    <div class="product-details">
+                        <span>Postre</span>
+                        <strong>Sundae de Chocolate</strong>
+                        <span>Helado con salsa chocolate</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$2,49</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html" class="active"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html"><i class='bx bx-user'></i></a>
+        </nav>
+
+        <div class="home-indicator"></div>
+        <script src="../JavaScript/app.js"></script>
+    </div>
+</body>
+</html>

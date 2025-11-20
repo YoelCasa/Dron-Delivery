@@ -19,7 +19,12 @@
 <body>
     <div class="mobile-frame">
         <div class="status-bar">
-             <!-- ... (barra de estado igual) ... -->
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
         </div>
 
         <header class="checkout-header">
@@ -28,15 +33,56 @@
         </header>
 
         <main class="app-content">
-            <div class="options-list">
-                 <!-- ... (opciones iguales) ... -->
+            <!-- Sección de Ubicación -->
+            <div class="delivery-info">
+                <div class="delivery-address">
+                    <i class='bx bx-map'></i>
+                    <div class="address-text">
+                        <p class="label">Entregar a</p>
+                        <p class="address" id="selected-address">Añadir ubicación</p>
+                    </div>
+                    <i class='bx bx-chevron-right'></i>
+                </div>
             </div>
 
-            <!-- 
-              CAMBIO: He quitado los items estáticos.
-              Ahora el div 'cart-items-container' está vacío 
-              y se rellenará con JavaScript.
-            -->
+            <!-- Sección de Promociones -->
+            <div class="promos-section">
+                <h3>Promociones disponibles</h3>
+                <div class="promos-container" id="promos-container">
+                    <!-- Las promociones se cargarán aquí con JavaScript -->
+                </div>
+                <div class="promo-input-section">
+                    <input type="text" id="promo-code" placeholder="Código de promoción" class="promo-input">
+                    <button id="apply-promo-btn" class="promo-apply-btn">Aplicar</button>
+                </div>
+            </div>
+
+            <!-- Sección de Método de Pago -->
+            <div class="payment-method-section">
+                <h3>Método de pago</h3>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="card" checked>
+                        <span><i class='bx bx-credit-card'></i> Tarjeta de crédito/débito</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="cash">
+                        <span><i class='bx bx-money'></i> Pagar en efectivo</span>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="wallet">
+                        <span><i class='bx bx-wallet'></i> Cartera digital</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Nota de Entrega -->
+            <div class="delivery-notes-section">
+                <label for="delivery-notes">Notas para el repartidor</label>
+                <textarea id="delivery-notes" placeholder="Ej: Tocar timbre 2 veces, no dejar en la puerta..." class="notes-input"></textarea>
+            </div>
+
+            <!-- Resumen de Artículos -->
             <div class="items-summary">
                 <div class="summary-header">
                     <span>ARTÍCULOS</span>
@@ -48,10 +94,7 @@
                 </div>
             </div>
 
-            <!-- 
-              CAMBIO: He añadido IDs a los totales
-              para poder actualizarlos con JavaScript.
-            -->
+            <!-- Sección de Totales -->
             <div class="totals-section">
                 <div class="total-row">
                     <span>Subtotal (<span id="cart-item-count">0</span>)</span>
@@ -77,12 +120,16 @@
         </div>
         
         <nav class="bottom-nav">
-             <!-- ... (navegación igual) ... -->
+            <a href="pago.html" class="active"><i class='bx bx-cart'></i></a>
+            <a href="home.html"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html"><i class='bx bx-user'></i></a>
         </nav>
+        
         <div class="home-indicator"></div>
         
-        <!-- Carga de app.js al final -->
+        <!-- Carga de scripts -->
         <script src="../JavaScript/app.js"></script>
+        <script src="../JavaScript/checkout.js"></script>
     </div>
 </body>
 </html>

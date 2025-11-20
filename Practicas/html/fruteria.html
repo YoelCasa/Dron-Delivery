@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dron Delivery - Frutería</title>
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/casaPepe.css">
+    <link rel="stylesheet" href="../css/dark-theme.css">
+    
+    <link rel="stylesheet" href="../css/protanopia.css">
+    <link rel="stylesheet" href="../css/deuteranopia.css">
+    <link rel="stylesheet" href="../css/acromatopsia.css">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
+        </div>
+
+        <main class="app-content-detalle">
+            
+            <div class="hero-image">
+                <div class="hero-text">
+                    <h1>Frutería</h1>
+                    <span class="rating">4,7</span>
+                </div>
+            </div>
+
+            <section class="restaurant-info">
+                <p>Tu frutería de confianza con frutas y verduras frescas del día. Disponemos de productos de la mejor calidad seleccionados cuidadosamente.</p>
+            </section>
+
+            <div class="list-header">
+                <span class="header-articulos">ARTÍCULOS</span>
+                <span class="header-descripcion">DESCRIPCIÓN</span>
+                <span class="header-precio">PRECIO</span>
+            </div>
+
+            <section class="product-list">
+                
+                <!-- Frutas -->
+                <div class="product-item" data-id="manzanas-01" data-name="Manzanas Golden" data-price="3.50" data-img="https://placehold.co/80x80/FFD700/333?text=Manzanas">
+                    <img src="https://placehold.co/80x80/FFD700/333?text=Manzanas" alt="Manzanas Golden">
+                    <div class="product-details">
+                        <span>Frutas</span>
+                        <strong>Manzanas Golden</strong>
+                        <span>Kg - Dulces y crujientes</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$3,50</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="platanos-01" data-name="Plátanos" data-price="2.99" data-img="https://placehold.co/80x80/FFFF00/333?text=Platanos">
+                    <img src="https://placehold.co/80x80/FFFF00/333?text=Platanos" alt="Plátanos">
+                    <div class="product-details">
+                        <span>Frutas</span>
+                        <strong>Plátanos</strong>
+                        <span>Kg - Maduros naturalmente</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$2,99</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="naranjas-01" data-name="Naranjas Valencia" data-price="4.20" data-img="https://placehold.co/80x80/FF8C00/333?text=Naranjas">
+                    <img src="https://placehold.co/80x80/FF8C00/333?text=Naranjas" alt="Naranjas Valencia">
+                    <div class="product-details">
+                        <span>Frutas</span>
+                        <strong>Naranjas Valencia</strong>
+                        <span>Kg - Jugosas y dulces</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$4,20</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="fresas-01" data-name="Fresas Frescas" data-price="5.99" data-img="https://placehold.co/80x80/FF1493/FFF?text=Fresas">
+                    <img src="https://placehold.co/80x80/FF1493/FFF?text=Fresas" alt="Fresas Frescas">
+                    <div class="product-details">
+                        <span>Frutas</span>
+                        <strong>Fresas Frescas</strong>
+                        <span>500g - Recién cosechadas</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$5,99</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="uvas-01" data-name="Uvas Negras" data-price="4.50" data-img="https://placehold.co/80x80/4B0082/FFF?text=Uvas">
+                    <img src="https://placehold.co/80x80/4B0082/FFF?text=Uvas" alt="Uvas Negras">
+                    <div class="product-details">
+                        <span>Frutas</span>
+                        <strong>Uvas Negras</strong>
+                        <span>Kg - Dulces y sin semillas</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$4,50</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verduras -->
+                <div class="product-item" data-id="tomates-01" data-name="Tomates Rama" data-price="3.20" data-img="https://placehold.co/80x80/FF4500/FFF?text=Tomates">
+                    <img src="https://placehold.co/80x80/FF4500/FFF?text=Tomates" alt="Tomates Rama">
+                    <div class="product-details">
+                        <span>Verduras</span>
+                        <strong>Tomates Rama</strong>
+                        <span>Kg - Maduros y sabrosos</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$3,20</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="lechuga-01" data-name="Lechuga Iceberg" data-price="2.50" data-img="https://placehold.co/80x80/228B22/FFF?text=Lechuga">
+                    <img src="https://placehold.co/80x80/228B22/FFF?text=Lechuga" alt="Lechuga Iceberg">
+                    <div class="product-details">
+                        <span>Verduras</span>
+                        <strong>Lechuga Iceberg</strong>
+                        <span>Pieza - Fresca y crujiente</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$2,50</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item" data-id="zanahorias-01" data-name="Zanahorias" data-price="2.80" data-img="https://placehold.co/80x80/FF8C00/333?text=Zanahorias">
+                    <img src="https://placehold.co/80x80/FF8C00/333?text=Zanahorias" alt="Zanahorias">
+                    <div class="product-details">
+                        <span>Verduras</span>
+                        <strong>Zanahorias</strong>
+                        <span>Kg - Dulces y crujientes</span>
+                    </div>
+                    <div class="product-price">
+                        <span>$2,80</span>
+                        <button class="add-btn" style="display: inline-flex;">+</button>
+                        <div class="quantity-selector" style="display: none;">
+                            <button class="quantity-btn decrease-btn">-</button>
+                            <span class="quantity-count">0</span>
+                            <button class="quantity-btn increase-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html" class="active"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html"><i class='bx bx-user'></i></a>
+        </nav>
+
+        <div class="home-indicator"></div>
+        <script src="../JavaScript/app.js"></script>
+    </div>
+</body>
+</html>
