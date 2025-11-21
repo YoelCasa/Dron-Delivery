@@ -18,10 +18,7 @@ body {
 .status-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px 10px; font-size: 15px; font-weight: 500; }
 .status-icons i { font-size: 18px; margin-left: 5px; }
 
-/* * Aquí comienzan tus estilos existentes de accesibilidad.css
- * (.checkout-header, .app-content, etc...)
- *//* --- Estilos para la página de accesibilidad --- */
-/* (Reutilizamos la cabecera de pago.css para el botón 'atrás') */
+/* --- Estilos para la página de accesibilidad --- */
 .checkout-header {
     display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid #f0f0f0;
 }
@@ -30,30 +27,34 @@ body {
 
 .app-content {
     padding: 20px;
-    flex-grow: 1; /* <-- AÑADE ESTA LÍNEA */
-    overflow-y: auto; /* <-- AÑADE ESTA LÍNEA */
-
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 100px; /* Espacio extra para que no lo tape el botón flotante */
 }
 .app-content h2 {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 8px;
+    margin-top: 20px; /* Separación entre secciones */
 }
+.app-content h2:first-child { margin-top: 0; }
+
 .app-content .subtitle {
     font-size: 16px;
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-/* --- Estilo de las opciones de radio --- */
+/* --- Estilo de las opciones (Radio y Checkbox) --- */
 .option-group {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* Ocultamos el radio button real */
-.option-group input[type="radio"] {
+/* CORRECCIÓN: Ocultamos TANTO radio buttons COMO checkboxes */
+.option-group input[type="radio"],
+.option-group input[type="checkbox"] {
     display: none;
 }
 
@@ -64,6 +65,7 @@ body {
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative; /* Para posicionar iconos si hiciera falta */
 }
 
 .option-card:hover {
@@ -71,22 +73,78 @@ body {
 }
 
 .option-title {
-    display: block;
+    display: flex; /* Para alinear icono y texto */
+    align-items: center;
+    gap: 10px;
     font-size: 18px;
     font-weight: 600;
     color: #333;
     margin-bottom: 5px;
 }
 
+.option-title i {
+    font-size: 22px; /* Icono un poco más grande */
+}
+
 .option-desc {
     font-size: 14px;
     color: #777;
+    display: block; /* Asegura que vaya debajo */
 }
 
-/* Estilo cuando el radio button está seleccionado */
-.option-group input[type="radio"]:checked + .option-card {
+/* CORRECCIÓN: Estilo seleccionado para AMBOS tipos */
+.option-group input[type="radio"]:checked + .option-card,
+.option-group input[type="checkbox"]:checked + .option-card {
     border-color: #000;
     background-color: #f0f0f0;
+}
+
+/* --- Footer con botón de guardar --- */
+.footer-save {
+    padding: 20px;
+    background-color: #fff;
+    border-top: 1px solid #f0f0f0;
+    /* Opcional: hacerlo sticky si se prefiere */
+    /* position: sticky; bottom: 0; */
+}
+.btn-save {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer; /* Añadido cursor */
+    border: none;    /* Por si acaso se usa <button> */
+}
+
+/* --- Barra de Navegación --- */
+.bottom-nav {
+    display: flex; justify-content: space-around; align-items: center;
+    padding: 10px 20px; border-top: 1px solid #f0f0f0; background-color: #fff;
+}
+.bottom-nav a {
+    color: #a0a0a0; 
+    text-decoration: none;
+    font-size: 30px;
+    padding: 5px 15px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+.bottom-nav a.active {
+    color: #000000;
+    background-color: #f0f0f0;
+    transform: scale(1.1);
+}
+
+.home-indicator {
+    width: 135px; height: 5px; background-color: #000;
+    border-radius: 100px; position: absolute; bottom: 8px;
+    left: 50%; transform: translateX(-50%);
 }
 
 /* --- Adaptación al Modo Oscuro --- */
@@ -113,47 +171,14 @@ html.dark-mode .option-title {
 html.dark-mode .option-desc {
     color: var(--color-texto-secundario);
 }
-html.dark-mode .option-group input[type="radio"]:checked + .option-card {
-    border-color: #fff; /* Borde blanco para el seleccionado en modo oscuro */
+
+/* CORRECCIÓN DARK MODE: Borde blanco para seleccionados */
+html.dark-mode .option-group input[type="radio"]:checked + .option-card,
+html.dark-mode .option-group input[type="checkbox"]:checked + .option-card {
+    border-color: #fff; 
     background-color: var(--color-activo);
 }
-/* --- (NUEVO) Footer con botón de guardar --- */
-.footer-save {
-    padding: 10px 20px;
-    background-color: #fff;
-    border-top: 1px solid #f0f0f0;
-}
-.btn-save {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    background-color: #000; /* Botón negro en modo claro */
-    color: #fff;
-    text-decoration: none;
-    text-align: center;
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: 600;
-}
-.bottom-nav {
-    display: flex; justify-content: space-around; align-items: center;
-    padding: 10px 20px; border-top: 1px solid #f0f0f0; background-color: #fff;
-}
-.bottom-nav a {
-    color: #a0a0a0; 
-    text-decoration: none;
-    font-size: 30px;
-    padding: 5px 15px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
-.bottom-nav a.active {
-    color: #000000;
-    background-color: #f0f0f0;
-    transform: scale(1.1);
-}
 
-/* --- Adaptación Modo Oscuro para el Botón --- */
 html.dark-mode .footer-save {
     background-color: var(--color-superficie);
     border-color: var(--color-borde);

@@ -107,8 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', (e) => {
         if (!isVoiceActive) return;
 
-        // Evitamos leer si es un botón de añadir (ya tiene su propia lógica abajo)
-        if (e.target.closest('.add-btn') || e.target.closest('.increase-btn') || e.target.closest('.decrease-btn')) return;
+        // Evitamos leer si es un botón de añadir o el botón de pagar (tienen lógica propia)
+        if (e.target.closest('.add-btn') || 
+            e.target.closest('.increase-btn') || 
+            e.target.closest('.decrease-btn') || 
+            e.target.closest('#btn-place-order')) {
+            return;
+        }
 
         const target = e.target;
         const element = target.closest('button, a, input, label, .card, .promo-card, h1, h2, h3, p');
@@ -168,8 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         saveCart(cart);
         
-        // --- MODIFICACIÓN AQUÍ ---
-        // Mensaje exacto solicitado: "Se ha añadido el producto X"
+        // MENSAJE EXACTO SOLICITADO
         if (isVoiceActive) speak(`Se ha añadido el producto ${product.name}`);
         
         return existingItem ? existingItem.quantity : 1;
@@ -212,13 +216,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (productListSection) {
         updateAllProductCards();
 
-        // --- MODIFICACIÓN AQUÍ: Evento Hover (Mouseover) ---
-        // Esto permite que el usuario sepa qué va a pasar antes de hacer clic
+        // Evento Hover (Mouseover) - Feedback previo al clic
         productListSection.addEventListener('mouseover', (e) => {
             if (!isVoiceActive) return;
 
             const btn = e.target.closest('.add-btn, .increase-btn');
-            // Usamos un dataset 'spoken' para evitar que repita el mensaje muchas veces mientras mueves el ratón dentro del mismo botón
+            // Usamos dataset 'spoken' para evitar repeticiones constantes
             if (btn && !btn.dataset.spoken) {
                 const productCard = btn.closest('.product-item');
                 if (productCard) {
@@ -227,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Marcar como "hablado" temporalmente
                     btn.dataset.spoken = "true";
-                    setTimeout(() => btn.dataset.spoken = "", 2000); // Resetear después de 2 seg
+                    setTimeout(() => btn.dataset.spoken = "", 2000);
                 }
             }
         });
@@ -293,13 +296,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================================
-    // 4. LÓGICA DE PÁGINA DE PAGO
+    // 4. LÓGICA DE PÁGINA DE PAGO & FEEDBACK MULTIMODAL (RETO 9)
     // ============================================================
     
     const cartItemsContainer = document.getElementById('cart-items-container');
+    const placeOrderBtn = document.getElementById('btn-place-order'); // NUEVO BOTÓN
     
     if (cartItemsContainer) {
         renderCartPage();
+    }
+
+    // --- LÓGICA DEL BOTÓN HACER PEDIDO ---
+    if (placeOrderBtn) {
+        placeOrderBtn.addEventListener('click', () => {
+            
+            // 1. FEEDBACK VISUAL: Estado de carga
+            placeOrderBtn.disabled = true;
+            const originalText = placeOrderBtn.textContent;
+            placeOrderBtn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Procesando...";
+            
+            // 2. FEEDBACK HÁPTICO: Vibración corta al pulsar
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            // 3. FEEDBACK AUDITIVO: Aviso de proceso
+            if (isVoiceActive) speak("Procesando tu pedido, un momento por favor.");
+
+            // Simulamos espera de red (2 segundos)
+            setTimeout(() => {
+                
+                // 4. FEEDBACK VISUAL: Overlay de éxito
+                const overlay = document.getElementById('success-overlay');
+                if (overlay) {
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('visible');
+                }
+
+                // 5. FEEDBACK SONORO: Confirmación
+                if (isVoiceActive) {
+                    speak("¡Pedido confirmado! Tu dron ha despegado.");
+                }
+
+                // 6. FEEDBACK HÁPTICO: Patrón de éxito (dos pulsos)
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+                // 7. LIMPIEZA Y REDIRECCIÓN
+                localStorage.removeItem('shoppingCart'); // Vaciar carrito
+                
+                // Esperar 2.5s para que el usuario vea la animación
+                setTimeout(() => {
+                    window.location.href = "ubicacion.html";
+                }, 2500);
+
+            }, 2000);
+        });
     }
 
     function renderCartPage() {
@@ -316,6 +365,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>Tu carrito está vacío</p>
                     <a href="home.html" style="color: #000; font-weight: 500; margin-top: 10px; display: block;">Ir a comprar</a>
                 </div>`;
+            
+            // Deshabilitar botón si está vacío
+            if (placeOrderBtn) {
+                placeOrderBtn.disabled = true;
+                placeOrderBtn.style.opacity = "0.5";
+            }
             if (isVoiceActive) speak("Tu carrito está vacío");
         } else {
             cart.forEach(item => {
@@ -347,6 +402,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     showToast('Producto eliminado');
                 });
             });
+            
+            // Habilitar botón si hay items
+            if (placeOrderBtn) {
+                placeOrderBtn.disabled = false;
+                placeOrderBtn.style.opacity = "1";
+            }
             
             if (isVoiceActive) speak(`Tienes ${itemCount} artículos en el carrito. Total ${subtotal.toFixed(2)} dólares`);
         }

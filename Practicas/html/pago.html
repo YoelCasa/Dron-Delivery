@@ -28,7 +28,7 @@
         </div>
 
         <header class="checkout-header">
-            <a href="home.html" class="back-arrow"><i class='bx bx-chevron-left'></i></a>
+            <a href="home.html" class="back-arrow" aria-label="Volver al inicio"><i class='bx bx-chevron-left'></i></a>
             <h1>Pantalla de pago</h1>
         </header>
 
@@ -116,7 +116,8 @@
         </main>
         
         <div class="footer-checkout">
-            <a href="ubicacion.html" class="btn-checkout">Hacer pedido</a>
+            <!-- CAMBIO: Ahora es un botón real, no un enlace directo -->
+            <button id="btn-place-order" class="btn-checkout">Hacer pedido</button>
         </div>
         
         <nav class="bottom-nav">
@@ -126,6 +127,17 @@
         </nav>
         
         <div class="home-indicator"></div>
+
+        <!-- NUEVO: Overlay de Éxito (Oculto por defecto) -->
+        <div id="success-overlay" class="success-overlay hidden">
+            <div class="success-content">
+                <div class="checkmark-circle">
+                    <div class="checkmark draw"></div>
+                </div>
+                <h2>¡Pedido Confirmado!</h2>
+                <p>Tu dron está preparando el despegue.</p>
+            </div>
+        </div>
         
         <!-- Carga de scripts -->
         <script src="../JavaScript/app.js"></script>
