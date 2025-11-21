@@ -6,7 +6,6 @@
     <title>Dron Delivery - Accesibilidad</title>
     
     <link rel="stylesheet" href="../css/accesibilidad.css"> 
-    
     <link rel="stylesheet" href="../css/dark-theme.css"> 
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -29,11 +28,29 @@
         </div>
 
         <header class="checkout-header">
-             <a href="perfil.html" class="back-arrow"><i class='bx bx-chevron-left'></i></a>
+             <a href="perfil.html" class="back-arrow" aria-label="Volver al perfil"><i class='bx bx-chevron-left'></i></a>
             <h1>Accesibilidad</h1>
         </header>
 
         <main class="app-content">
+            
+            <!-- SECCIÓN 1: LECTOR DE PANTALLA (NUEVO) -->
+            <h2>Asistente de Voz</h2>
+            <p class="subtitle">Activa la guía auditiva para navegar.</p>
+            
+            <form id="voice-assistant-form" style="margin-bottom: 30px;">
+                <div class="option-group">
+                    <input type="checkbox" id="voice-assistant-toggle">
+                    <label for="voice-assistant-toggle" class="option-card">
+                        <span class="option-title">
+                            <i class='bx bx-volume-full'></i> Activar Lector
+                        </span>
+                        <span class="option-desc">Te indicará dónde estás y qué tocas.</span>
+                    </label>
+                </div>
+            </form>
+
+            <!-- SECCIÓN 2: MODO DE COLOR -->
             <h2>Modo de color</h2>
             <p class="subtitle">Elige un modo de visualización adaptado a tus necesidades.</p>
 
