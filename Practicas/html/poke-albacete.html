@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/casaPepe.css">
+    <link rel="stylesheet" href="../css/reviews.css">
     <link rel="stylesheet" href="../css/dark-theme.css">
     
     <link rel="stylesheet" href="../css/protanopia.css">
@@ -32,9 +33,12 @@
         <main class="app-content-detalle">
             
             <div class="hero-image">
+                <button class="btn-reviews" onclick="openReviewsModal('Pokémon Albacete')">
+                    <i class='bx bx-star'></i> Reseñas
+                </button>
                 <div class="hero-text">
-                    <h1>Poke Albacete</h1>
-                    <span class="rating">4,6</span>
+                    <h1>Pokémon Albacete</h1>
+                    <span class="rating">4,8</span>
                 </div>
             </div>
 
@@ -208,6 +212,8 @@
         </nav>
 
         <div class="home-indicator"></div>
+        <script src="../JavaScript/page-transitions.js"></script>
+        <script src="../JavaScript/reviews.js"></script>
         <script src="../JavaScript/app.js"></script>
     </div>
 </body>

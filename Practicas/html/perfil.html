@@ -18,6 +18,9 @@
 </head>
 <body>
     <div class="mobile-frame">
+        <!-- Contenedor de Notificaciones -->
+        <div id="notifications-container" class="notifications-container"></div>
+
         <div class="status-bar">
             <span class="time">9:41</span>
             <div class="status-icons">
@@ -49,7 +52,6 @@
                 <li><a href="actividad.html">Tu actividad <i class='bx bx-chevron-right'></i></a></li>
                 <li><a href="historial.html">Historial <i class='bx bx-chevron-right'></i></a></li>
                 <li><a href="#">Reseñas <i class='bx bx-chevron-right'></i></a></li>
-                <li><a href="#">Seguridad <i class='bx bx-chevron-right'></i></a></li>
                 
                 <li class="dark-mode-toggle-container">
                     <label class="dark-mode-label">
@@ -61,7 +63,6 @@
                     </label>
                 </li>
                 <li><a href="accesibilidad.html">Accesibilidad <i class='bx bx-chevron-right'></i></a></li>
-                <li><a href="#">Métodos de Pago <i class='bx bx-chevron-right'></i></a></li>
             </ul>
 
             <a href="inicio_sesion.html" class="btn-logout">Cerrar sesión</a>
@@ -74,7 +75,9 @@
             <a href="perfil.html" class="active"><i class='bx bx-user'></i></a>
         </nav>
         <div class="home-indicator"></div>
+        <script src="../JavaScript/page-transitions.js"></script>
         <script src="../JavaScript/app.js"></script>
+        <script src="../JavaScript/profile.js"></script>
     </div>
 </body>
 </html>

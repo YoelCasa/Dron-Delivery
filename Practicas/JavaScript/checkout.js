@@ -99,6 +99,12 @@ function createPromoCard(promo) {
 }
 
 function selectPromotion(promo, cardElement) {
+    // Verificar si ya está seleccionada la misma promoción
+    if (selectedPromotion && selectedPromotion.id === promo.id) {
+        showToast('⚠️ Esta promoción ya está seleccionada', false, true);
+        return;
+    }
+    
     // Remover clase active de todas las tarjetas
     document.querySelectorAll('.promo-card').forEach(card => {
         card.classList.remove('active');
@@ -114,7 +120,7 @@ function selectPromotion(promo, cardElement) {
         promoInput.value = promo.code;
     }
     
-    showToast(`Promoción "${promo.title}" seleccionada`);
+    showToast(`${promo.icon} ${promo.title} seleccionada`);
     updateCartTotals();
 }
 
@@ -191,7 +197,9 @@ function openAddressSelector() {
         </div>
     `;
     
-    document.body.appendChild(modal);
+    // Agregar el modal dentro del mobile-frame
+    const mobileFrame = document.querySelector('.mobile-frame');
+    mobileFrame.appendChild(modal);
     
     // Event listeners
     modal.querySelector('.close-modal').addEventListener('click', () => modal.remove());
@@ -236,16 +244,33 @@ function openAddressForm(modal) {
                 <i class='bx bx-x close-form'></i>
             </div>
             
-            <div class="form-content">
-                <input type="text" placeholder="Etiqueta (Casa, Trabajo, etc.)" class="form-input" id="label-input">
-                <input type="text" placeholder="Dirección completa" class="form-input" id="address-input">
-                <input type="text" placeholder="Referencia (opcional)" class="form-input" id="reference-input">
-                <button class="save-address-btn">Guardar dirección</button>
+            <div class="modal-content">
+                <div class="form-group">
+                    <label for="label-input">Etiqueta (Casa, Trabajo, etc.)</label>
+                    <input type="text" id="label-input" placeholder="Ej: Casa" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address-input">Dirección completa</label>
+                    <input type="text" id="address-input" placeholder="Ej: Calle Principal 123, Apto 4B" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reference-input">Referencia (opcional)</label>
+                    <input type="text" id="reference-input" placeholder="Ej: Edificio azul, puerta roja" class="form-input">
+                </div>
+                
+                <div class="form-buttons">
+                    <button class="btn-cancel close-form">Cancelar</button>
+                    <button class="btn-save save-address-btn">Guardar dirección</button>
+                </div>
             </div>
         </div>
     `;
     
-    document.body.appendChild(formOverlay);
+    // Agregar el formulario dentro del mobile-frame
+    const mobileFrame = document.querySelector('.mobile-frame');
+    mobileFrame.appendChild(formOverlay);
     
     formOverlay.querySelector('.close-form').addEventListener('click', () => {
         formOverlay.remove();
@@ -354,20 +379,28 @@ function setupEventListeners() {
 // ============================================================
 // Utilidades
 // ============================================================
-function showToast(message, isError = false) {
-    let toast = document.querySelector('.toast');
+function showToast(message, isError = false, isWarning = false) {
+    const container = document.getElementById('notifications-container');
     
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.className = 'toast';
-        document.body.appendChild(toast);
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    
+    if (isError) {
+        notification.classList.add('error');
+        notification.innerHTML = `<span class="icon">❌</span><span>${message}</span>`;
+    } else if (isWarning) {
+        notification.classList.add('warning');
+        notification.innerHTML = `<span class="icon">⚠️</span><span>${message}</span>`;
+    } else {
+        notification.classList.add('info');
+        notification.innerHTML = `<span class="icon">✓</span><span>${message}</span>`;
     }
     
-    toast.textContent = message;
-    toast.className = `toast ${isError ? 'error' : ''}`;
-    toast.classList.add('show');
+    container.appendChild(notification);
     
+    // Auto-eliminar después de 3 segundos
     setTimeout(() => {
-        toast.classList.remove('show');
+        notification.classList.add('hide');
+        setTimeout(() => notification.remove(), 300);
     }, 3000);
 }

@@ -18,6 +18,9 @@
 </head>
 <body>
     <div class="mobile-frame">
+        <!-- Contenedor de Notificaciones -->
+        <div id="notifications-container" class="notifications-container"></div>
+
         <div class="status-bar">
             <span class="time">9:41</span>
             <div class="status-icons">
@@ -28,18 +31,19 @@
         </div>
 
         <header class="app-header">
+            <a href="perfil.html" class="back-link"><i class='bx bx-chevron-left'></i></a>
             <h1>Actividad</h1>
         </header>
 
         <main class="app-content">
             <div class="filter-pills">
-                <button class="active">Todo</button>
-                <button>Pedidos</button>
-                <button>Ofertas</button>
-                <button>Reseñas</button>
+                <button class="active" onclick="filterActivity('Todo')">Todo</button>
+                <button onclick="filterActivity('Pedidos')">Pedidos</button>
+                <button onclick="filterActivity('Ofertas')">Ofertas</button>
+                <button onclick="filterActivity('Reseñas')">Reseñas</button>
             </div>
 
-            <ul class="activity-feed">
+            <ul class="activity-feed" id="activity-feed">
                 <li class="activity-item">
                     <span class="notification-dot"></span>
                     <img src="../imagenes/casa-pepe.jpeg" alt="Restaurante" class="activity-icon">
@@ -77,29 +81,20 @@
                         <p class="description">¿Qué tal estuvo tu poke? ¡Tu opinión cuenta!</p>
                     </div>
                 </li>
-                    <li class="activity-item">
-                    <img src="../imagenes/mc-donals.jpg" alt="Restaurante" class="activity-icon">
-                    <div class="activity-text">
-                        <p><strong>Reseña publicada</strong> <span>hace 2 días</span></p>
-                        <p class="description">Gracias por valorar tu experiencia en Mc Donal's.</p>
-                    </div>
-                </li>
             </ul>
         </main>
 
-        <nav class="bottom-nav-v2">
-            <a href="home.html"><i class='bx bxs-home-alt-2'></i></a>
-            <a href="#"><i class='bx bx-search'></i></a>
-            <a href="#" class="add-btn"><i class='bx bx-plus'></i></a>
-            <a href="#" class="active">
-                <i class='bx bxs-bell'></i>
-                <span class="notification-badge">2</span>
-            </a>
-            <a href="perfil.html">
-                <img src="../imagenes/perfil.jpg" alt="Perfil" class="nav-profile-pic">
-            </a>
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html"><i class='bx bx-user'></i></a>
+        </nav>
         </nav>
         <div class="home-indicator"></div>
+        <script src="../JavaScript/page-transitions.js"></script>
+        <script src="../JavaScript/page-transitions.js"></script>
+        <script src="../JavaScript/reviews.js"></script>
+        <script src="../JavaScript/actividad.js"></script>
         <script src="../JavaScript/app.js"></script>
     </div>
 </body>

@@ -11,8 +11,12 @@ html.dark-mode {
 }
 
 /* --- Fondo General --- */
+html.dark-mode body {
+    background-color: #ffffff !important;
+}
+
 html.dark-mode .mobile-frame {
-    background-color: var(--color-fondo);
+    background-color: #1E1E1E;
     color: var(--color-texto-principal);
 }
 
@@ -111,7 +115,7 @@ html.dark-mode .app-header .logo-d {
     color: var(--color-texto-principal) !important;
 }
 html.dark-mode .logo-icon {
-    filter: invert(1);
+    display: none !important;
 }
 
 /* --- Perfil: Cabecera de Perfil --- */

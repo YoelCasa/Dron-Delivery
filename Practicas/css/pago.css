@@ -7,6 +7,34 @@ body {
     font-family: 'Roboto', sans-serif; padding: 40px 0;
 }
 
+/* --- TRANSICIONES DE PÁGINA --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+html {
+    animation: fadeIn 0.15s ease-in-out;
+}
+
+/* Transición al salir de página */
+html.page-exit {
+    animation: fadeOut 0.15s ease-in-out forwards;
+}
+
 /* --- Marco del Móvil --- */
 .mobile-frame {
     width: 390px; height: 844px; background-color: #ffffff;
@@ -56,12 +84,15 @@ body {
 /* --- Footer con botón de pago --- */
 .footer-checkout { padding: 10px 20px; }
 .btn-checkout {
-    display: block; width: 100%; padding: 16px; background-color: #000;
+    display: block; width: 100%; padding: 16px; background-color: #007AFF;
     color: #fff; text-decoration: none; text-align: center;
     border-radius: 12px; font-size: 17px; font-weight: 600;
     border: none; /* Quitamos borde por defecto al ser button */
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+.btn-checkout:hover {
+    background-color: #0051d5;
 }
 .btn-checkout:disabled {
     background-color: #888;
@@ -228,7 +259,657 @@ html.dark-mode .success-content h2 {
 html.dark-mode .success-content p {
     color: #ccc;
 }
-/* Estilos básicos para modales de dirección (reducidos) */
-.address-modal-overlay, .address-form-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; z-index: 1000; }
-.address-modal, .address-form { background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 20px; }
-html.dark-mode .address-modal, html.dark-mode .address-form { background: #1e1e1e; }
+
+/* --- DARK MODE COMPLETO PARA PAGO --- */
+html.dark-mode .mobile-frame {
+    background-color: #121212;
+}
+
+html.dark-mode .checkout-header {
+    background-color: #1E1E1E;
+    border-bottom-color: #333;
+}
+
+html.dark-mode .checkout-header .back-arrow {
+    color: #e0e0e0;
+}
+
+html.dark-mode .checkout-header h1 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .app-content {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Delivery Info */
+html.dark-mode .delivery-info {
+    background-color: #1E1E1E;
+    border-color: #333;
+}
+
+html.dark-mode .address-text .label {
+    color: #999;
+}
+
+html.dark-mode .address-text .address {
+    color: #e0e0e0;
+}
+
+html.dark-mode .delivery-address i:last-child {
+    color: #555;
+}
+
+/* Promociones */
+html.dark-mode .promos-section {
+    border-bottom-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .promos-section h3 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .promo-card {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+}
+
+html.dark-mode .promo-input {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #333;
+}
+
+html.dark-mode .promo-input::placeholder {
+    color: #666;
+}
+
+html.dark-mode .promo-apply-btn {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+html.dark-mode .promo-apply-btn:hover {
+    background-color: #444;
+}
+
+/* Método de pago */
+html.dark-mode .payment-method-section {
+    border-bottom-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .payment-method-section h3 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .payment-option {
+    background-color: #1E1E1E;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .payment-option:hover {
+    background-color: #1a1a1a;
+    border-color: #ff6b35;
+}
+
+html.dark-mode .payment-option span {
+    color: #e0e0e0;
+}
+
+/* Notas de entrega */
+html.dark-mode .delivery-notes-section {
+    border-bottom-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .delivery-notes-section label {
+    color: #e0e0e0;
+}
+
+html.dark-mode .notes-input {
+    background-color: #1E1E1E;
+    color: #e0e0e0;
+    border-color: #333;
+}
+
+html.dark-mode .notes-input::placeholder {
+    color: #666;
+}
+
+html.dark-mode .options-list {
+    border-bottom-color: #333;
+}
+
+html.dark-mode .option-item {
+    border-top-color: #333;
+}
+
+html.dark-mode .option-item span {
+    color: #999;
+}
+
+html.dark-mode .option-item a {
+    color: #e0e0e0;
+}
+
+html.dark-mode .option-item a i {
+    color: #666;
+}
+
+html.dark-mode .items-summary {
+    border-bottom-color: #333;
+}
+
+html.dark-mode .summary-header {
+    color: #666;
+}
+
+html.dark-mode .item-details .brand,
+html.dark-mode .item-details .quantity {
+    color: #999;
+}
+
+html.dark-mode .item-details .name {
+    color: #e0e0e0;
+}
+
+html.dark-mode .item-price {
+    color: #e0e0e0;
+}
+
+html.dark-mode .total-row span:first-child {
+    color: #999;
+}
+
+html.dark-mode .total-row span:last-child {
+    color: #e0e0e0;
+}
+
+html.dark-mode .total-row.total span {
+    color: #ffffff;
+}
+
+html.dark-mode .footer-checkout {
+    background-color: #121212;
+}
+
+html.dark-mode .btn-checkout {
+    background-color: #007AFF;
+}
+
+html.dark-mode .btn-checkout:hover {
+    background-color: #0051d5;
+}
+
+html.dark-mode .bottom-nav {
+    background-color: #1E1E1E;
+    border-top-color: #333;
+}
+
+html.dark-mode .bottom-nav a {
+    color: #666;
+}
+
+html.dark-mode .bottom-nav a.active {
+    color: #e0e0e0;
+    background-color: #2a2a2a;
+}
+
+html.dark-mode .home-indicator {
+    background-color: #e0e0e0;
+}
+
+html.dark-mode .cart-delete-btn {
+    background-color: #2a2a2a;
+    border-color: #333;
+    color: #999;
+}
+
+html.dark-mode .cart-delete-btn:hover {
+    background-color: #8b0000;
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+/* --- MODAL DE DIRECCIONES MEJORADO --- */
+.address-modal-overlay, .address-form-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-end;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        background: rgba(0, 0, 0, 0);
+    }
+    to {
+        background: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.address-modal, .address-form {
+    background: #fff;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 0;
+    animation: slideUp 0.3s ease-out;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.modal-header .close-modal {
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-header .close-modal:hover {
+    color: #333;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.saved-addresses {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.address-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.address-option:hover {
+    background-color: #f8f8f8;
+    border-color: #ff6b35;
+}
+
+.address-option i:first-child {
+    font-size: 24px;
+    color: #ff6b35;
+    flex-shrink: 0;
+}
+
+.address-option-info {
+    flex-grow: 1;
+}
+
+.address-option-info p {
+    margin: 0;
+}
+
+.address-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.address-text {
+    font-size: 13px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.address-option i:last-child {
+    font-size: 20px;
+    color: #ccc;
+    flex-shrink: 0;
+}
+
+.modal-divider {
+    text-align: center;
+    margin: 20px 0;
+    color: #999;
+    font-size: 14px;
+    position: relative;
+}
+
+.modal-divider::before,
+.modal-divider::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #f0f0f0;
+    top: 50%;
+}
+
+.modal-divider {
+    position: relative;
+}
+
+.modal-divider::before {
+    width: calc(50% - 10px);
+    left: 0;
+}
+
+.modal-divider::after {
+    width: calc(50% - 10px);
+    right: 0;
+}
+
+.add-new-address-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-new-address-btn:hover {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+.add-new-address-btn i {
+    font-size: 20px;
+}
+
+/* --- FORMULARIO DE DIRECCIÓN MEJORADO --- */
+.address-form {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-save, .btn-cancel {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    color: #fff;
+}
+
+.btn-save:hover {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #e0e0e0;
+}
+
+.btn-cancel:hover {
+    background: #e0e0e0;
+}
+
+/* Dark mode para modales */
+html.dark-mode .address-modal-overlay,
+html.dark-mode .address-form-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+html.dark-mode .address-modal,
+html.dark-mode .address-form {
+    background: #1E1E1E;
+    color: #e0e0e0;
+}
+
+html.dark-mode .modal-header {
+    background: #1E1E1E;
+    border-bottom-color: #333;
+}
+
+html.dark-mode .modal-header h2 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .modal-header .close-modal {
+    color: #666;
+}
+
+html.dark-mode .modal-header .close-modal:hover {
+    color: #e0e0e0;
+}
+
+html.dark-mode .saved-addresses {
+    /* Hereda estilos del contenedor */
+}
+
+html.dark-mode .address-option {
+    background-color: #2a2a2a;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .address-option:hover {
+    background-color: #333;
+    border-color: #ff6b35;
+}
+
+html.dark-mode .address-label {
+    color: #e0e0e0;
+}
+
+html.dark-mode .address-text {
+    color: #999;
+}
+
+html.dark-mode .address-option i:last-child {
+    color: #555;
+}
+
+html.dark-mode .modal-divider {
+    color: #666;
+}
+
+html.dark-mode .modal-divider::before,
+html.dark-mode .modal-divider::after {
+    background: #333;
+}
+
+html.dark-mode .form-group label {
+    color: #e0e0e0;
+}
+
+html.dark-mode .form-group input,
+html.dark-mode .form-group textarea {
+    background-color: #2a2a2a;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .form-group input::placeholder,
+html.dark-mode .form-group textarea::placeholder {
+    color: #666;
+}
+
+html.dark-mode .form-group input:focus,
+html.dark-mode .form-group textarea:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+html.dark-mode .btn-cancel {
+    background: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+html.dark-mode .btn-cancel:hover {
+    background: #444;
+}
+
+/* --- SISTEMA DE NOTIFICACIONES EMERGENTES --- */
+.notifications-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    width: 100%;
+    max-width: 360px;
+    padding: 0 10px;
+    pointer-events: none;
+}
+
+.notification {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #34C759 0%, #2ba84e 100%);
+    color: #fff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 16px rgba(52, 199, 89, 0.4);
+    font-weight: 500;
+    font-size: 15px;
+    pointer-events: all;
+    animation: slideDown 0.3s ease-out;
+}
+
+.notification.error {
+    background: linear-gradient(135deg, #FF3B30 0%, #e81a0f 100%);
+    box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
+}
+
+.notification.warning {
+    background: linear-gradient(135deg, #FF9500 0%, #e67e00 100%);
+    box-shadow: 0 4px 16px rgba(255, 149, 0, 0.4);
+}
+
+.notification.info {
+    background: linear-gradient(135deg, #007AFF 0%, #0051d5 100%);
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+}
+
+.notification .icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.notification.hide {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Dark mode para notificaciones */
+html.dark-mode .notifications-container {
+    /* Hereda los estilos del contenedor */
+}

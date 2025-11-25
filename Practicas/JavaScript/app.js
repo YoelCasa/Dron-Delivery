@@ -454,10 +454,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const arrow = document.getElementById(item.arrow);
         const container = document.getElementById(item.container);
         if (arrow && container) {
+            let isScrolledRight = false;
+            
             arrow.addEventListener('click', (e) => {
                 e.preventDefault();
-                container.scrollBy({ left: 150, behavior: 'smooth' });
+                
+                if (!isScrolledRight) {
+                    // Scroll a la derecha
+                    container.scrollBy({ left: 150, behavior: 'smooth' });
+                    isScrolledRight = true;
+                    arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    // Scroll a la izquierda
+                    container.scrollBy({ left: -150, behavior: 'smooth' });
+                    isScrolledRight = false;
+                    arrow.style.transform = 'rotate(0deg)';
+                }
             });
+            
+            // Agregar transición suave a la flecha
+            arrow.style.transition = 'transform 0.3s ease';
         }
     });
 

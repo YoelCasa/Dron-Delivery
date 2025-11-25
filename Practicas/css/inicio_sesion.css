@@ -101,8 +101,7 @@ body {
 }
 
 .input-group {
-    /* ESTE ES EL CAMBIO CLAVE QUE HICISTE */
-    margin-bottom: 0; 
+    margin-bottom: 8px; 
 }
 
 .input-group input {
@@ -113,6 +112,16 @@ body {
     font-size: 16px;
     text-align: center;
     color: #333;
+}
+
+/* --- Mensaje de Error --- */
+.error-message {
+    display: block;
+    font-size: 14px;
+    color: #d32f2f;
+    margin-bottom: 6px;
+    min-height: 20px;
+    text-align: center;
 }
 
 /* --- BOTONES (AHORA ENLACES) - CSS MODIFICADO --- */
@@ -129,7 +138,7 @@ body {
     cursor: pointer;
     /* El margen superior (margin-top) será controlado por dark-theme.css */
     /* El margen inferior (margin-bottom) original era 25px */
-    margin-bottom: 25px; 
+    margin-bottom: 10px; 
     text-decoration: none; /* Quita el subrayado del enlace */
 }
 

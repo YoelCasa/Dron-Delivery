@@ -1,0 +1,869 @@
+/* --- SISTEMA DE RESEÑAS --- */
+
+/* Modal de reseñas */
+.reviews-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-end;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { background: rgba(0, 0, 0, 0); }
+    to { background: rgba(0, 0, 0, 0.5); }
+}
+
+.reviews-modal {
+    background: #fff;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 90%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    animation: slideUp 0.3s ease-out;
+    scrollbar-width: none;
+}
+
+.reviews-modal::-webkit-scrollbar {
+    display: none;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* Estadísticas de reseñas */
+.reviews-stats {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.rating-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating-average {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ff6b35;
+    line-height: 1;
+}
+
+.rating-stars {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.total-reviews {
+    font-size: 12px;
+    color: #999;
+    margin: 0;
+}
+
+/* Botón escribir reseña */
+.btn-write-review {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 20px;
+}
+
+.btn-write-review:hover {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-write-review i {
+    font-size: 18px;
+}
+
+/* Lista de reseñas */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.no-reviews {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+    font-size: 14px;
+}
+
+/* Item de reseña */
+.review-item {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 4px solid #ff6b35;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.review-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.review-author-info strong {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.verified-badge {
+    font-size: 11px;
+    color: #34C759;
+    font-weight: 500;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.review-rating {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.review-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.review-text {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+}
+
+.review-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-helpful,
+.btn-report {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-helpful:hover {
+    border-color: #34C759;
+    color: #34C759;
+}
+
+.btn-report:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+}
+
+.btn-helpful i,
+.btn-report i {
+    font-size: 14px;
+}
+
+/* Formulario de escritura */
+.write-review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.rating-selector {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #ddd;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.star-btn:hover {
+    color: #ff6b35;
+    transform: scale(1.2);
+}
+
+.star-btn.active {
+    color: #ff6b35;
+    animation: pulse 0.2s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.selected-rating {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    padding: 10px;
+    background: #f8f8f8;
+    border-radius: 8px;
+}
+
+.form-input,
+.form-textarea {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.char-count {
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+    margin: 0;
+}
+
+.review-tips {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.review-tips h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.review-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.review-tips li {
+    font-size: 12px;
+    color: #666;
+    padding-left: 20px;
+    position: relative;
+}
+
+.review-tips li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #34C759;
+    font-weight: bold;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-cancel,
+.btn-submit {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #e0e0e0;
+}
+
+.btn-cancel:hover {
+    background: #e0e0e0;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    color: #fff;
+}
+
+.btn-submit:hover {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Dark mode */
+html.dark-mode .reviews-modal-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+html.dark-mode .reviews-modal {
+    background: #1E1E1E;
+}
+
+html.dark-mode .modal-header {
+    background: #1E1E1E;
+    border-bottom-color: #333;
+}
+
+html.dark-mode .modal-header h2 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .close-btn {
+    color: #666;
+}
+
+html.dark-mode .close-btn:hover {
+    color: #e0e0e0;
+}
+
+html.dark-mode .reviews-stats {
+    background: #2a2a2a;
+}
+
+html.dark-mode .review-item {
+    background: #2a2a2a;
+}
+
+html.dark-mode .review-author-info strong {
+    color: #e0e0e0;
+}
+
+html.dark-mode .review-title {
+    color: #e0e0e0;
+}
+
+html.dark-mode .review-text {
+    color: #bbb;
+}
+
+html.dark-mode .form-group label {
+    color: #e0e0e0;
+}
+
+html.dark-mode .selected-rating {
+    background: #333;
+    color: #bbb;
+}
+
+html.dark-mode .form-input,
+html.dark-mode .form-textarea {
+    background: #2a2a2a;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .form-input::placeholder,
+html.dark-mode .form-textarea::placeholder {
+    color: #666;
+}
+
+html.dark-mode .form-input:focus,
+html.dark-mode .form-textarea:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+html.dark-mode .char-count {
+    color: #666;
+}
+
+html.dark-mode .review-tips {
+    background: #2a2a2a;
+}
+
+html.dark-mode .review-tips h4 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .review-tips li {
+    color: #bbb;
+}
+
+html.dark-mode .btn-helpful,
+html.dark-mode .btn-report {
+    background: #333;
+    border-color: #444;
+    color: #bbb;
+}
+
+html.dark-mode .btn-cancel {
+    background: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+html.dark-mode .btn-cancel:hover {
+    background: #444;
+}
+
+html.dark-mode .no-reviews {
+    color: #666;
+}
+
+/* --- SECCIÓN DE RESEÑA DEL USUARIO --- */
+.user-review-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.user-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-review-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.user-review-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-edit-review,
+.btn-delete-review {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-edit-review {
+    color: #007AFF;
+    border-color: #007AFF;
+}
+
+.btn-edit-review:hover {
+    background: #007AFF;
+    color: #fff;
+}
+
+.btn-delete-review {
+    color: #ff3b30;
+    border-color: #ff3b30;
+}
+
+.btn-delete-review:hover {
+    background: #ff3b30;
+    color: #fff;
+}
+
+.btn-edit-review i,
+.btn-delete-review i {
+    font-size: 14px;
+}
+
+.user-review-item {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 107, 53, 0.04) 100%);
+    border-left-color: #ff6b35;
+}
+
+.user-review-item .verified-badge {
+    color: #ff6b35;
+}
+
+.other-reviews-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    margin: 0 0 15px 0;
+}
+
+/* Dark mode - sección reseña usuario */
+html.dark-mode .user-review-section {
+    border-bottom-color: #333;
+}
+
+html.dark-mode .user-review-header h3 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .btn-edit-review {
+    background: #2a2a2a;
+    border-color: #007AFF;
+    color: #007AFF;
+}
+
+html.dark-mode .btn-edit-review:hover {
+    background: #007AFF;
+    color: #fff;
+}
+
+html.dark-mode .btn-delete-review {
+    background: #2a2a2a;
+    border-color: #ff3b30;
+    color: #ff3b30;
+}
+
+html.dark-mode .btn-delete-review:hover {
+    background: #ff3b30;
+    color: #fff;
+}
+
+html.dark-mode .user-review-item {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 107, 53, 0.08) 100%);
+}
+
+html.dark-mode .other-reviews-title {
+    color: #999;
+}
+
+/* --- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN --- */
+.delete-confirm-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.delete-confirm-modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px 20px;
+    width: 85%;
+    max-width: 280px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.delete-confirm-modal i {
+    font-size: 48px;
+    color: #ff3b30;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.delete-confirm-modal h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.delete-confirm-modal p {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 24px 0;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-cancel-confirm,
+.btn-confirm-delete {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel-confirm {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-cancel-confirm:hover {
+    background: #e0e0e0;
+}
+
+.btn-confirm-delete {
+    background: #ff3b30;
+    color: #fff;
+}
+
+.btn-confirm-delete:hover {
+    background: #ff2d20;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+}
+
+/* Dark mode - confirmación */
+html.dark-mode .delete-confirm-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+html.dark-mode .delete-confirm-modal {
+    background: #1E1E1E;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-mode .delete-confirm-modal h3 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .delete-confirm-modal p {
+    color: #bbb;
+}
+
+html.dark-mode .btn-cancel-confirm {
+    background: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .btn-cancel-confirm:hover {
+    background: #444;
+}
+
+html.dark-mode .btn-confirm-delete {
+    background: #ff3b30;
+    color: #fff;
+}
+
+html.dark-mode .btn-confirm-delete:hover {
+    background: #ff2d20;
+}
+
+/* --- NOTIFICACIONES MEJORADAS --- */
+.notifications-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    width: 100%;
+    max-width: 360px;
+    padding: 0 10px;
+    pointer-events: none;
+}
+
+.notification {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #34C759 0%, #2ba84e 100%);
+    color: #fff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 16px rgba(52, 199, 89, 0.4);
+    font-weight: 500;
+    font-size: 15px;
+    pointer-events: all;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notification.hide {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.notification.error {
+    background: linear-gradient(135deg, #FF3B30 0%, #e81a0f 100%);
+    box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
+}
+
+.notification.warning {
+    background: linear-gradient(135deg, #FF9500 0%, #e67e00 100%);
+    box-shadow: 0 4px 16px rgba(255, 149, 0, 0.4);
+}
+
+.notification.info {
+    background: linear-gradient(135deg, #007AFF 0%, #0051d5 100%);
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+}
+
+.notification.success {
+    background: linear-gradient(135deg, #34C759 0%, #2ba84e 100%);
+    box-shadow: 0 4px 16px rgba(52, 199, 89, 0.4);
+}
+
+/* Dark mode para notificaciones */
+html.dark-mode .notification {
+    box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
+}
+
+html.dark-mode .notification.error {
+    box-shadow: 0 4px 16px rgba(255, 59, 48, 0.3);
+}
+
+html.dark-mode .notification.warning {
+    box-shadow: 0 4px 16px rgba(255, 149, 0, 0.3);
+}
+
+html.dark-mode .notification.info {
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+}
+
+html.dark-mode .notification.success {
+    box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
+}
+
+
