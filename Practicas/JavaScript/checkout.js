@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAddressSection();
     initializePaymentMethods();
     setupEventListeners();
+    updatePlaceOrderButtonState();
 });
 
 // ============================================================
@@ -231,7 +232,23 @@ function selectAddress(address) {
     }
     
     showToast(`📍 Dirección actualizada: ${address.label}`);
+    updatePlaceOrderButtonState();
     updateCartTotals();
+}
+
+function updatePlaceOrderButtonState() {
+    const placeOrderBtn = document.getElementById('btn-place-order');
+    if (placeOrderBtn) {
+        if (selectedAddress) {
+            placeOrderBtn.disabled = false;
+            placeOrderBtn.style.opacity = '1';
+            placeOrderBtn.style.cursor = 'pointer';
+        } else {
+            placeOrderBtn.disabled = true;
+            placeOrderBtn.style.opacity = '0.5';
+            placeOrderBtn.style.cursor = 'not-allowed';
+        }
+    }
 }
 
 function openAddressForm(modal) {
@@ -374,10 +391,124 @@ function setupEventListeners() {
             }
         });
     }
+
+    // Botón de hacer pedido
+    const placeOrderBtn = document.getElementById('btn-place-order');
+    if (placeOrderBtn) {
+        placeOrderBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            confirmOrder();
+        });
+    }
+
+    // Escuchar cambios en método de pago
+    const paymentOptions = document.querySelectorAll('input[name="payment"]');
+    paymentOptions.forEach(option => {
+        option.addEventListener('change', (e) => {
+            selectedPaymentMethod = e.target.value;
+        });
+    });
 }
 
 // ============================================================
-// Utilidades
+// Confirmación y Guardado de Pedido
+// ============================================================
+function confirmOrder() {
+    console.log('confirmOrder() llamado. selectedAddress:', selectedAddress);
+    
+    // Validar que haya dirección
+    if (!selectedAddress) {
+        console.error('ERROR: No hay dirección seleccionada');
+        showToast('Por favor selecciona una dirección de entrega', true);
+        return;
+    }
+
+    // Validar que haya items en el carrito
+    const cart = getCartFromStorage();
+    if (!cart || cart.length === 0) {
+        console.error('ERROR: Carrito vacío');
+        showToast('Tu carrito está vacío', true);
+        return;
+    }
+
+    console.log('Validaciones pasadas. Procesando pedido...');
+
+    // Mostrar botón en estado de carga
+    const placeOrderBtn = document.getElementById('btn-place-order');
+    const originalText = placeOrderBtn.textContent;
+    placeOrderBtn.disabled = true;
+    placeOrderBtn.innerHTML = '<i class="bx bx-loader-alt" style="animation: spin 1s linear infinite;"></i> Procesando...';
+
+    // Simular proceso de 1.5 segundos
+    setTimeout(() => {
+        // Obtener datos del pedido
+        const subtotal = calculateSubtotal(cart);
+        const shipping = selectedPromotion?.freeShipping ? 0 : 2.99;
+        const service = 3.00;
+        const discountAmount = selectedPromotion ? (subtotal * selectedPromotion.discount) : 0;
+        const total = subtotal + shipping + service - discountAmount;
+
+        // Crear objeto de pedido
+        const orderData = {
+            items: cart,
+            subtotal: subtotal,
+            shipping: shipping,
+            service: service,
+            total: total,
+            address: selectedAddress,
+            promotion: selectedPromotion ? {
+                title: selectedPromotion.title,
+                discount: discountAmount
+            } : null,
+            paymentMethod: selectedPaymentMethod
+        };
+
+        // Guardar el pedido en localStorage usando historial.js
+        if (typeof orderHistory !== 'undefined') {
+            const savedOrder = orderHistory.addOrder(orderData);
+            console.log('Pedido guardado exitosamente:', savedOrder);
+        } else {
+            console.warn('orderHistory no está definido');
+        }
+
+        // Mostrar overlay de éxito
+        showSuccessOverlay();
+
+        // Limpiar carrito
+        localStorage.removeItem('shoppingCart');
+
+        // Redirigir después de 3.5 segundos para que vea la animación
+        setTimeout(() => {
+            window.location.href = 'historial.html';
+        }, 3500);
+    }, 1500);
+}
+
+// Obtener carrito del localStorage
+function getCartFromStorage() {
+    // Buscar en ambas posibles keys
+    let cart = localStorage.getItem('shoppingCart');
+    if (!cart) {
+        cart = localStorage.getItem('cart');
+    }
+    return cart ? JSON.parse(cart) : [];
+}
+
+// Calcular subtotal del carrito
+function calculateSubtotal(cart) {
+    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+}
+
+// Mostrar overlay de éxito
+function showSuccessOverlay() {
+    const overlay = document.getElementById('success-overlay');
+    if (overlay) {
+        overlay.classList.add('visible');
+        overlay.classList.remove('hidden');
+    }
+    showToast('¡Pedido confirmado exitosamente!');
+}
+
 // ============================================================
 function showToast(message, isError = false, isWarning = false) {
     const container = document.getElementById('notifications-container');

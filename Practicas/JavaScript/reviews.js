@@ -32,10 +32,38 @@ let userReviews = {};
 // Actividad del usuario (reseñas publicadas)
 let userActivity = [];
 
+// Inicializar datos al cargar el script
+(function() {
+    const savedReviews = localStorage.getItem('userReviews');
+    const savedActivity = localStorage.getItem('userActivity');
+    
+    if (savedReviews) {
+        try {
+            userReviews = JSON.parse(savedReviews);
+        } catch (e) {
+            console.error('Error al cargar reseñas:', e);
+            userReviews = {};
+        }
+    }
+    if (savedActivity) {
+        try {
+            userActivity = JSON.parse(savedActivity);
+        } catch (e) {
+            console.error('Error al cargar actividad:', e);
+            userActivity = [];
+        }
+    }
+})();
+
 /**
  * Abre el modal de reseñas del restaurante
  */
 function openReviewsModal(restaurantName) {
+    // Crear entrada en el diccionario si no existe
+    if (!restaurantReviews[restaurantName]) {
+        restaurantReviews[restaurantName] = [];
+    }
+    
     const reviews = restaurantReviews[restaurantName] || [];
     const mobileFrame = document.querySelector('.mobile-frame');
     
@@ -151,13 +179,28 @@ function openReviewsModal(restaurantName) {
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeReviewsModal();
     });
+
+    // Event listener para el botón "Escribir reseña"
+    const writeReviewBtn = modalOverlay.querySelector('.btn-write-review');
+    if (writeReviewBtn) {
+        writeReviewBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openWriteReviewModal(restaurantName);
+        });
+    }
 }
 
 /**
  * Abre el modal para escribir una reseña
  */
 function openWriteReviewModal(restaurantName) {
-    const mobileFrame = document.querySelector('.mobile-frame');
+    let mobileFrame = document.querySelector('.mobile-frame');
+    
+    // Si no hay mobile-frame, usar body como fallback
+    if (!mobileFrame) {
+        mobileFrame = document.body;
+    }
     
     // Cerrar modal anterior
     const existingModals = document.querySelectorAll('.reviews-modal-overlay');
@@ -217,24 +260,63 @@ function openWriteReviewModal(restaurantName) {
         </div>
     `;
 
+    if (!mobileFrame) {
+        console.error('Mobile frame no encontrado en openWriteReviewModal');
+        return;
+    }
+
     mobileFrame.appendChild(modalOverlay);
 
-    // Event listeners
-    document.querySelectorAll('.star-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const rating = parseInt(this.dataset.rating);
-            selectRating(rating);
-            document.querySelector('.selected-rating').textContent = rating + (rating == 1 ? ' estrella' : ' estrellas');
+    // Event listeners - con pequeño delay para asegurar que el DOM está listo
+    setTimeout(() => {
+        const starBtns = document.querySelectorAll('.star-btn');
+        starBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const rating = parseInt(this.dataset.rating);
+                selectRating(rating);
+                const ratingText = document.querySelector('.selected-rating');
+                if (ratingText) {
+                    ratingText.textContent = rating + (rating == 1 ? ' estrella' : ' estrellas');
+                }
+            });
         });
-    });
 
-    document.getElementById('review-text').addEventListener('input', function() {
-        document.getElementById('char-count').textContent = this.value.length;
-    });
+        const reviewText = document.getElementById('review-text');
+        if (reviewText) {
+            reviewText.addEventListener('input', function() {
+                const charCount = document.getElementById('char-count');
+                if (charCount) {
+                    charCount.textContent = this.value.length;
+                }
+            });
+        }
 
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) openReviewsModal(restaurantName);
-    });
+        // Botón Cancelar
+        const cancelBtn = modalOverlay.querySelector('.btn-cancel');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openReviewsModal(restaurantName);
+            });
+        }
+
+        // Botón Enviar reseña
+        const submitBtn = modalOverlay.querySelector('.btn-submit');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                submitReview(restaurantName);
+            });
+        }
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) openReviewsModal(restaurantName);
+        });
+    }, 0);
 }
 
 /**

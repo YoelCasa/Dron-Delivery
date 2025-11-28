@@ -340,3 +340,42 @@ html.dark-mode .search-container input {
 html.dark-mode .search-container input::placeholder {
     color: #666 !important;
 }
+
+/* === Estilos para Toast (Notificaciones) === */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Versión del toast cuando está dentro del mobile-frame */
+.mobile-frame .toast {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    right: auto;
+}
+
+.toast.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+html.dark-mode .toast {
+    background-color: #444;
+    color: #e0e0e0;
+}

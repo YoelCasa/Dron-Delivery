@@ -29,25 +29,6 @@ body {
 .app-content { flex-grow: 1; overflow-y: auto; padding: 10px 20px; }
 .app-content h1 { font-size: 28px; font-weight: 700; margin-bottom: 25px; padding-left: 5px; }
 
-/* --- Secciones de Historial --- */
-.history-section { margin-bottom: 30px; }
-.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
-.section-header h2 { font-size: 20px; font-weight: 500; }
-.section-header i { font-size: 24px; color: #888; }
-
-/* --- Scroll Horizontal y Tarjetas Pequeñas --- */
-.horizontal-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-.horizontal-scroll::-webkit-scrollbar { display: none; }
-.card { flex: 0 0 140px; }
-.card img { width: 100%; height: 140px; object-fit: cover; border-radius: 15px; margin-bottom: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-.card p { font-size: 16px; font-weight: 500; color: #333; }
-
-/* --- Tarjeta de Pedido en Proceso --- */
-.in-process-link { text-decoration: none; } /* Quita el subrayado del enlace */
-.in-process-card { width: 100%; }
-.in-process-card img { width: 100%; height: 180px; /* Un poco más alta */ object-fit: cover; border-radius: 15px; margin-bottom: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-.in-process-card p { font-size: 16px; font-weight: 500; color: #333; }
-
 /* --- Barra de Navegación Inferior --- */
 .bottom-nav { display: flex; justify-content: space-around; align-items: center; padding: 10px 20px; border-top: 1px solid #f0f0f0; background-color: #fff; }
 .bottom-nav a { color: #a0a0a0; text-decoration: none; font-size: 30px; padding: 5px 15px; border-radius: 12px; transition: all 0.3s ease; }
@@ -57,4 +38,616 @@ body {
     width: 135px; height: 5px; background-color: #000;
     border-radius: 100px; position: absolute; bottom: 8px;
     left: 50%; transform: translateX(-50%);
+}
+
+/* ===================================================
+   ESTILOS PARA HISTORIAL DE PEDIDOS
+   =================================================== */
+
+/* Container principal de historial */
+.orders-history-container {
+    padding: 10px 5px;
+}
+
+.orders-history-container h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* --- Estado Vacío --- */
+.orders-history-container.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    text-align: center;
+    padding: 20px;
+}
+
+.empty-state .empty-icon {
+    font-size: 80px;
+    color: #ddd;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.empty-state h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 30px;
+}
+
+.btn-empty-cta {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-empty-cta:hover {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+/* --- Lista de Pedidos --- */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* --- Tarjeta de Pedido --- */
+.order-card {
+    background: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.order-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    border-color: #ff6b35;
+}
+
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.order-info p {
+    margin: 0;
+}
+
+.order-id {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.order-date {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.order-status {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    background: #ccc;
+}
+
+.order-status.completed {
+    background: linear-gradient(135deg, #34C759 0%, #2ba84e 100%);
+}
+
+.order-status.pending {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+}
+
+.order-status.cancelled {
+    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+}
+
+.order-card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.order-items {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+}
+
+.order-total {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.order-card-footer {
+    margin-top: 12px;
+}
+
+.order-address {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.order-address i {
+    color: #ff6b35;
+    font-size: 14px;
+}
+
+/* === Modal de Detalles del Pedido === */
+.order-details-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-end;
+    z-index: 1000;
+    border-radius: 40px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.order-details-modal {
+    background: white;
+    width: 100%;
+    max-height: 85%;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease;
+    pointer-events: auto;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.modal-header .close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.modal-header .close-modal:hover {
+    color: #333;
+}
+
+.modal-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    scrollbar-width: none;
+}
+
+.modal-content::-webkit-scrollbar {
+    display: none;
+}
+
+.detail-section {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.detail-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 13px;
+}
+
+.detail-row .label {
+    color: #666;
+    font-weight: 500;
+}
+
+.detail-row .value {
+    color: #333;
+    font-weight: 600;
+}
+
+.detail-row .value.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+}
+
+/* Items del pedido */
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 6px;
+}
+
+.item-name {
+    font-size: 13px;
+    color: #333;
+    font-weight: 500;
+    flex: 1;
+}
+
+.item-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.item-price .qty {
+    color: #999;
+}
+
+.item-price .price {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Dirección de entrega */
+.address-detail {
+    padding: 12px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.address-detail .label-detail {
+    font-size: 12px;
+    color: #666;
+    margin: 0 0 4px 0;
+    font-weight: 500;
+}
+
+.address-detail .address-text {
+    font-size: 13px;
+    color: #333;
+    margin: 0 0 4px 0;
+    font-weight: 500;
+}
+
+.address-detail .coordinates {
+    font-size: 11px;
+    color: #999;
+    margin: 0;
+}
+
+/* Resumen de costos */
+.cost-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cost-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #666;
+}
+
+.cost-row span:last-child {
+    font-weight: 600;
+    color: #333;
+}
+
+.cost-row.discount {
+    color: #34C759;
+}
+
+.cost-row.discount span:last-child {
+    color: #34C759;
+}
+
+.cost-row.total {
+    padding-top: 8px;
+    border-top: 1px solid #e8e8e8;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Footer del modal */
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    border-top: 1px solid #e8e8e8;
+    background: #f9f9f9;
+}
+
+.btn-primary,
+.btn-secondary {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #d0d0d0;
+}
+
+/* ===================================================
+   DARK MODE
+   =================================================== */
+
+html.dark-mode body {
+    background-color: #ffffff;
+}
+
+html.dark-mode .mobile-frame {
+    background-color: #1E1E1E;
+    color: #e0e0e0;
+}
+
+html.dark-mode .app-header {
+    background-color: transparent;
+}
+
+html.dark-mode .logo-text {
+    color: #e0e0e0;
+}
+
+html.dark-mode .app-content {
+    background-color: #1E1E1E;
+    color: #e0e0e0;
+}
+
+html.dark-mode .app-content h1 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .order-card {
+    background: #2a2a2a;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .order-card:hover {
+    border-color: #ff6b35;
+    background: #333;
+}
+
+html.dark-mode .order-id {
+    color: #e0e0e0;
+}
+
+html.dark-mode .order-date {
+    color: #999;
+}
+
+html.dark-mode .order-items {
+    color: #bbb;
+}
+
+html.dark-mode .order-total {
+    color: #e0e0e0;
+}
+
+html.dark-mode .order-address {
+    color: #bbb;
+}
+
+html.dark-mode .empty-state h2 {
+    color: #bbb;
+}
+
+html.dark-mode .empty-state p {
+    color: #666;
+}
+
+html.dark-mode .order-details-modal {
+    background: #1E1E1E;
+    color: #e0e0e0;
+}
+
+html.dark-mode .modal-header {
+    border-bottom-color: #333;
+}
+
+html.dark-mode .modal-header h2 {
+    color: #e0e0e0;
+}
+
+html.dark-mode .modal-header .close-modal {
+    color: #bbb;
+}
+
+html.dark-mode .modal-header .close-modal:hover {
+    color: #e0e0e0;
+}
+
+html.dark-mode .detail-section {
+    border-bottom-color: #333;
+}
+
+html.dark-mode .section-title {
+    color: #999;
+}
+
+html.dark-mode .detail-row .label {
+    color: #bbb;
+}
+
+html.dark-mode .detail-row .value {
+    color: #e0e0e0;
+}
+
+html.dark-mode .item-row {
+    background: #2a2a2a;
+}
+
+html.dark-mode .item-name {
+    color: #e0e0e0;
+}
+
+html.dark-mode .item-price .qty {
+    color: #666;
+}
+
+html.dark-mode .item-price .price {
+    color: #e0e0e0;
+}
+
+html.dark-mode .address-detail {
+    background: #2a2a2a;
+}
+
+html.dark-mode .address-detail .label-detail {
+    color: #bbb;
+}
+
+html.dark-mode .address-detail .address-text {
+    color: #e0e0e0;
+}
+
+html.dark-mode .cost-row {
+    color: #bbb;
+}
+
+html.dark-mode .cost-row span:last-child {
+    color: #e0e0e0;
+}
+
+html.dark-mode .cost-row.total {
+    border-top-color: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .modal-footer {
+    border-top-color: #333;
+    background: #2a2a2a;
+}
+
+html.dark-mode .btn-secondary {
+    background: #333;
+    color: #e0e0e0;
+}
+
+html.dark-mode .btn-secondary:hover {
+    background: #444;
+}
+
+html.dark-mode .bottom-nav {
+    background-color: #1E1E1E;
+    border-top-color: #333;
+}
+
+html.dark-mode .bottom-nav a {
+    color: #666;
+}
+
+html.dark-mode .bottom-nav a.active {
+    color: #e0e0e0;
+    background-color: #2a2a2a;
+}
+
+html.dark-mode .home-indicator {
+    background-color: #e0e0e0;
 }

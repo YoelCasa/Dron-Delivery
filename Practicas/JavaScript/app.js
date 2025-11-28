@@ -213,7 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const productListSection = document.querySelector('.product-list');
     
-    if (productListSection) {
+    if (productListSection && !productListSection.dataset.listenerAttached) {
+        productListSection.dataset.listenerAttached = 'true';
         updateAllProductCards();
 
         // Evento Hover (Mouseover) - Feedback previo al clic
@@ -235,7 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        productListSection.addEventListener('click', (e) => {
+        // Listener de click - Único e independiente
+        const clickHandler = (e) => {
             const target = e.target;
             const productCard = target.closest('.product-item');
             
@@ -250,21 +252,27 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if (target.classList.contains('add-btn')) {
+                e.stopPropagation();
+                e.preventDefault();
                 const qty = addToCart(productData);
                 updateCardUI(productCard, qty);
                 showToast(`Añadido: ${productData.name}`);
-            }
-            
-            if (target.classList.contains('increase-btn')) {
+            } 
+            else if (target.classList.contains('increase-btn')) {
+                e.stopPropagation();
+                e.preventDefault();
                 const qty = addToCart(productData);
                 updateCardUI(productCard, qty);
             }
-
-            if (target.classList.contains('decrease-btn')) {
+            else if (target.classList.contains('decrease-btn')) {
+                e.stopPropagation();
+                e.preventDefault();
                 const qty = decreaseFromCart(productData.id);
                 updateCardUI(productCard, qty);
             }
-        });
+        };
+
+        productListSection.addEventListener('click', clickHandler);
     }
 
     function updateCardUI(card, quantity) {
@@ -434,11 +442,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
 
     function showToast(msg) {
-        let toast = document.querySelector('.toast');
+        // Buscar dentro del mobile-frame primero
+        let mobileFrame = document.querySelector('.mobile-frame');
+        let toast = mobileFrame ? mobileFrame.querySelector('.toast') : document.querySelector('.toast');
+        
         if (!toast) {
             toast = document.createElement('div');
             toast.className = 'toast';
-            document.body.appendChild(toast);
+            if (mobileFrame) {
+                mobileFrame.appendChild(toast);
+            } else {
+                document.body.appendChild(toast);
+            }
         }
         toast.textContent = msg;
         toast.classList.add('show');
