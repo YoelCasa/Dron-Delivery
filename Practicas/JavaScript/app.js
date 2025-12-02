@@ -1,3 +1,5 @@
+// --- COMIENZO DEL ARCHIVO app.js MODIFICADO PARA EL RETO 1 (VOZ) ---
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================================================
@@ -70,8 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (isVoiceActive) {
                 speak("Lector de pantalla activado. Ahora te guiaré.");
+                // ** [R1 - Nuevo] ** Iniciar reconocimiento de voz al activar el lector
+                startVoiceCommandListener(); 
             } else {
                 speak("Lector de pantalla desactivado.");
+                // ** [R1 - Nuevo] ** Detener reconocimiento al desactivar
+                stopVoiceCommandListener(); 
             }
         });
     }
@@ -147,6 +153,169 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+
+    // ============================================================
+    // ** [R1 - Nuevo] ** 1.6. COMANDOS DE VOZ (Speech-to-Text)
+    // ============================================================
+    
+    // Determinar qué API de reconocimiento de voz usar
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let productsList = []; // Lista de productos disponibles en la página
+
+    // 1. Inicializa el objeto de reconocimiento
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'es-ES';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        
+        // 2. Manejo de resultados
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript.trim();
+            console.log('Comando de voz detectado:', transcript);
+            processVoiceCommand(transcript);
+        };
+
+        // 3. Reiniciar reconocimiento (para mantenerlo activo)
+        recognition.onend = () => {
+            if (isVoiceActive) {
+                // Volver a iniciar después de un breve descanso, si sigue activo
+                setTimeout(startRecognition, 100); 
+            }
+        };
+
+        recognition.onerror = (event) => {
+            // Ignorar errores comunes para evitar spam en la consola
+            if (event.error !== 'no-speech' && event.error !== 'audio-capture') {
+                // console.error('Error de reconocimiento de voz:', event.error);
+            }
+        };
+    }
+
+    function startRecognition() {
+        if (!recognition) return;
+        try {
+            recognition.start();
+        } catch (e) {
+            // Ignorar errores de "ya está en progreso"
+            if (e.name !== 'InvalidStateError') {
+                console.error("Error al iniciar reconocimiento:", e);
+            }
+        }
+    }
+
+    function stopRecognition() {
+        if (recognition) {
+            recognition.stop();
+        }
+    }
+
+    // Activa la escucha de comandos si el lector está activo al cargar
+    function startVoiceCommandListener() {
+        if (isVoiceActive && recognition) {
+            // Esperar 1 segundo para evitar solapamiento con el anuncio inicial
+            setTimeout(() => {
+                // Rellenar la lista de productos disponibles en esta página
+                productsList = Array.from(document.querySelectorAll('.product-item'))
+                    .map(card => card.dataset.name.toLowerCase());
+                
+                // Iniciar la escucha
+                startRecognition();
+            }, 1000); 
+        }
+    }
+
+    function stopVoiceCommandListener() {
+        stopRecognition();
+    }
+    
+    // Iniciar al cargar si el modo de voz está activo
+    if (isVoiceActive) startVoiceCommandListener();
+
+
+    /**
+     * Procesa la transcripción del comando de voz
+     */
+    function processVoiceCommand(command) {
+    const normalizedCommand = command.toLowerCase();
+    
+    // 1. COMANDO DE COMPRA: "Añadir [Producto]"
+    if (normalizedCommand.startsWith('añadir ') || normalizedCommand.startsWith('agregar ')) {
+        const itemQuery = normalizedCommand.replace(/^(añadir|agregar)\s+/, '').trim();
+
+        if (!productsList.length) {
+             speak("No hay productos disponibles en esta página.");
+             return;
+        }
+
+        let matchedProductName = null;
+        let bestMatchLength = 0;
+
+        // ** LÓGICA DE BÚSQUEDA ROBUSTA (Busca coincidencias parciales) **
+        for (const productName of productsList) {
+            // Si la consulta es directamente un producto, perfecto
+            if (productName === itemQuery) {
+                matchedProductName = productName;
+                break;
+            }
+            
+            // Si la consulta contiene el nombre del producto o viceversa, lo acepta (ej. "Añadir Big" -> "Big Mac")
+            if (productName.includes(itemQuery) || itemQuery.includes(productName)) {
+                 if (productName.length > bestMatchLength) {
+                     bestMatchLength = productName.length;
+                     matchedProductName = productName;
+                 }
+            }
+        }
+
+        if (matchedProductName) {
+            // Encontrar la tarjeta del producto usando el nombre coincidente
+            const productCard = document.querySelector(`.product-item[data-name*="${matchedProductName.replace(/"/g, '\\"')}"]`);
+
+            if (productCard) {
+                const productData = {
+                    id: productCard.dataset.id,
+                    name: productCard.dataset.name,
+                    price: parseFloat(productCard.dataset.price),
+                    img: productCard.dataset.img,
+                    brand: productCard.querySelector('.product-details span')?.textContent || 'Restaurante'
+                };
+                
+                // Llama a la lógica de carrito existente
+                const qty = addToCart(productData); 
+                updateCardUI(productCard, qty);
+                showToast(`Añadido por voz: ${productData.name}`);
+                return; 
+            }
+        }
+        
+        // Si no se encontró el producto o no se pudo añadir
+        speak("Producto no reconocido. Intenta decir solo el nombre, por ejemplo: Big Mac.");
+        return;
+    }
+    
+    // 2. COMANDO DE NAVEGACIÓN: "Ir a [Página]" (Sin cambios, pero incluido para contexto)
+    if (normalizedCommand.startsWith('ir a ') || normalizedCommand.startsWith('abrir ')) {
+        const pageName = normalizedCommand.replace(/^(ir a|abrir)\s+/, '').trim();
+        let targetPage = null;
+
+        if (pageName.includes('pagar') || pageName.includes('carrito')) {
+            targetPage = 'pago.html';
+        } else if (pageName.includes('inicio') || pageName.includes('casa')) {
+            targetPage = 'home.html';
+        } else if (pageName.includes('perfil') || pageName.includes('cuenta')) {
+            targetPage = 'perfil.html';
+        }
+        
+        if (targetPage) {
+            speak(`Navegando a ${pageName}`);
+            window.location.href = targetPage;
+            return;
+        }
+    }
+}
 
 
     // ============================================================
