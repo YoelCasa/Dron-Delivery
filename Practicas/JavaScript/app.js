@@ -233,89 +233,170 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Iniciar al cargar si el modo de voz está activo
     if (isVoiceActive) startVoiceCommandListener();
-
+    
+    // Nombres de restaurantes disponibles para comandos de Reseñas
+    const RESTAURANT_NAMES = {
+        'pepe': 'Casa Pepe',
+        'mcdonalds': 'McDonald\'s',
+        'fruteria': 'Frutería',
+        'poke': 'Pokémon Albacete',
+        'hsn': 'HSN Store'
+    };
 
     /**
      * Procesa la transcripción del comando de voz
      */
     function processVoiceCommand(command) {
-    const normalizedCommand = command.toLowerCase();
-    
-    // 1. COMANDO DE COMPRA: "Añadir [Producto]"
-    if (normalizedCommand.startsWith('añadir ') || normalizedCommand.startsWith('agregar ')) {
-        const itemQuery = normalizedCommand.replace(/^(añadir|agregar)\s+/, '').trim();
+        const normalizedCommand = command.toLowerCase();
+        let executed = false;
+        
+        // 1. COMANDO DE COMPRA: "Añadir [Producto]"
+        if (normalizedCommand.startsWith('añadir ') || normalizedCommand.startsWith('agregar ')) {
+            const itemQuery = normalizedCommand.replace(/^(añadir|agregar)\s+/, '').trim();
 
-        if (!productsList.length) {
-             speak("No hay productos disponibles en esta página.");
-             return;
-        }
+            if (!productsList.length) {
+                 speak("No hay productos disponibles en esta página.");
+                 return;
+            }
 
-        let matchedProductName = null;
-        let bestMatchLength = 0;
+            let matchedProductName = null;
+            let bestMatchLength = 0;
 
-        // ** LÓGICA DE BÚSQUEDA ROBUSTA (Busca coincidencias parciales) **
-        for (const productName of productsList) {
-            // Si la consulta es directamente un producto, perfecto
-            if (productName === itemQuery) {
-                matchedProductName = productName;
-                break;
+            // ** LÓGICA DE BÚSQUEDA ROBUSTA (Busca coincidencias parciales) **
+            for (const productName of productsList) {
+                // Si la consulta es directamente un producto, perfecto
+                if (productName === itemQuery) {
+                    matchedProductName = productName;
+                    break;
+                }
+                
+                // Si la consulta contiene el nombre del producto o viceversa, lo acepta (ej. "Añadir Big" -> "Big Mac")
+                if (productName.includes(itemQuery) || itemQuery.includes(productName)) {
+                     if (productName.length > bestMatchLength) {
+                         bestMatchLength = productName.length;
+                         matchedProductName = productName;
+                     }
+                }
+            }
+
+            if (matchedProductName) {
+                // Encontrar la tarjeta del producto usando el nombre coincidente
+                const productCard = document.querySelector(`.product-item[data-name*="${matchedProductName.replace(/"/g, '\\"')}"]`);
+
+                if (productCard) {
+                    const productData = {
+                        id: productCard.dataset.id,
+                        name: productCard.dataset.name,
+                        price: parseFloat(productCard.dataset.price),
+                        img: productCard.dataset.img,
+                        brand: productCard.querySelector('.product-details span')?.textContent || 'Restaurante'
+                    };
+                    
+                    // Llama a la lógica de carrito existente
+                    const qty = addToCart(productData); 
+                    updateCardUI(productCard, qty);
+                    showToast(`Añadido por voz: ${productData.name}`);
+                    return; 
+                }
             }
             
-            // Si la consulta contiene el nombre del producto o viceversa, lo acepta (ej. "Añadir Big" -> "Big Mac")
-            if (productName.includes(itemQuery) || itemQuery.includes(productName)) {
-                 if (productName.length > bestMatchLength) {
-                     bestMatchLength = productName.length;
-                     matchedProductName = productName;
-                 }
-            }
-        }
-
-        if (matchedProductName) {
-            // Encontrar la tarjeta del producto usando el nombre coincidente
-            const productCard = document.querySelector(`.product-item[data-name*="${matchedProductName.replace(/"/g, '\\"')}"]`);
-
-            if (productCard) {
-                const productData = {
-                    id: productCard.dataset.id,
-                    name: productCard.dataset.name,
-                    price: parseFloat(productCard.dataset.price),
-                    img: productCard.dataset.img,
-                    brand: productCard.querySelector('.product-details span')?.textContent || 'Restaurante'
-                };
-                
-                // Llama a la lógica de carrito existente
-                const qty = addToCart(productData); 
-                updateCardUI(productCard, qty);
-                showToast(`Añadido por voz: ${productData.name}`);
-                return; 
-            }
-        }
-        
-        // Si no se encontró el producto o no se pudo añadir
-        speak("Producto no reconocido. Intenta decir solo el nombre, por ejemplo: Big Mac.");
-        return;
-    }
-    
-    // 2. COMANDO DE NAVEGACIÓN: "Ir a [Página]" (Sin cambios, pero incluido para contexto)
-    if (normalizedCommand.startsWith('ir a ') || normalizedCommand.startsWith('abrir ')) {
-        const pageName = normalizedCommand.replace(/^(ir a|abrir)\s+/, '').trim();
-        let targetPage = null;
-
-        if (pageName.includes('pagar') || pageName.includes('carrito')) {
-            targetPage = 'pago.html';
-        } else if (pageName.includes('inicio') || pageName.includes('casa')) {
-            targetPage = 'home.html';
-        } else if (pageName.includes('perfil') || pageName.includes('cuenta')) {
-            targetPage = 'perfil.html';
-        }
-        
-        if (targetPage) {
-            speak(`Navegando a ${pageName}`);
-            window.location.href = targetPage;
+            // Si no se encontró el producto o no se pudo añadir
+            speak("Producto no reconocido. Intenta decir solo el nombre, por ejemplo: Big Mac.");
             return;
         }
+
+        // 2. COMANDO DE NAVEGACIÓN: "Ir a [Página]"
+        if (normalizedCommand.startsWith('ir a ') || normalizedCommand.startsWith('abrir ')) {
+            const pageName = normalizedCommand.replace(/^(ir a|abrir)\s+/, '').trim();
+            let targetPage = null;
+
+            if (pageName.includes('pagar') || pageName.includes('carrito')) {
+                targetPage = 'pago.html';
+            } else if (pageName.includes('inicio') || pageName.includes('casa')) {
+                targetPage = 'home.html';
+            } else if (pageName.includes('perfil') || pageName.includes('cuenta')) {
+                targetPage = 'perfil.html';
+            }
+            
+            if (targetPage) {
+                speak(`Navegando a ${pageName}`);
+                window.location.href = targetPage;
+                executed = true;
+            }
+        }
+        
+        // --- NUEVOS COMANDOS DE VOZ ---
+
+        // 3. COMANDO DE ACCESIBILIDAD: Activar/Desactivar Modo Oscuro
+        if (normalizedCommand.includes('modo oscuro')) {
+            const turnOn = normalizedCommand.includes('activar') || normalizedCommand.includes('poner');
+            const turnOff = normalizedCommand.includes('desactivar') || normalizedCommand.includes('quitar');
+
+            if (turnOn) {
+                if (!rootHtml.classList.contains('dark-mode')) {
+                    rootHtml.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark');
+                    if (themeToggle) themeToggle.checked = true;
+                    speak("Modo oscuro activado.");
+                } else {
+                    speak("El modo oscuro ya está activo.");
+                }
+                executed = true;
+            } else if (turnOff) {
+                if (rootHtml.classList.contains('dark-mode')) {
+                    rootHtml.classList.remove('dark-mode');
+                    localStorage.setItem('theme', 'light');
+                    if (themeToggle) themeToggle.checked = false;
+                    speak("Modo oscuro desactivado.");
+                } else {
+                    speak("El modo oscuro ya está desactivado.");
+                }
+                executed = true;
+            }
+        }
+        
+        // 4. COMANDO DE RESEÑAS: Abrir Reseñas de [Restaurante]
+        if (normalizedCommand.includes('reseñas de')) {
+            const query = normalizedCommand.replace('reseñas de', '').trim();
+            const restaurantKey = Object.keys(RESTAURANT_NAMES).find(key => query.includes(key));
+            
+            if (restaurantKey) {
+                const restaurantName = RESTAURANT_NAMES[restaurantKey];
+                
+                // Abrir modal de reseñas (depende de reviews.js)
+                if (typeof openReviewsModal === 'function') {
+                    openReviewsModal(restaurantName);
+                    speak(`Abriendo reseñas de ${restaurantName}.`);
+                    executed = true;
+                } else {
+                    speak(`La función de reseñas no está disponible en esta página.`);
+                    executed = true;
+                }
+            }
+        }
+        
+        // 5. COMANDO DE CARRITO: Vaciar Carrito
+        if (normalizedCommand.includes('vaciar carrito') || normalizedCommand.includes('eliminar carrito')) {
+            const currentCart = getCart();
+            if (currentCart.length > 0) {
+                localStorage.removeItem('shoppingCart');
+                // Intentar recargar carrito si estamos en la página de pago
+                if (window.location.pathname.includes('pago.html')) {
+                    renderCartPage();
+                }
+                speak("Todos los productos han sido eliminados del carrito.");
+            } else {
+                speak("El carrito ya está vacío.");
+            }
+            executed = true;
+        }
+
+        // Si el comando no se reconoció y no fue una navegación
+        if (!executed && normalizedCommand.length > 5) {
+             // speak("Comando no reconocido. Puedes decir añadir un producto, o ir a otra página.");
+             // Comentado para evitar repetición si el micrófono capta algo no intencionado
+        }
     }
-}
 
 
     // ============================================================
@@ -323,14 +404,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
 
     function getCart() {
+        //
         return JSON.parse(localStorage.getItem('shoppingCart')) || [];
     }
 
     function saveCart(cart) {
+        //
         localStorage.setItem('shoppingCart', JSON.stringify(cart));
     }
 
     function addToCart(product) {
+        //
         let cart = getCart();
         const existingItem = cart.find(item => item.id === product.id);
 
@@ -349,6 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function decreaseFromCart(productId) {
+        //
         let cart = getCart();
         const existingItemIndex = cart.findIndex(item => item.id === productId);
 
@@ -370,6 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function removeFromCart(productId) {
+        //
         let cart = getCart();
         cart = cart.filter(item => item.id !== productId);
         saveCart(cart);
@@ -445,6 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateCardUI(card, quantity) {
+        //
         const addBtn = card.querySelector('.add-btn');
         const selector = card.querySelector('.quantity-selector');
         const countSpan = card.querySelector('.quantity-count');
@@ -461,6 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateAllProductCards() {
+        //
         const cart = getCart();
         const cards = document.querySelectorAll('.product-item');
         
@@ -590,6 +678,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         updateOrderSummary(subtotal, itemCount);
+        
+        // ** (Llamada a updateCartTotals en checkout.js para sincronizar totales) **
+        if (typeof updateCartTotals === 'function') {
+            updateCartTotals();
+        }
     }
 
     function updateOrderSummary(subtotal, count) {
@@ -611,6 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
 
     function showToast(msg) {
+        //
         // Buscar dentro del mobile-frame primero
         let mobileFrame = document.querySelector('.mobile-frame');
         let toast = mobileFrame ? mobileFrame.querySelector('.toast') : document.querySelector('.toast');
