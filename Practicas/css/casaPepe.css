@@ -150,7 +150,7 @@
     margin-bottom: 8px; 
 }
 
-/* Botón '+' inicial */
+/* Botón '+' inicial (Aumentado para Ley de Fitts) */
 .add-btn {
     display: inline-flex; 
     align-items: center;
@@ -172,7 +172,7 @@
 .add-btn:active { background-color: #d0d0d0; transform: scale(0.92); }
 
 
-/* --- ¡CAMBIO! Estilos para el selector de cantidad --- */
+/* --- ¡CAMBIO! Estilos para el selector de cantidad (Aumentado para Ley de Fitts) --- */
 .quantity-selector {
     display: flex; /* <-- USA FLEX PARA ALINEAR */
     align-items: center; /* <-- CENTRA VERTICALMENTE */
@@ -192,7 +192,7 @@
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
-    padding: 0 10px; /* Espacio lateral */
+    padding: 0 10px; /* Espacio lateral (Target Area) */
     height: 100%; /* Ocupa toda la altura */
     display: flex; /* Para centrar el + y - */
     align-items: center;

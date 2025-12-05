@@ -32,27 +32,50 @@ body {
     font-size: 18px;
     font-weight: 500;
     padding: 10px 20px;
-    border: 1px dashed #007bff;
-    background-color: #f0f8ff;
+    border: 1px dashed #34C759; /* Cambiado a color de éxito */
+    background-color: #e6ffec;
     border-radius: 8px;
-    margin: 10px 20px;
+    margin: 10px 20px 20px;
     text-align: center;
 }
 
-.search-container {
-    display: flex; align-items: center; background-color: #f1f1f1;
-    border-radius: 12px; padding: 10px 15px; margin: 0 20px 15px;
+/* --- NUEVOS ESTILOS PARA EL QR (Reto 18) --- */
+.qr-code-message {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 15px;
 }
-.search-container i { font-size: 20px; color: #888; }
-.search-container input { border: none; outline: none; background: transparent; margin-left: 10px; font-size: 16px; width: 100%; color: #333; }
 
-.filters-container { display: flex; justify-content: space-between; align-items: center; padding: 0 20px 15px; }
-.filter-buttons { display: flex; gap: 10px; }
-.filter-buttons button { display: flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 8px; border: 1px solid #e0e0e0; background-color: #fff; font-size: 14px; cursor: pointer; }
-.results-count { font-size: 14px; color: #888; }
+.qrcode-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 0 20px 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
 
-.map-container { flex-grow: 1; background-color: #f0f0f0; }
-.map-container img { width: 100%; height: 100%; object-fit: cover; }
+#qrcode-display {
+    padding: 10px; /* Padding interno para el canvas del QR */
+}
+/* ------------------------------------------- */
+
+.map-container { 
+    flex-grow: 1; 
+    background-color: #f0f0f0; 
+    overflow: hidden; /* Asegura que la imagen no se desborde */
+}
+.map-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
 
 /* --- Barra de Navegación Inferior --- */
 .bottom-nav { display: flex; justify-content: space-around; align-items: center; padding: 10px 20px; border-top: 1px solid #f0f0f0; background-color: #fff; }
@@ -63,4 +86,21 @@ body {
     width: 135px; height: 5px; background-color: #000;
     border-radius: 100px; position: absolute; bottom: 8px;
     left: 50%; transform: translateX(-50%);
+}
+
+/* --- DARK MODE --- */
+
+html.dark-mode .tracking-title {
+    background-color: #2a2a2a;
+    border-color: #34C759;
+    color: #e0e0e0;
+}
+
+html.dark-mode .qr-code-message p {
+    color: #e0e0e0;
+}
+
+html.dark-mode .qrcode-container {
+    background-color: #1E1E1E;
+    border-color: #333;
 }

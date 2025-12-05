@@ -44,12 +44,17 @@ class OrderHistory {
             address: orderData.address || {},
             promotion: orderData.promotion || null,
             paymentMethod: orderData.paymentMethod || 'card',
-            status: 'completed', // completed, pending, cancelled
+            status: 'pending', // Ahora empieza en Pendiente
+            // NUEVO: Generar un token único de entrega para el QR
+            deliveryToken: 'DRON-' + Math.random().toString(36).substring(2, 10).toUpperCase(),
             estimatedDelivery: new Date(Date.now() + 30 * 60000).toISOString() // 30 min
         };
 
         this.orders.unshift(order); // Agregar al inicio (más recientes primero)
         this.saveOrders();
+        
+        // Guardar el token de la última orden en una clave separada para la página de ubicación
+        localStorage.setItem('lastDeliveryToken', order.deliveryToken);
         
         return order;
     }
@@ -180,7 +185,6 @@ class OrderHistory {
                 </div>
 
                 <div class="modal-content">
-                    <!-- ID y Estado -->
                     <div class="detail-section">
                         <div class="section-title">Información del Pedido</div>
                         <div class="detail-row">
@@ -202,9 +206,12 @@ class OrderHistory {
                             <span class="label">Estado</span>
                             <span class="value status ${order.status}">${this.getStatusText(order.status)}</span>
                         </div>
+                        <div class="detail-row">
+                            <span class="label">Token de Entrega (QR)</span>
+                            <span class="value">${order.deliveryToken || 'N/A'}</span>
+                        </div>
                     </div>
 
-                    <!-- Items del Pedido -->
                     <div class="detail-section">
                         <div class="section-title">Items del Pedido</div>
                         <div class="items-list">
@@ -220,7 +227,6 @@ class OrderHistory {
                         </div>
                     </div>
 
-                    <!-- Dirección de Entrega -->
                     <div class="detail-section">
                         <div class="section-title">Dirección de Entrega</div>
                         <div class="address-detail">
@@ -234,7 +240,6 @@ class OrderHistory {
                         </div>
                     </div>
 
-                    <!-- Resumen de Costos -->
                     <div class="detail-section">
                         <div class="section-title">Resumen</div>
                         <div class="cost-summary">
@@ -263,7 +268,6 @@ class OrderHistory {
                         </div>
                     </div>
 
-                    <!-- Información Adicional -->
                     <div class="detail-section">
                         <div class="section-title">Información Adicional</div>
                         <div class="detail-row">

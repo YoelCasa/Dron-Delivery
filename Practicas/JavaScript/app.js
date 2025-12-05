@@ -83,9 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Función principal para hablar
+     * Función principal para hablar (HECHA GLOBAL para uso del Agente en checkout.js)
      */
-    function speak(text) {
+    window.speak = function(text) {
         // Si está desactivado o no hay texto, no hacer nada
         if (!isVoiceActive || !text) return;
 
@@ -305,9 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 2. COMANDO DE NAVEGACIÓN: "Ir a [Página]"
-        if (normalizedCommand.startsWith('ir a ') || normalizedCommand.startsWith('abrir ')) {
-            const pageName = normalizedCommand.replace(/^(ir a|abrir)\s+/, '').trim();
+        // 2. COMANDO DE NAVEGACIÓN: "Ir a [Página]" (Añadido 'navegar a' para más fluidez)
+        if (normalizedCommand.startsWith('ir a ') || normalizedCommand.startsWith('abrir ') || normalizedCommand.startsWith('navegar a ')) {
+            const pageName = normalizedCommand.replace(/^(ir a|abrir|navegar a)\s+/, '').trim();
             let targetPage = null;
 
             if (pageName.includes('pagar') || pageName.includes('carrito')) {
@@ -387,6 +387,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 speak("Todos los productos han sido eliminados del carrito.");
             } else {
                 speak("El carrito ya está vacío.");
+            }
+            executed = true;
+        }
+        
+        // 6. COMANDO DE AGENTE: Ayuda/Preguntas (Reto 17 - Agente Activo)
+        if (normalizedCommand.includes('ayuda') || normalizedCommand.includes('qué hacer') || normalizedCommand.includes('necesito ayuda')) {
+             if (window.location.pathname.includes('pago.html') && typeof checkAssistantIntervention === 'function') {
+                speak('Claro, te recuerdo los pasos pendientes para el pedido.');
+                checkAssistantIntervention(); // Llama a la función del agente de checkout
+            } else if (window.location.pathname.includes('home.html')) {
+                speak('Estás en el inicio. Puedes decir "añadir" el nombre de un producto si estás en una tienda, o "ir a carrito" para pagar.');
+            } else {
+                speak('¿En qué puedo ayudarte? Dime un comando como "añadir producto" o "ir a carrito".');
             }
             executed = true;
         }
@@ -561,7 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================================
-    // 4. LÓGICA DE PÁGINA DE PAGO & FEEDBACK MULTIMODAL (RETO 9)
+    // 4. LÓGICA DE PÁGINA DE PAGO & FEEDBACK MULTIMODAL (RETO 8)
     // ============================================================
     
     const cartItemsContainer = document.getElementById('cart-items-container');

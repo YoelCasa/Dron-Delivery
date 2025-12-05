@@ -22,7 +22,6 @@
 <body>
     <div class="mobile-frame">
         <div class="status-bar">
-            <!-- ... barra de estado ... -->
             <span class="time">9:41</span>
             <div class="status-icons">
                 <i class='bx bx-signal-4'></i>
@@ -55,7 +54,6 @@
 
             <section class="product-list">
                 
-                <!-- Raciones -->
                 <div class="product-item" data-id="jamon-01" data-name="Jamón Ibérico de Bellota" data-price="22.50" data-img="https://placehold.co/80x80/E8C3A0/333?text=Jamón">
                     <img src="https://placehold.co/80x80/E8C3A0/333?text=Jamón" alt="Jamón Ibérico">
                     <div class="product-details">
@@ -65,9 +63,7 @@
                     </div>
                     <div class="product-price">
                         <span>$22,50</span>
-                        <!-- Botón de añadir (se oculta si está en el carrito) -->
                         <button class="add-btn" style="display: inline-flex;">+</button>
-                        <!-- Selector de cantidad (se muestra si está en el carrito) -->
                         <div class="quantity-selector" style="display: none;">
                             <button class="quantity-btn decrease-btn">-</button>
                             <span class="quantity-count">0</span>
@@ -148,7 +144,6 @@
                     </div>
                 </div>
 
-                <!-- Bebidas -->
                 <div class="product-item" data-id="agua-01" data-name="Agua Mineral" data-price="2.50" data-img="https://placehold.co/80x80/E0F8FF/333?text=Agua">
                     <img src="https://placehold.co/80x80/E0F8FF/333?text=Agua" alt="Agua Mineral">
                     <div class="product-details">
@@ -217,9 +212,25 @@
         <script src="../JavaScript/page-transitions.js"></script>
         <script src="../JavaScript/app.js"></script>
         <script src="../JavaScript/reviews.js"></script>
-    </div>
-</body>
-</html>        <script src="../JavaScript/app.js"></script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const jamonItem = document.querySelector('[data-id="jamon-01"]');
+                const addBtn = jamonItem ? jamonItem.querySelector('.add-btn') : null;
+
+                if (addBtn) {
+                    addBtn.addEventListener('click', (e) => {
+                        // Simular feedback de agente para producto caro
+                        if (window.speak && localStorage.getItem('voiceAssistant') === 'true') {
+                            setTimeout(() => {
+                                window.speak("¡Excelente elección! El Jamón Ibérico es un plato premium, se ha añadido a tu carrito.");
+                            }, 500);
+                        }
+                    });
+                }
+            });
+        </script>
+        
     </div>
 </body>
 </html>

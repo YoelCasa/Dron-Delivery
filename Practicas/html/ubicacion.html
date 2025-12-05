@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="../css/protanopia.css">
     <link rel="stylesheet" href="../css/deuteranopia.css">
     <link rel="stylesheet" href="../css/acromatopsia.css">
+    
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 </head>
 <body>
     <div class="mobile-frame">
@@ -36,19 +38,14 @@
         </header>
 
         <main class="app-content">
-            <h2 class="tracking-title">¿Por donde va su dron?</h2>
+            <h2 class="tracking-title">¡Su pedido está en camino!</h2>
             
-            <div class="search-container">
-                <i class='bx bx-search'></i>
-                <input type="text" value="Calle Marques de Villlores">
+            <div class="qr-code-message">
+                <p>Muestre este código al dron para finalizar la entrega</p>
             </div>
-
-            <div class="filters-container">
-                <div class="filter-buttons">
-                    <button>Filtrar <i class='bx bx-chevron-down'></i></button>
-                    <button>Ordenar <i class='bx bx-chevron-down'></i></button>
-                </div>
-                <span class="results-count">99 resultados</span>
+            
+            <div id="qrcode-container" class="qrcode-container">
+                <div id="qrcode-display"></div>
             </div>
 
             <div class="map-container">
@@ -61,8 +58,36 @@
             <a href="home.html" class="active"><i class='bx bxs-home'></i></a>
             <a href="perfil.html"><i class='bx bx-user'></i></a>
         </nav>
+        
         <div class="home-indicator"></div>
+        
         <script src="../JavaScript/app.js"></script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const token = localStorage.getItem('lastDeliveryToken');
+                const qrcodeEl = document.getElementById('qrcode-display');
+                const qrcodeContainer = document.getElementById('qrcode-container');
+                
+                if (token && typeof QRCode !== 'undefined') {
+                    // Generar el código QR
+                    new QRCode(qrcodeEl, {
+                        text: token,
+                        width: 250,
+                        height: 250,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                    
+                    // Asegurar que el contenedor es visible y centrado
+                    qrcodeContainer.style.display = 'flex';
+                } else {
+                    qrcodeContainer.innerHTML = '<p>No se encontró un token de entrega reciente.</p>';
+                    qrcodeContainer.style.display = 'block';
+                }
+            });
+        </script>
     </div>
 </body>
 </html>

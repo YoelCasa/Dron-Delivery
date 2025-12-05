@@ -68,6 +68,60 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================================
+// Asistente Interactivo / Agente IA (Reto 17)
+// ============================================================
+
+/**
+ * Lógica de intervención del Agente IA al cargar o actualizar el checkout.
+ */
+function checkAssistantIntervention() {
+    const cart = getCartFromStorage();
+    const subtotal = calculateSubtotal(cart);
+    
+    let message = null;
+    let isWarning = false;
+    let isInfo = false;
+
+    // Regla 1: Dirección Faltante (Bloqueo de Pedido)
+    if (!selectedAddress) {
+        message = '🚁 ¡Aviso! Por favor, haz clic en "Añadir ubicación" para seleccionar la dirección de entrega.';
+        isWarning = true;
+    } 
+    // Regla 2: Sugerencia de Promoción (Si aplica el envío gratis GRATIS5)
+    else if (subtotal > 0 && subtotal < 30) {
+        const remaining = (30 - subtotal).toFixed(2);
+        message = `💰 ¡Genial! Solo te faltan $${remaining} para el envío gratis con la promo GRATIS5.`;
+        isInfo = true;
+    }
+    // Regla 3: Botón de Pedido Habilitado
+    else if (selectedAddress && document.getElementById('btn-place-order') && !document.getElementById('btn-place-order').disabled) {
+        message = '✅ ¡Listo para pedir! Revisa los totales y haz tu pedido.';
+        isInfo = true;
+    }
+
+    if (message) {
+        showAssistantMessage(message, isWarning, isInfo); 
+    }
+}
+
+/**
+ * Muestra el mensaje del asistente y lo reproduce por voz si el asistente está activo.
+ */
+function showAssistantMessage(message, isWarning = false, isInfo = false) {
+    // Si la función speak está en el ámbito global (app.js) y el asistente de voz está activo
+    if (typeof speak === 'function' && localStorage.getItem('voiceAssistant') === 'true') {
+        // Usamos un pequeño retraso para no chocar con la lectura inicial de la página
+        setTimeout(() => {
+            speak(message);
+        }, 1000);
+    }
+    
+    // Muestra la notificación visual
+    showToast(message, isWarning, isInfo);
+}
+
+
+// ============================================================
 // Gestión de Promociones
 // ============================================================
 function initializePromotions() {
@@ -81,6 +135,9 @@ function initializePromotions() {
         const promoCard = createPromoCard(promo);
         promosContainer.appendChild(promoCard);
     });
+
+    // Llamada al asistente al iniciar el checkout (Regla 1)
+    checkAssistantIntervention();
 }
 
 function createPromoCard(promo) {
@@ -123,6 +180,8 @@ function selectPromotion(promo, cardElement) {
     
     showToast(`${promo.icon} ${promo.title} seleccionada`);
     updateCartTotals();
+    // Vuelve a llamar al asistente tras aplicar promo
+    checkAssistantIntervention();
 }
 
 function applyPromoCode() {
@@ -231,7 +290,8 @@ function selectAddress(address) {
         addressElement.textContent = address.address;
     }
     
-    showToast(`📍 Dirección actualizada: ${address.label}`);
+    // showToast(`📍 Dirección actualizada: ${address.label}`); // Comentado para usar el agente
+    checkAssistantIntervention(); // Llama al agente
     updatePlaceOrderButtonState();
     updateCartTotals();
 }
@@ -351,15 +411,17 @@ function updateCartTotals() {
     if (!subtotalEl) return;
     
     // Obtener subtotal (hardcodeado para demo, en producción vendría del carrito real)
-    let subtotal = 35.99;
+    let subtotal = calculateSubtotal(getCartFromStorage());
     let shipping = 2.99;
     let service = 3.00;
     
     // Aplicar promoción de descuento
     if (selectedPromotion) {
         if (selectedPromotion.discount > 0) {
-            const discount = subtotal * selectedPromotion.discount;
-            subtotal -= discount;
+            // Recalculamos el subtotal sin descuento para calcular la base del descuento correctamente
+            const baseSubtotal = calculateSubtotal(getCartFromStorage()); 
+            const discount = baseSubtotal * selectedPromotion.discount;
+            subtotal = baseSubtotal - discount;
         }
         if (selectedPromotion.freeShipping) {
             shipping = 0;
@@ -372,6 +434,9 @@ function updateCartTotals() {
     shippingEl.textContent = `$${shipping.toFixed(2)}`;
     serviceEl.textContent = `$${service.toFixed(2)}`;
     totalEl.textContent = `$${total.toFixed(2)}`;
+
+    // Vuelve a llamar al asistente para actualizar sugerencias de promo
+    checkAssistantIntervention();
 }
 
 // ============================================================
@@ -419,7 +484,7 @@ function confirmOrder() {
     // Validar que haya dirección
     if (!selectedAddress) {
         console.error('ERROR: No hay dirección seleccionada');
-        showToast('Por favor selecciona una dirección de entrega', true);
+        showAssistantMessage('❌ Por favor selecciona una dirección de entrega', true);
         return;
     }
 
@@ -427,7 +492,7 @@ function confirmOrder() {
     const cart = getCartFromStorage();
     if (!cart || cart.length === 0) {
         console.error('ERROR: Carrito vacío');
-        showToast('Tu carrito está vacío', true);
+        showAssistantMessage('❌ Tu carrito está vacío', true);
         return;
     }
 
@@ -471,7 +536,7 @@ function confirmOrder() {
             console.warn('orderHistory no está definido');
         }
 
-        // Mostrar overlay de éxito
+        // Mostrar overlay de éxito (Feedback Multimodal Reto 8)
         showSuccessOverlay();
 
         // Limpiar carrito
@@ -506,13 +571,15 @@ function showSuccessOverlay() {
         overlay.classList.add('visible');
         overlay.classList.remove('hidden');
     }
-    showToast('¡Pedido confirmado exitosamente!');
+    showAssistantMessage('¡Pedido confirmado exitosamente!', false, false, true); // Último param es success
 }
 
 // ============================================================
-function showToast(message, isError = false, isWarning = false) {
+function showToast(message, isError = false, isWarning = false, isSuccess = false) {
     const container = document.getElementById('notifications-container');
     
+    if (!container) return; // No mostrar si el contenedor no está listo
+
     const notification = document.createElement('div');
     notification.className = 'notification';
     
@@ -522,6 +589,9 @@ function showToast(message, isError = false, isWarning = false) {
     } else if (isWarning) {
         notification.classList.add('warning');
         notification.innerHTML = `<span class="icon">⚠️</span><span>${message}</span>`;
+    } else if (isSuccess) {
+        notification.classList.add('success');
+        notification.innerHTML = `<span class="icon">✓</span><span>${message}</span>`;
     } else {
         notification.classList.add('info');
         notification.innerHTML = `<span class="icon">✓</span><span>${message}</span>`;
