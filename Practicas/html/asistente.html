@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dron Delivery - Asistente Dron</title>
+    
+    <link rel="stylesheet" href="../css/perfil.css"> 
+    
+    <link rel="stylesheet" href="../css/asistente.css"> 
+    <link rel="stylesheet" href="../css/dark-theme.css"> 
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/protanopia.css">
+    <link rel="stylesheet" href="../css/deuteranopia.css">
+    <link rel="stylesheet" href="../css/acromatopsia.css">
+</head>
+<body>
+    <div class="mobile-frame">
+        <div class="status-bar">
+            <span class="time">9:41</span>
+            <div class="status-icons">
+                <i class='bx bx-signal-4'></i>
+                <i class='bx bx-wifi'></i>
+                <i class='bx bxs-battery'></i>
+            </div>
+        </div>
+
+        <header class="checkout-header">
+             <a href="perfil.html" class="back-arrow" aria-label="Volver al perfil"><i class='bx bx-chevron-left'></i></a>
+            <h1>Asistente Dron 🚁</h1>
+        </header>
+
+        <main class="app-content chat-content">
+            <div id="chat-messages" class="chat-messages">
+                </div>
+        </main>
+        
+        <div class="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Escribe un mensaje..." aria-label="Caja de texto para el chat">
+            <button id="send-btn" aria-label="Enviar mensaje"><i class='bx bx-send'></i></button>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="pago.html"><i class='bx bx-cart'></i></a>
+            <a href="home.html"><i class='bx bxs-home'></i></a>
+            <a href="perfil.html" class="active"><i class='bx bx-user'></i></a>
+        </nav>
+        <div class="home-indicator"></div>
+    
+        <script src="../JavaScript/page-transitions.js"></script>
+        <script src="../JavaScript/app.js"></script>
+        <script src="../JavaScript/asistente.js"></script>
+    </div>
+</body>
+</html>

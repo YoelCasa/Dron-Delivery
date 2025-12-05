@@ -1,0 +1,164 @@
+/* --- Estilos específicos para la interfaz de chat --- */
+
+/* Nota: Este CSS ASUME que perfil.css (o un base) ya define:
+   .mobile-frame { display: flex; flex-direction: column; }
+   .status-bar, .bottom-nav, .checkout-header { flex-shrink: 0; }
+   .app-content { flex-grow: 1; }
+*/
+
+.chat-content {
+    /* app-content es el contenedor que gestiona todo el espacio entre la cabecera y la navegación. */
+    flex-grow: 1;
+    overflow-y: hidden; /* Controlamos el scroll en el chat-messages */
+    padding: 0 !important; /* Eliminamos el padding lateral del app-content para chat de borde a borde */
+    
+    display: flex;
+    flex-direction: column; /* Dividir verticalmente: mensajes arriba, input abajo */
+}
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto; /* AQUÍ OCURRE EL SCROLL DE MENSAJES */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor de Input y botón de enviar (Fijo sobre la navegación inferior) */
+.chat-input-container {
+    display: flex;
+    padding: 10px 15px;
+    border-top: 1px solid #f0f0f0;
+    align-items: center;
+    background-color: #fff;
+    /* Flex-shrink: 0 asegura que ocupe su espacio completo sobre el bottom-nav (si estuviera pegado) */
+    flex-shrink: 0; 
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+#chat-input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#send-btn {
+    background-color: #007AFF;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#send-btn:hover {
+    background-color: #0056b3;
+}
+
+/* --- Estilos de Burbujas de Chat --- */
+.message-bubble {
+    display: flex;
+    margin-bottom: 15px;
+    max-width: 80%;
+}
+
+.message-bubble.assistant {
+    justify-content: flex-start;
+}
+
+.message-bubble.assistant .bubble {
+    background-color: #f0f0f0;
+    color: #333;
+    border-radius: 20px 20px 20px 5px;
+}
+
+.message-bubble.user {
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.message-bubble.user .bubble {
+    background-color: #007AFF;
+    color: #fff;
+    border-radius: 20px 20px 5px 20px;
+}
+
+.message-bubble .bubble {
+    padding: 12px 16px;
+    font-size: 15px;
+    line-height: 1.4;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* --- DARK MODE para el Chat --- */
+html.dark-mode .chat-input-container {
+    background-color: var(--color-superficie);
+    border-top-color: var(--color-borde);
+}
+
+html.dark-mode #chat-input {
+    background-color: var(--color-activo);
+    border-color: var(--color-borde);
+    color: var(--color-texto-principal);
+}
+
+html.dark-mode .message-bubble.assistant .bubble {
+    background-color: var(--color-activo);
+    color: var(--color-texto-principal);
+}
+
+html.dark-mode .message-bubble.user .bubble {
+    background-color: #0051d5; /* Azul oscuro en dark mode */
+    color: #fff;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.btn-chat-action {
+    background-color: #007AFF;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-chat-action:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos específicos para botones que indican una acción de navegación/estado */
+.btn-chat-action.link {
+    background-color: #ff6b35; /* Naranja para Navegación */
+}
+
+.btn-chat-action.link:hover {
+    background-color: #e55a29;
+}
+
+html.dark-mode .btn-chat-action {
+    background-color: #007AFF;
+    color: #fff;
+}
+
+html.dark-mode .btn-chat-action.link {
+    background-color: #ff6b35; 
+}
