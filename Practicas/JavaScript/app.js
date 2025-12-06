@@ -316,6 +316,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 targetPage = 'home.html';
             } else if (pageName.includes('perfil') || pageName.includes('cuenta')) {
                 targetPage = 'perfil.html';
+            }else if (pageName.includes('historial')) {
+                targetPage = 'historial.html';
+            }else if (pageName.includes('ubicación') || pageName.includes('localización')) {
+                targetPage = 'ubicacion.html';
+            }else if (pageName.includes('ayuda')) {
+                targetPage = 'ayuda.html';
+            }else if (pageName.includes('accesibilidad')) {
+                targetPage = 'accesibilidad.html';
+            }else if (pageName.includes('ofertas') || pageName.includes('promociones')) {
+                targetPage = 'ofertas.html';
+            }else if (pageName.includes('casa pepe')) {
+                targetPage = 'casaPepe.html';
+            }else if (pageName.includes('asistente')) {
+                targetPage = 'asistente.html';
             }
             
             if (targetPage) {

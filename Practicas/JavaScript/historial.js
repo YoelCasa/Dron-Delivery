@@ -54,7 +54,11 @@ class OrderHistory {
         this.saveOrders();
         
         // Guardar el token de la última orden en una clave separada para la página de ubicación
-        localStorage.setItem('lastDeliveryToken', order.deliveryToken);
+        localStorage.setItem('lastOrderDetailsForQR', JSON.stringify({
+            deliveryToken: order.deliveryToken,
+            items: order.items.map(item => ({ name: item.name, quantity: item.quantity })),
+            total: order.total
+        }));
         
         return order;
     }

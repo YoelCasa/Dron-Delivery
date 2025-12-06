@@ -44,8 +44,10 @@
                 <p>Muestre este código al dron para finalizar la entrega</p>
             </div>
             
-            <div id="qrcode-container" class="qrcode-container">
+            <div id="qrcode-card" class="qrcode-card">
                 <div id="qrcode-display"></div>
+                <div id="order-details" class="order-details">
+                    </div>
             </div>
 
             <div class="map-container">
@@ -62,29 +64,49 @@
         <div class="home-indicator"></div>
         
         <script src="../JavaScript/app.js"></script>
-        
+        <script src="../JavaScript/historial.js"></script>
+
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const token = localStorage.getItem('lastDeliveryToken');
+                const orderDataString = localStorage.getItem('lastOrderDetailsForQR');
                 const qrcodeEl = document.getElementById('qrcode-display');
-                const qrcodeContainer = document.getElementById('qrcode-container');
-                
-                if (token && typeof QRCode !== 'undefined') {
-                    // Generar el código QR
-                    new QRCode(qrcodeEl, {
-                        text: token,
-                        width: 250,
-                        height: 250,
-                        colorDark : "#000000",
-                        colorLight : "#ffffff",
-                        correctLevel : QRCode.CorrectLevel.H
-                    });
-                    
-                    // Asegurar que el contenedor es visible y centrado
-                    qrcodeContainer.style.display = 'flex';
+                const orderDetailsEl = document.getElementById('order-details');
+                const qrcodeCard = document.getElementById('qrcode-card');
+
+                if (orderDataString) {
+                    try {
+                        const orderData = JSON.parse(orderDataString);
+                        const token = orderData.deliveryToken;
+                        
+                        // 1. Generar el código QR
+                        if (token && typeof QRCode !== 'undefined') {
+                            new QRCode(qrcodeEl, {
+                                text: token,
+                                width: 120,
+                                height: 120,
+                                colorDark : "#000000",
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                        }
+                        
+                        // 2. Mostrar los detalles del pedido
+                        const itemsHtml = orderData.items.map(item => 
+                            `<p>${item.quantity}x ${item.name}</p>`
+                        ).join('');
+
+                        orderDetailsEl.innerHTML = `
+                            <p class="order-id">Token: <strong>${token}</strong></p>
+                            <div class="item-list-qr">${itemsHtml}</div>
+                            <p class="order-total">Total: <strong>$${orderData.total.toFixed(2)}</strong></p>
+                        `;
+
+                    } catch (e) {
+                        console.error('Error al parsear datos del pedido para QR:', e);
+                        qrcodeCard.innerHTML = '<p>Error al cargar detalles del pedido.</p>';
+                    }
                 } else {
-                    qrcodeContainer.innerHTML = '<p>No se encontró un token de entrega reciente.</p>';
-                    qrcodeContainer.style.display = 'block';
+                    qrcodeCard.innerHTML = '<p>No se encontró un pedido reciente para seguimiento.</p>';
                 }
             });
         </script>
