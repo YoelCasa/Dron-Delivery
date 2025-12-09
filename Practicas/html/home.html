@@ -116,6 +116,27 @@
             </section>
         </main>
 
+        <!-- Chat Flotante -->
+        <div class="chat-fab" id="chat-fab" title="Abrir asistente">
+            <i class='bx bxs-message-dots'></i>
+        </div>
+        <div class="chat-widget" id="chat-widget">
+            <div class="chat-header">
+                <div class="chat-header-content">
+                    <h3>Asistente Dron</h3>
+                    <p>Disponible 24/7</p>
+                </div>
+                <button class="chat-minimize" id="chat-minimize"><i class='bx bx-minus'></i></button>
+            </div>
+            <div class="chat-messages-container" id="chat-messages">
+                <div class="chat-message bot">¡Hola! 👋 Soy tu asistente. Puedo mostrarte restaurantes, tomar tu pedido, responder preguntas y más. ¿Qué necesitas?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Escribe aquí..." autocomplete="off">
+                <button class="chat-send-btn" id="chat-send"><i class='bx bx-send'></i></button>
+            </div>
+        </div>
+
         <nav class="bottom-nav">
             <a href="pago.html"><i class='bx bx-cart'></i></a>
             <a href="pantalla2.html" class="active"><i class='bx bxs-home'></i></a>
@@ -125,6 +146,7 @@
         <div class="home-indicator"></div>
         <script src="../JavaScript/app.js"></script>
         <script src="../JavaScript/search-restaurants.js"></script>
+        <script src="../JavaScript/chatbot.js"></script>
     </div>
 </body>
 </html>

@@ -1,5 +1,83 @@
 // --- COMIENZO DEL ARCHIVO app.js MODIFICADO PARA EL RETO 1 (VOZ) ---
 
+// ============================================================
+// INYECTAR CHAT EN TODAS LAS PÁGINAS
+// ============================================================
+(function() {
+    // Solo inyectar si no existe el chat ya
+    if (!document.getElementById('chat-fab')) {
+        const chatHTML = `
+            <div class="chat-fab" id="chat-fab" title="Abrir asistente">
+                <i class='bx bxs-message-dots'></i>
+            </div>
+            <div class="chat-widget" id="chat-widget">
+                <div class="chat-header">
+                    <div class="chat-header-content">
+                        <h3>Asistente Dron</h3>
+                        <p>Disponible 24/7</p>
+                    </div>
+                    <button class="chat-minimize" id="chat-minimize"><i class='bx bx-minus'></i></button>
+                </div>
+                <div class="chat-messages-container" id="chat-messages">
+                    <div class="chat-message bot">¡Hola! 👋 Soy tu asistente. Puedo mostrarte restaurantes, tomar tu pedido, responder preguntas y más. ¿Qué necesitas?</div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Escribe aquí..." autocomplete="off">
+                    <button class="chat-send-btn" id="chat-send"><i class='bx bx-send'></i></button>
+                </div>
+            </div>
+        `;
+        
+        // Insertar dentro del mobile-frame si existe, si no al final del body
+        const mobileFrame = document.querySelector('.mobile-frame');
+        if (mobileFrame) {
+            mobileFrame.insertAdjacentHTML('beforeend', chatHTML);
+        } else {
+            document.body.insertAdjacentHTML('beforeend', chatHTML);
+        }
+        
+        // Cargar el CSS del chat si no está cargado
+        if (!document.querySelector('link[href*="chat"]') && !document.querySelector('style[data-chat]')) {
+            const chatCSS = `
+                .chat-fab { position: absolute; bottom: 80px; right: 15px; width: 56px; height: 56px; background: linear-gradient(135deg, #FF6B35, #FF8C42); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4); z-index: 999; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); animation: pulse-chat 2s infinite; }
+                .chat-fab:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5); }
+                .chat-fab i { font-size: 28px; color: #fff; }
+                @keyframes pulse-chat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+                .chat-widget { position: absolute; bottom: 80px; right: 15px; width: 340px; height: 450px; background: #fff; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; z-index: 1000; opacity: 0; pointer-events: none; transform: translateY(20px) scale(0.95); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+                .chat-widget.open { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); bottom: 90px; }
+                .chat-header { background: linear-gradient(135deg, #FF6B35, #FF8C42); color: #fff; padding: 15px; border-radius: 16px 16px 0 0; display: flex; justify-content: space-between; align-items: center; }
+                .chat-header-content h3 { font-size: 16px; font-weight: 600; margin: 0; }
+                .chat-header-content p { font-size: 12px; opacity: 0.9; margin: 2px 0 0 0; }
+                .chat-minimize { background: rgba(255, 255, 255, 0.2); border: none; color: #fff; cursor: pointer; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+                .chat-minimize:hover { background: rgba(255, 255, 255, 0.3); }
+                .chat-messages-container { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+                .chat-message { padding: 10px 14px; border-radius: 12px; word-wrap: break-word; max-width: 90%; font-size: 14px; line-height: 1.4; animation: slideInChat 0.3s ease-out; }
+                .chat-message.user { background: linear-gradient(135deg, #FF6B35, #FF8C42); color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+                .chat-message.bot { background: #f0f0f0; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+                .chat-message.bot a { color: #FF6B35; font-weight: 600; cursor: pointer; text-decoration: none; }
+                .chat-message.bot a:hover { text-decoration: underline; }
+                @keyframes slideInChat { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+                .chat-input-area { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e0e0e0; background: #fff; border-radius: 0 0 16px 16px; }
+                #chat-input { flex: 1; border: 1px solid #ddd; border-radius: 24px; padding: 8px 14px; font-size: 14px; outline: none; transition: all 0.2s; }
+                #chat-input:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+                .chat-send-btn { background: linear-gradient(135deg, #FF6B35, #FF8C42); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+                .chat-send-btn:hover { transform: scale(1.05); }
+                .chat-send-btn:active { transform: scale(0.95); }
+                html.dark-mode .chat-widget { background: #222; }
+                html.dark-mode .chat-messages-container { background: #1a1a1a; }
+                html.dark-mode .chat-message.bot { background: #333; color: #f0f0f0; }
+                html.dark-mode #chat-input { background: #333; color: #f0f0f0; border-color: #444; }
+                html.dark-mode .chat-input-area { background: #222; border-top-color: #333; }
+            `;
+            
+            const style = document.createElement('style');
+            style.setAttribute('data-chat', 'true');
+            style.textContent = chatCSS;
+            document.head.appendChild(style);
+        }
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================================================
@@ -808,4 +886,369 @@ document.addEventListener('DOMContentLoaded', () => {
             emailInput.style.borderColor = '#ddd';
         });
     }
+
+    // ============================================================
+    // INICIALIZAR FAVORITOS AL CARGAR LA PÁGINA
+    // ============================================================
+    initializeFavorites();
+    loadFavoritesHome();
+
+    // ============================================================
+    // MANEJADOR DEL BOTÓN DE FAVORITOS EN LA BARRA DE FILTROS
+    // ============================================================
+    const favoritesBtn = document.querySelector('.filter-buttons button:first-child');
+    if (favoritesBtn) {
+        favoritesBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showFavorites();
+        });
+    }
 });
+
+// ============================================================
+// SISTEMA DE FAVORITOS (Funciones Globales)
+// ============================================================
+
+/**
+ * Obtener lista de favoritos del localStorage
+ */
+function getFavorites() {
+    try {
+        const favorites = localStorage.getItem('favoritesRestaurants');
+        if (!favorites) return [];
+        const parsed = JSON.parse(favorites);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (err) {
+        console.error('Error leyendo favoritos desde localStorage:', err);
+        return window.__favoritesCache || [];
+    }
+}
+
+/**
+ * Guardar lista de favoritos en localStorage
+ */
+function saveFavorites(favorites) {
+    try {
+        localStorage.setItem('favoritesRestaurants', JSON.stringify(favorites));
+        // Guardar copia en memoria por si localStorage falla
+        window.__favoritesCache = favorites;
+    } catch (err) {
+        console.error('Error guardando favoritos en localStorage:', err);
+        window.__favoritesCache = favorites;
+        try {
+            showToast('No se pudo guardar favoritos en el navegador', false, true);
+        } catch (e) {
+            // ignore if showToast not available
+        }
+    }
+}
+
+/**
+ * Alternar favorito de un restaurante
+ */
+function toggleFavorite(btn) {
+    const restaurantName = btn.dataset.restaurant;
+    try {
+        let favorites = getFavorites();
+
+        if (favorites.includes(restaurantName)) {
+            // Remover de favoritos
+            favorites = favorites.filter(fav => fav !== restaurantName);
+            btn.classList.remove('active');
+            btn.innerHTML = '<i class="bx bx-heart"></i>';
+            showToast(`Removido de favoritos`, false, true);
+        } else {
+            // Agregar a favoritos
+            favorites.push(restaurantName);
+            btn.classList.add('active');
+            btn.innerHTML = '<i class="bx bxs-heart"></i>';
+            showToast(`Agregado a favoritos`, false, false, true);
+        }
+
+        saveFavorites(favorites);
+        // Actualizar ambas vistas (home y modal)
+        try { loadFavoritesHome(); } catch (e) { console.warn('loadFavoritesHome error', e); }
+        try { loadFavoritesSection(); } catch (e) { /* no-op */ }
+    } catch (err) {
+        console.error('toggleFavorite error:', err);
+        showToast('Error al gestionar favorito', false, true);
+    }
+}
+
+/**
+ * Inicializar estado visual de botones de favorito
+ */
+function initializeFavorites() {
+    const favorites = getFavorites();
+    const favBtns = document.querySelectorAll('.favorite-btn');
+    
+    favBtns.forEach(btn => {
+        const restaurantName = btn.dataset.restaurant;
+        if (favorites.includes(restaurantName)) {
+            btn.classList.add('active');
+            btn.innerHTML = '<i class="bx bxs-heart"></i>';
+        } else {
+            btn.innerHTML = '<i class="bx bx-heart"></i>';
+        }
+    });
+}
+
+/**
+ * Mostrar página de favoritos
+ */
+function showFavorites() {
+    const favorites = getFavorites();
+    
+    if (favorites.length === 0) {
+        showToast('📍 No tienes restaurantes favoritos aún', false, true);
+        return;
+    }
+    
+    // Crear modal con favoritos
+    const modal = document.createElement('div');
+    modal.className = 'favorites-modal';
+    modal.innerHTML = `
+        <div class="favorites-content">
+            <div class="favorites-header">
+                <h2>❤️ Mis Favoritos (${favorites.length})</h2>
+                <button class="close-favorites" onclick="this.closest('.favorites-modal').remove()">✕</button>
+            </div>
+            <div class="favorites-list">
+                ${favorites.map(fav => `
+                    <div class="favorite-item">
+                        <span>${fav}</span>
+                        <button onclick="removeFavorite('${fav}')" class="remove-btn" title="Remover">✕</button>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Cerrar al hacer clic fuera
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+}
+
+/**
+ * Remover un favorito de la lista
+ */
+function removeFavorite(restaurantName) {
+    try {
+        let favorites = getFavorites();
+        favorites = favorites.filter(fav => fav !== restaurantName);
+        saveFavorites(favorites);
+
+        // Actualizar UI - botón en tarjeta
+        const btn = document.querySelector(`.favorite-btn[data-restaurant="${restaurantName}"]`);
+        if (btn) {
+            btn.classList.remove('active');
+            btn.innerHTML = '<i class="bx bx-heart"></i>';
+        }
+
+        // Actualizar sección de favoritos en página
+        try { loadFavoritesHome(); } catch (e) { console.warn('loadFavoritesHome error', e); }
+        // Recargar sección de favoritos modal
+        try { loadFavoritesSection(); } catch (e) { /* ignore */ }
+    } catch (err) {
+        console.error('removeFavorite error:', err);
+        showToast('Error al quitar favorito', false, true);
+    }
+}
+
+// ============================================================
+// FUNCIONES PARA MOSTRAR/OCULTAR SECCIÓN DE FAVORITOS
+// ============================================================
+
+/**
+ * Mostrar la sección de restaurantes favoritos
+ */
+function showFavoritesSection() {
+    const favoritesSection = document.getElementById('favorites-section');
+    const categoriesSection = document.getElementById('categories-section');
+    
+    if (favoritesSection) {
+        favoritesSection.style.display = 'flex';
+        if (categoriesSection) {
+            categoriesSection.style.display = 'none';
+        }
+        loadFavoritesSection();
+    }
+}
+
+/**
+ * Ocultar la sección de restaurantes favoritos
+ */
+function hideFavoritesSection() {
+    const favoritesSection = document.getElementById('favorites-section');
+    const categoriesSection = document.getElementById('categories-section');
+    
+    if (favoritesSection) {
+        favoritesSection.style.display = 'none';
+        if (categoriesSection) {
+            categoriesSection.style.display = 'block';
+        }
+    }
+}
+
+/**
+ * Cargar y mostrar los restaurantes favoritos
+ */
+function loadFavoritesSection() {
+    const favorites = getFavorites();
+    const favoritesGrid = document.getElementById('favorites-grid');
+    const noFavorites = document.getElementById('no-favorites');
+    
+    if (!favoritesGrid) return;
+    
+    if (favorites.length === 0) {
+        favoritesGrid.style.display = 'none';
+        if (noFavorites) {
+            noFavorites.style.display = 'flex';
+        }
+        return;
+    }
+    
+    favoritesGrid.style.display = 'grid';
+    if (noFavorites) {
+        noFavorites.style.display = 'none';
+    }
+    
+    // Limpiar grid anterior
+    favoritesGrid.innerHTML = '';
+    
+    // Crear tarjetas para cada favorito
+    favorites.forEach(restaurantName => {
+        const card = document.createElement('div');
+        card.className = 'favorite-restaurant-card';
+        
+        // Obtener imagen según el nombre del restaurante
+        let imageSrc = '../imagenes/fruta.jpg';
+        if (restaurantName === 'Casa Pepe') {
+            imageSrc = '../imagenes/casa-pepe.jpeg';
+        } else if (restaurantName === 'Mc Donal\'s') {
+            imageSrc = '../imagenes/mc-donals.jpg';
+        } else if (restaurantName === 'Poke albacete') {
+            imageSrc = '../imagenes/poke-albacete.jpg';
+        } else if (restaurantName === 'HSN Store') {
+            imageSrc = '../imagenes/hsn-store.jpg';
+        }
+        
+        card.innerHTML = `
+            <img src="${imageSrc}" alt="${restaurantName}">
+            <div class="favorite-restaurant-card-info">
+                <div>
+                    <h3>${restaurantName}</h3>
+                    <p>⭐ Restaurante favorito</p>
+                </div>
+                <button class="favorite-restaurant-card-btn" onclick="removeFavorite('${restaurantName}')">
+                    ❤️ Quitar de favoritos
+                </button>
+            </div>
+        `;
+        
+        favoritesGrid.appendChild(card);
+    });
+}
+
+// ============================================================
+// FUNCIONES DE FILTRADO DE CATEGORÍAS
+// ============================================================
+
+function filterByCategory(category) {
+    // Actualizar botones activos
+    const filterBtns = document.querySelectorAll('.filter-btn:not(.icon-only)');
+    filterBtns.forEach(btn => btn.classList.remove('active'));
+    
+    const activeBtn = document.querySelector(`.filter-btn[onclick="filterByCategory('${category}')"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+    
+    // Mostrar/ocultar secciones
+    const categorySections = document.querySelectorAll('.category-section');
+    
+    if (category === 'all') {
+        categorySections.forEach(section => section.style.display = 'block');
+    } else if (category === 'comida-rapida') {
+        // Primera sección (Elige que pedir)
+        if (categorySections[0]) categorySections[0].style.display = 'block';
+        if (categorySections[1]) categorySections[1].style.display = 'none';
+    } else if (category === 'saludable') {
+        // Segunda sección (¿Algo sano?)
+        if (categorySections[0]) categorySections[0].style.display = 'none';
+        if (categorySections[1]) categorySections[1].style.display = 'block';
+    }
+}
+
+function toggleFilterPanel() {
+    // Función para futuro panel de filtros avanzados
+    console.log('Panel de filtros abierto');
+}
+
+// ============================================================
+// FUNCIONES PARA CARGAR FAVORITOS EN LA PÁGINA
+// ============================================================
+
+function loadFavoritesHome() {
+    const favorites = getFavorites();
+    const favScroll = document.getElementById('favorites-home-scroll');
+    const noFavMsg = document.getElementById('no-favorites-home');
+    const favSection = document.getElementById('favorites-home-section');
+    
+    if (!favScroll) {
+        console.warn('Element favorites-home-scroll not found');
+        return;
+    }
+    
+    favScroll.innerHTML = '';
+    
+    if (favorites.length === 0) {
+        noFavMsg.style.display = 'block';
+        favSection.style.opacity = '0.6';
+        return;
+    }
+    
+    noFavMsg.style.display = 'none';
+    favSection.style.opacity = '1';
+    
+    favorites.forEach(restaurantName => {
+        let imageSrc = '../imagenes/fruta.jpg';
+        
+        if (restaurantName === 'Casa Pepe') {
+            imageSrc = '../imagenes/casa-pepe.jpeg';
+        } else if (restaurantName === "Mc Donal's") {
+            imageSrc = '../imagenes/mc-donals.jpg';
+        } else if (restaurantName === 'Poke albacete') {
+            imageSrc = '../imagenes/poke-albacete.jpg';
+        } else if (restaurantName === 'HSN Store') {
+            imageSrc = '../imagenes/hsn-store.jpg';
+        }
+        
+        const card = document.createElement('a');
+        card.className = 'favorites-home-card';
+        card.href = '#';
+        card.onclick = (e) => {
+            e.preventDefault();
+            // En futuro, redirigir a la página del restaurante
+        };
+        
+        card.innerHTML = `
+            <img src="${imageSrc}" alt="${restaurantName}">
+            <div class="favorites-home-card-info">
+                <h3>${restaurantName}</h3>
+                <p>⭐ Favorito</p>
+            </div>
+        `;
+        
+        favScroll.appendChild(card);
+    });
+}
+
+function viewAllFavorites() {
+    const favSection = document.getElementById('favorites-section');
+    if (favSection) {
+        favSection.style.display = 'block';
+        loadFavoritesSection();
+    }
+}
