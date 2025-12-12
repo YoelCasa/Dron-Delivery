@@ -55,6 +55,9 @@ const SAVED_ADDRESSES = [
 let selectedPromotion = null;
 let selectedAddress = null;
 let selectedPaymentMethod = 'card';
+let lastAssistantMessage = null; // Control para evitar duplicados
+let isApplyingPromo = false; // Debounce para evitar múltiples clicks
+let lastPromoClickTime = 0; // Timestamp del último click en promoción
 
 // ============================================================
 // Inicialización
@@ -108,6 +111,13 @@ function checkAssistantIntervention() {
  * Muestra el mensaje del asistente y lo reproduce por voz si el asistente está activo.
  */
 function showAssistantMessage(message, isWarning = false, isInfo = false) {
+    // Evitar mostrar el mismo mensaje múltiples veces
+    if (lastAssistantMessage === message) {
+        return;
+    }
+    
+    lastAssistantMessage = message;
+    
     // Si la función speak está en el ámbito global (app.js) y el asistente de voz está activo
     if (typeof speak === 'function' && localStorage.getItem('voiceAssistant') === 'true') {
         // Usamos un pequeño retraso para no chocar con la lectura inicial de la página
@@ -157,9 +167,16 @@ function createPromoCard(promo) {
 }
 
 function selectPromotion(promo, cardElement) {
+    // Debounce: evitar clicks múltiples en menos de 500ms
+    const now = Date.now();
+    if (now - lastPromoClickTime < 500) {
+        return;
+    }
+    lastPromoClickTime = now;
+    
     // Verificar si ya está seleccionada la misma promoción
     if (selectedPromotion && selectedPromotion.id === promo.id) {
-        showToast('⚠️ Esta promoción ya está seleccionada', false, true);
+        showToast('✓ Ya has aplicado esta promoción', false, true);
         return;
     }
     
@@ -178,18 +195,29 @@ function selectPromotion(promo, cardElement) {
         promoInput.value = promo.code;
     }
     
-    showToast(`${promo.icon} ${promo.title} seleccionada`);
+    showToast(`✓ ${promo.icon} ${promo.title} aplicada`);
     updateCartTotals();
     // Vuelve a llamar al asistente tras aplicar promo
     checkAssistantIntervention();
 }
 
 function applyPromoCode() {
+    // Debounce: evitar múltiples clicks rápidos
+    if (isApplyingPromo) {
+        return;
+    }
+    
     const promoInput = document.getElementById('promo-code');
     const code = promoInput.value.trim().toUpperCase();
     
     if (!code) {
         showToast('Por favor ingresa un código de promoción');
+        return;
+    }
+    
+    // Verificar si ya hay una promoción aplicada con ese código
+    if (selectedPromotion && selectedPromotion.code === code) {
+        showToast('✓ Ya has aplicado esta promoción', false, true);
         return;
     }
     
@@ -200,8 +228,13 @@ function applyPromoCode() {
             .find(card => card.querySelector('.promo-code-badge').textContent === code);
         
         if (promoCard) {
+            isApplyingPromo = true;
             selectPromotion(promo, promoCard);
-            showToast(`✓ Código "${code}" aplicado exitosamente`);
+            
+            // Permitir otro click después de 800ms
+            setTimeout(() => {
+                isApplyingPromo = false;
+            }, 800);
         }
     } else {
         showToast('❌ Código de promoción inválido', true);
@@ -579,6 +612,13 @@ function showToast(message, isError = false, isWarning = false, isSuccess = fals
     const container = document.getElementById('notifications-container');
     
     if (!container) return; // No mostrar si el contenedor no está listo
+
+    // Limpiar notificaciones anteriores del mismo tipo
+    const existingNotifications = container.querySelectorAll('.notification');
+    existingNotifications.forEach(notif => {
+        notif.classList.add('hide');
+        setTimeout(() => notif.remove(), 100);
+    });
 
     const notification = document.createElement('div');
     notification.className = 'notification';

@@ -850,15 +850,16 @@ html.dark-mode .btn-cancel:hover {
     left: 50%;
     transform: translateX(-50%);
     z-index: 2000;
-    width: 100%;
+    width: auto;
     max-width: 360px;
-    padding: 0 10px;
+    padding: 0 15px;
     pointer-events: none;
+    box-sizing: border-box;
 }
 
 .notification {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     background: linear-gradient(135deg, #34C759 0%, #2ba84e 100%);
     color: #fff;
@@ -867,9 +868,13 @@ html.dark-mode .btn-cancel:hover {
     margin-bottom: 10px;
     box-shadow: 0 4px 16px rgba(52, 199, 89, 0.4);
     font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.4;
     pointer-events: all;
     animation: slideDown 0.3s ease-out;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .notification.error {
@@ -890,6 +895,7 @@ html.dark-mode .btn-cancel:hover {
 .notification .icon {
     font-size: 18px;
     flex-shrink: 0;
+    margin-top: 1px;
 }
 
 .notification.hide {
