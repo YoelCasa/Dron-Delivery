@@ -849,7 +849,7 @@ html.dark-mode .btn-cancel:hover {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2000;
+    z-index: 9999;
     width: auto;
     max-width: 360px;
     padding: 0 15px;
