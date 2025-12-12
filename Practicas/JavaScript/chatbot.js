@@ -74,6 +74,17 @@ class ChatbotIA {
         
         if (sender === 'bot' && typeof text === 'string' && text.includes('<')) {
             messageDiv.innerHTML = text;
+            // Agregar event listeners a los enlaces en mensajes del bot
+            const links = messageDiv.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (href) {
+                        window.location.href = href;
+                    }
+                });
+            });
         } else {
             messageDiv.textContent = text;
         }
@@ -84,6 +95,32 @@ class ChatbotIA {
     
     processUserInput(input) {
         const lower = input.toLowerCase();
+        
+        // DETECTAR INTENCIÓN DE NAVEGAR A RESTAURANTE (SIN REQUERIR "IR A")
+        // Buscar cualquier mención de un restaurante
+        for (let resto of this.restaurants) {
+            const nombreLower = resto.name.toLowerCase();
+            const palabras = nombreLower.split(' ');
+            
+            // Buscar el nombre completo o cualquiera de sus palabras
+            const encontrado = palabras.some(palabra => lower.includes(palabra)) || lower.includes(nombreLower);
+            
+            if (encontrado) {
+                // Si menciona palabras de navegación, navegar directamente
+                const navegarPalabras = ['ir', 'llévame', 'voy', 'abre', 've', 'navega', 'quiero'];
+                const tieneIntencionalidad = navegarPalabras.some(p => lower.includes(p));
+                
+                if (tieneIntencionalidad) {
+                    // Navegar directamente
+                    const ruta = this.getRestaurantPath(resto.link);
+                    console.log(`Navegando a: ${ruta}`);
+                    setTimeout(() => {
+                        window.location.href = ruta;
+                    }, 500);
+                    return `🎯 Te llevo a <strong>${resto.name}</strong>...`;
+                }
+            }
+        }
         
         // SALUDOS Y BIENVENIDA
         if (this.matchesIntent(lower, ['hola', 'buenos', 'qué tal', 'hey', 'hi', 'hello', 'buenos días', 'buenas noches', 'buenas tardes'])) {
@@ -96,27 +133,62 @@ class ChatbotIA {
         }
         
         // CASA PEPE
-        if (this.matchesIntent(lower, ['casa pepe', 'casapepe', 'pepe', 'jamón', 'comida casera', 'típica', 'platos', 'tortilla', 'paella'])) {
+        if (this.matchesIntent(lower, ['casa pepe', 'casapepe', 'pepe', 'jamón', 'comida casera', 'típica', 'platos', 'tortilla', 'paella', 'ir a casa', 'ir a pepe', 'casa pepe'])) {
+            // Navegar si hay intención de ir
+            if (this.matchesIntent(lower, ['ir', 'llévame', 'voy', 'abre', 've', 'navega', 'quiero'])) {
+                setTimeout(() => {
+                    window.location.href = this.getRestaurantPath('casaPepe.html');
+                }, 500);
+                return `🎯 Te llevo a <strong>Casa Pepe</strong>...`;
+            }
             return `🏠 <strong>Casa Pepe</strong> - Comida Casera Tradicional\n\nEspecialidades:\n🍲 Paella Valenciana\n🥚 Tortilla Española\n🍖 Jamón Ibérico\n🍝 Fideuà\n🧅 Cebollitas al ajillo\n\n⏰ Horario: 10:00am - 10:00pm\n⭐ Valoración: 4.8/5\n💰 Rango: €€\n\n<a href="${this.getRestaurantPath('casaPepe.html')}">Ver menú completo →</a>`;
         }
         
         // McDONALD'S
-        if (this.matchesIntent(lower, ['mcdonald', 'mcdonalds', 'mc', 'burger', 'hamburguesa', 'bigmac', 'nuggets', 'papas', 'patatas', 'refrescos', 'combo'])) {
+        if (this.matchesIntent(lower, ['mcdonald', 'mcdonalds', 'mc', 'burger', 'hamburguesa', 'bigmac', 'nuggets', 'papas', 'patatas', 'refrescos', 'combo', 'ir a mcdonald', 'ir a mc', 'mcdonald\'s'])) {
+            // Navegar si hay intención de ir
+            if (this.matchesIntent(lower, ['ir', 'llévame', 'voy', 'abre', 've', 'navega', 'quiero'])) {
+                setTimeout(() => {
+                    window.location.href = this.getRestaurantPath('mcdonalds.html');
+                }, 500);
+                return `🎯 Te llevo a <strong>McDonald's</strong>...`;
+            }
             return `🍔 <strong>McDonald's</strong> - Comida Rápida\n\nEspecialidades:\n🍔 Big Mac\n🍟 Papas Fritas\n🍗 Nuggets\n🥤 Refrescos\n🍰 Postres\n\n⏰ Horario: 8:00am - 11:00pm\n⭐ Valoración: 4.5/5\n💰 Rango: €\n🚀 Entrega: 15-25 min\n\n<a href="${this.getRestaurantPath('mcdonalds.html')}">Ver menú →</a>`;
         }
         
         // POKE ALBACETE
-        if (this.matchesIntent(lower, ['poke', 'pokebowl', 'sushi', 'japonés', 'japonesa', 'asiático', 'tazón', 'salmon', 'atún', 'tempura'])) {
+        if (this.matchesIntent(lower, ['poke', 'pokebowl', 'sushi', 'japonés', 'japonesa', 'asiático', 'tazón', 'salmon', 'atún', 'tempura', 'albacete', 'ir a poke', 'poke albacete'])) {
+            // Navegar si hay intención de ir
+            if (this.matchesIntent(lower, ['ir', 'llévame', 'voy', 'abre', 've', 'navega', 'quiero'])) {
+                setTimeout(() => {
+                    window.location.href = this.getRestaurantPath('poke-albacete.html');
+                }, 500);
+                return `🎯 Te llevo a <strong>Poke Albacete</strong>...`;
+            }
             return `🍱 <strong>Poke Albacete</strong> - Comida Saludable Japonesa\n\nEspecialidades:\n🥗 Pokebowl Salmón\n🍙 Sushi Rolls\n🍜 Fideos Ramen\n🍡 Gyozas\n🥢 Tempura\n\n⏰ Horario: 11:00am - 10:00pm\n⭐ Valoración: 4.7/5\n💰 Rango: €€\n🥗 Sin gluten disponible\n\n<a href="${this.getRestaurantPath('poke-albacete.html')}">Ver menú →</a>`;
         }
         
         // HSN STORE
-        if (this.matchesIntent(lower, ['hsn', 'hsn store', 'tienda', 'compras', 'productos', 'shopping', 'electrónica', 'ropa', 'suplementos'])) {
+        if (this.matchesIntent(lower, ['hsn', 'hsn store', 'tienda', 'compras', 'productos', 'shopping', 'electrónica', 'ropa', 'suplementos', 'ir a hsn', 'ir a la tienda'])) {
+            // Navegar si hay intención de ir
+            if (this.matchesIntent(lower, ['ir', 'llévame', 'voy', 'abre', 've', 'navega', 'quiero'])) {
+                setTimeout(() => {
+                    window.location.href = this.getRestaurantPath('hsn-store.html');
+                }, 500);
+                return `🎯 Te llevo a <strong>HSN Store</strong>...`;
+            }
             return `🛍️ <strong>HSN Store</strong> - Centro Comercial\n\nCategorías:\n👕 Ropa y Moda\n💻 Electrónica\n🏠 Hogar\n💪 Suplementos\n👜 Accesorios\n\n⏰ Horario: 9:00am - 9:00pm\n⭐ Valoración: 4.6/5\n💰 Envío: GRATIS\n📦 Variedad: 500+ productos\n\n<a href="${this.getRestaurantPath('hsn-store.html')}">Ver tienda →</a>`;
         }
         
         // FRUTERÍA
-        if (this.matchesIntent(lower, ['frutería', 'frutas', 'fruta', 'verduras', 'verdura', 'orgánico', 'fresco', 'vegetales', 'manzana', 'naranja', 'plátano'])) {
+        if (this.matchesIntent(lower, ['frutería', 'frutas', 'fruta', 'verduras', 'verdura', 'orgánico', 'fresco', 'vegetales', 'manzana', 'naranja', 'plátano', 'ir a frutería', 'ir a fruta'])) {
+            // Navegar si hay intención de ir
+            if (this.matchesIntent(lower, ['ir', 'llévame', 'voy', 'abre', 've', 'navega', 'quiero'])) {
+                setTimeout(() => {
+                    window.location.href = this.getRestaurantPath('fruteria.html');
+                }, 500);
+                return `🎯 Te llevo a <strong>Frutería</strong>...`;
+            }
             return `🍎 <strong>Frutería</strong> - Frutas y Verduras Frescas\n\nProductos:\n🍎 Frutas de Temporada\n🥬 Verduras Orgánicas\n🥗 Ensaladas Preparadas\n🥤 Jugos Naturales\n🍋 Cítricos Premium\n\n⏰ Horario: 8:00am - 8:00pm\n⭐ Valoración: 4.9/5\n💰 Rango: €\n🌱 100% Orgánico\n\n<a href="${this.getRestaurantPath('fruteria.html')}">Ver tienda →</a>`;
         }
         
