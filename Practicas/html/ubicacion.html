@@ -74,40 +74,70 @@
                 const orderDetailsEl = document.getElementById('order-details');
                 const qrcodeCard = document.getElementById('qrcode-card');
 
+                console.log('📍 Datos QR obtenidos:', orderDataString);
+
                 if (orderDataString) {
                     try {
                         const orderData = JSON.parse(orderDataString);
-                        const token = orderData.deliveryToken;
+                        const token = orderData.deliveryToken || 'NO-TOKEN';
+                        const orderId = orderData.orderId || 'N/A';
+                        const total = (orderData.total || 0).toFixed(2);
                         
-                        // 1. Generar el código QR
-                        if (token && typeof QRCode !== 'undefined') {
+                        console.log('✅ Datos parseados correctamente:', orderData);
+                        
+                        // 1. Texto detallado para el QR
+                        const deliveryDate = orderData.estimatedDelivery ? new Date(orderData.estimatedDelivery) : new Date();
+                        const timeString = deliveryDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+                        const qrText = `DRON DELIVERY
+Token: ${token}
+Pedido: ${orderId}
+Total: $${total}
+Dir: ${orderData.address || 'N/A'}
+Hora: ${timeString}`;
+                        
+                        // 2. Generar el código QR con texto detallado
+                        if (typeof QRCode !== 'undefined') {
+                            qrcodeEl.innerHTML = ''; // Limpiar primero
                             new QRCode(qrcodeEl, {
-                                text: token,
-                                width: 120,
-                                height: 120,
+                                text: qrText,
+                                width: 200,
+                                height: 200,
                                 colorDark : "#000000",
                                 colorLight : "#ffffff",
-                                correctLevel : QRCode.CorrectLevel.H
+                                correctLevel : QRCode.CorrectLevel.L  // L permite máxima capacidad de datos
                             });
+                            console.log('📊 QR generado exitosamente:', qrText);
+                        } else {
+                            console.error('QRCode no está disponible');
                         }
                         
-                        // 2. Mostrar los detalles del pedido
-                        const itemsHtml = orderData.items.map(item => 
-                            `<p>${item.quantity}x ${item.name}</p>`
-                        ).join('');
+                        // 3. Mostrar información al lado del QR
+                        const paymentText = {
+                            'card': '💳 Tarjeta',
+                            'cash': '💵 Efectivo',
+                            'wallet': '📱 Billetera'
+                        }[orderData.paymentMethod] || '💳 Tarjeta';
 
                         orderDetailsEl.innerHTML = `
-                            <p class="order-id">Token: <strong>${token}</strong></p>
-                            <div class="item-list-qr">${itemsHtml}</div>
-                            <p class="order-total">Total: <strong>$${orderData.total.toFixed(2)}</strong></p>
+                            <div style="display: grid; gap: 8px; font-size: 13px;">
+                                <p style="margin: 0;"><strong>📋 ${orderId}</strong></p>
+                                <p style="margin: 0;"><strong>🔐 ${token}</strong></p>
+                                <p style="margin: 0; color: #666; font-size: 12px;">📍 ${orderData.address || 'Dirección'}</p>
+                                <p style="margin: 0; color: #666; font-size: 12px;">⏱️ ${timeString}</p>
+                                <p style="margin: 0; color: #666; font-size: 12px;">${paymentText}</p>
+                                <p style="margin: 10px 0 0 0; padding-top: 10px; border-top: 1px solid #eee; font-size: 16px; font-weight: bold;">💰 $${total}</p>
+                                <p style="margin: 8px 0 0 0; font-size: 11px; color: #999;">Muestra QR al dron</p>
+                            </div>
                         `;
+                        console.log('✅ Información mostrada correctamente');
 
                     } catch (e) {
-                        console.error('Error al parsear datos del pedido para QR:', e);
-                        qrcodeCard.innerHTML = '<p>Error al cargar detalles del pedido.</p>';
+                        console.error('Error al procesar datos:', e);
+                        orderDetailsEl.innerHTML = `<p style="color: red;">Error: ${e.message}</p>`;
                     }
                 } else {
-                    qrcodeCard.innerHTML = '<p>No se encontró un pedido reciente para seguimiento.</p>';
+                    console.warn('No hay datos de pedido guardados');
+                    orderDetailsEl.innerHTML = '<p>No hay pedido reciente.</p>';
                 }
             });
         </script>

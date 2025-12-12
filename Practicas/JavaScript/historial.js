@@ -44,21 +44,37 @@ class OrderHistory {
             address: orderData.address || {},
             promotion: orderData.promotion || null,
             paymentMethod: orderData.paymentMethod || 'card',
-            status: 'pending', // Ahora empieza en Pendiente
-            // NUEVO: Generar un token único de entrega para el QR
+            status: 'pending',
             deliveryToken: 'DRON-' + Math.random().toString(36).substring(2, 10).toUpperCase(),
-            estimatedDelivery: new Date(Date.now() + 30 * 60000).toISOString() // 30 min
+            estimatedDelivery: new Date(Date.now() + 30 * 60000).toISOString()
         };
 
-        this.orders.unshift(order); // Agregar al inicio (más recientes primero)
+        this.orders.unshift(order);
         this.saveOrders();
         
-        // Guardar el token de la última orden en una clave separada para la página de ubicación
-        localStorage.setItem('lastOrderDetailsForQR', JSON.stringify({
-            deliveryToken: order.deliveryToken,
-            items: order.items.map(item => ({ name: item.name, quantity: item.quantity })),
-            total: order.total
-        }));
+        // Guardar datos para el QR - datos simplificados y validados
+        try {
+            const qrData = {
+                deliveryToken: order.deliveryToken,
+                orderId: order.id,
+                items: order.items.map(item => ({ 
+                    name: item.name || 'Producto', 
+                    quantity: item.quantity || 1,
+                    price: item.price || 0
+                })),
+                total: order.total || 0,
+                subtotal: order.subtotal || 0,
+                address: (order.address && order.address.address) ? order.address.address : 'Dirección a confirmar',
+                paymentMethod: order.paymentMethod || 'card',
+                estimatedDelivery: order.estimatedDelivery || new Date().toISOString(),
+                timestamp: order.timestamp || new Date().toISOString()
+            };
+            
+            console.log('💾 Guardando datos QR:', qrData);
+            localStorage.setItem('lastOrderDetailsForQR', JSON.stringify(qrData));
+        } catch (error) {
+            console.error('Error guardando datos para QR:', error);
+        }
         
         return order;
     }

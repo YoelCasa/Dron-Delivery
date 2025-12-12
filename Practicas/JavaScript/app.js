@@ -325,35 +325,63 @@ document.addEventListener('DOMContentLoaded', () => {
      * Procesa la transcripción del comando de voz
      */
     function processVoiceCommand(command) {
-        const normalizedCommand = command.toLowerCase();
+        // Normalizar: convertir a minúsculas y remover espacios múltiples
+        let normalizedCommand = command.toLowerCase().replace(/\s+/g, ' ').trim();
         let executed = false;
         
+        console.log('📢 Comando normalizado:', normalizedCommand);
+        
         // 1. COMANDO DE COMPRA: "Añadir [Producto]"
-        if (normalizedCommand.startsWith('añadir ') || normalizedCommand.startsWith('agregar ')) {
-            const itemQuery = normalizedCommand.replace(/^(añadir|agregar)\s+/, '').trim();
+        if (normalizedCommand.startsWith('añadir ') || normalizedCommand.startsWith('agregar ') || normalizedCommand.startsWith('añadir') || normalizedCommand.startsWith('agregar')) {
+            // Extraer la parte después de "Añadir" o "Agregar" - con o sin espacios
+            const itemQuery = normalizedCommand
+                .replace(/^(añadir|agregar)\s*/, '')
+                .trim()
+                .replace(/\s+/g, ''); // Remover TODOS los espacios para búsqueda sin espacios
 
             if (!productsList.length) {
                  speak("No hay productos disponibles en esta página.");
+                 console.log('❌ No hay productos disponibles');
                  return;
             }
 
             let matchedProductName = null;
-            let bestMatchLength = 0;
+            let bestMatchScore = 0;
 
-            // ** LÓGICA DE BÚSQUEDA ROBUSTA (Busca coincidencias parciales) **
+            // ** LÓGICA DE BÚSQUEDA ROBUSTA (Busca coincidencias parciales, con o sin espacios) **
             for (const productName of productsList) {
-                // Si la consulta es directamente un producto, perfecto
-                if (productName === itemQuery) {
+                // Versión sin espacios del nombre del producto
+                const productNameNoSpaces = productName.replace(/\s+/g, '');
+                
+                // Si la consulta es directamente un producto (sin espacios), perfecto
+                if (productNameNoSpaces === itemQuery) {
                     matchedProductName = productName;
+                    bestMatchScore = 100;
+                    console.log('✅ Coincidencia exacta sin espacios:', productName);
                     break;
                 }
                 
-                // Si la consulta contiene el nombre del producto o viceversa, lo acepta (ej. "Añadir Big" -> "Big Mac")
-                if (productName.includes(itemQuery) || itemQuery.includes(productName)) {
-                     if (productName.length > bestMatchLength) {
-                         bestMatchLength = productName.length;
-                         matchedProductName = productName;
-                     }
+                // Si la consulta contiene el nombre del producto o viceversa, lo acepta
+                if (productNameNoSpaces.includes(itemQuery) || itemQuery.includes(productNameNoSpaces)) {
+                    const matchScore = productNameNoSpaces.length; // Mayor coincidencia = mejor
+                    if (matchScore > bestMatchScore) {
+                        bestMatchScore = matchScore;
+                        matchedProductName = productName;
+                        console.log('✅ Coincidencia parcial:', productName);
+                    }
+                }
+                
+                // También buscar por palabra individual (ej: "big" en "bigmac" o "big mac")
+                const queryWords = itemQuery.split('');
+                if (productNameNoSpaces.includes(itemQuery.charAt(0))) {
+                    // Si empieza con la primera letra de lo que se busca
+                    if (queryWords.some(word => productNameNoSpaces.includes(word))) {
+                        const matchScore = productNameNoSpaces.length * 0.8;
+                        if (matchScore > bestMatchScore && !matchedProductName) {
+                            bestMatchScore = matchScore;
+                            matchedProductName = productName;
+                        }
+                    }
                 }
             }
 
@@ -374,46 +402,65 @@ document.addEventListener('DOMContentLoaded', () => {
                     const qty = addToCart(productData); 
                     updateCardUI(productCard, qty);
                     showToast(`Añadido por voz: ${productData.name}`);
+                    console.log('✅ Producto añadido:', productData.name);
                     return; 
                 }
             }
             
             // Si no se encontró el producto o no se pudo añadir
-            speak("Producto no reconocido. Intenta decir solo el nombre, por ejemplo: Big Mac.");
+            speak("Producto no reconocido. Intenta diciendo el nombre, por ejemplo: Big Mac.");
+            console.log('❌ Producto no encontrado:', itemQuery, '| Lista:', productsList);
             return;
         }
 
-        // 2. COMANDO DE NAVEGACIÓN: "Ir a [Página]" (Añadido 'navegar a' para más fluidez)
+        // 2. COMANDO DE NAVEGACIÓN: "Ir a [Página]" (MEJORADO)
         if (normalizedCommand.startsWith('ir a ') || normalizedCommand.startsWith('abrir ') || normalizedCommand.startsWith('navegar a ')) {
-            const pageName = normalizedCommand.replace(/^(ir a|abrir|navegar a)\s+/, '').trim();
+            // Extraer el nombre de la página después de "ir a", "abrir" o "navegar a"
+            let pageName = normalizedCommand
+                .replace(/^(ir a|abrir|navegar a)\s+/, '')
+                .trim();
+            
+            console.log('🗺️ Navegando a:', pageName);
+            
             let targetPage = null;
 
             if (pageName.includes('pagar') || pageName.includes('carrito')) {
                 targetPage = 'pago.html';
-            } else if (pageName.includes('inicio') || pageName.includes('casa')) {
+            } else if (pageName.includes('inicio') || pageName.includes('casa') && !pageName.includes('casa pepe')) {
                 targetPage = 'home.html';
             } else if (pageName.includes('perfil') || pageName.includes('cuenta')) {
                 targetPage = 'perfil.html';
-            }else if (pageName.includes('historial')) {
+            } else if (pageName.includes('historial')) {
                 targetPage = 'historial.html';
-            }else if (pageName.includes('ubicación') || pageName.includes('localización')) {
+            } else if (pageName.includes('ubicación') || pageName.includes('localización')) {
                 targetPage = 'ubicacion.html';
-            }else if (pageName.includes('ayuda')) {
+            } else if (pageName.includes('ayuda')) {
                 targetPage = 'ayuda.html';
-            }else if (pageName.includes('accesibilidad')) {
+            } else if (pageName.includes('accesibilidad')) {
                 targetPage = 'accesibilidad.html';
-            }else if (pageName.includes('ofertas') || pageName.includes('promociones')) {
+            } else if (pageName.includes('ofertas') || pageName.includes('promociones')) {
                 targetPage = 'ofertas.html';
-            }else if (pageName.includes('casa pepe')) {
+            } else if (pageName.includes('pepe') || pageName.includes('casa pepe')) {
                 targetPage = 'casaPepe.html';
-            }else if (pageName.includes('asistente')) {
+            } else if (pageName.includes('mcdonald') || pageName.includes('mcdonalds') || pageName.includes('mc')) {
+                targetPage = 'mcdonalds.html';
+            } else if (pageName.includes('poke') || pageName.includes('albacete')) {
+                targetPage = 'poke-albacete.html';
+            } else if (pageName.includes('frutería') || pageName.includes('frutas')) {
+                targetPage = 'fruteria.html';
+            } else if (pageName.includes('hsn')) {
+                targetPage = 'hsn-store.html';
+            } else if (pageName.includes('asistente')) {
                 targetPage = 'asistente.html';
             }
             
             if (targetPage) {
                 speak(`Navegando a ${pageName}`);
-                window.location.href = targetPage;
+                console.log('✅ Redirigiendo a:', targetPage);
+                document.location.href = targetPage;
                 executed = true;
+            } else {
+                console.log('❌ Página no reconocida:', pageName);
             }
         }
         
